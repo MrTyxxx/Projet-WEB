@@ -12,13 +12,35 @@ return function (App $app) {
     $loader = new FilesystemLoader(__DIR__ . '/../templates');
     $twig = new Environment($loader);
 
-    $app->options('/{routes:.*}', function (Request $request, Response $response) {
-        return $response;
-    });
-
     $app->get('/', function (Request $request, Response $response) use ($twig) {
         $html = $twig->render('index.html.twig');
         $response->getBody()->write($html);
+        return $response;
+    });
+
+    $app->get('/offre/{id}', function (Request $request, Response $response, $args) use ($twig) {
+        $html = $twig->render('offre1.html.twig', ['id' => $args['id']]);
+        $response->getBody()->write($html);
+        return $response;
+    });
+    $app->get('/Mentions', function ($request, $response) use ($twig) {
+    $html = $twig->render('Mentions.html.twig');
+    $response->getBody()->write($html);
+    return $response;
+});
+
+$app->get('/Contact', function ($request, $response) use ($twig) {
+    $html = $twig->render('Contact.html.twig');
+    $response->getBody()->write($html);
+    return $response;
+});
+$app->get('/Connexion', function ($request, $response) use ($twig) {
+    $html = $twig->render('Connexion.html.twig');
+    $response->getBody()->write($html);
+    return $response;
+});
+
+    $app->options('/{routes:.*}', function (Request $request, Response $response) {
         return $response;
     });
 };

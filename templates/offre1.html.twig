@@ -1,0 +1,25 @@
+{% extends "base.html.twig" %}
+{% block contenu %}
+
+<div class="container py-4">
+  <div class="row border rounded p-3">
+    
+    <div class="col-md-3 d-flex flex-column align-items-center">
+      <div class="border rounded p-2 mb-3 position-relative" style="width:180px; height:180px;">
+        <button class="btn btn-sm position-absolute top-0 end-0">♡</button>
+        <img src="..." alt="Logo" class="img-fluid"/>
+      </div>
+      <a href="#" class="btn btn-primary w-100 mt-auto">Je postule</a>
+    </div>
+
+    <div class="col-md-9 border-start">
+      <h5>Titre du stage</h5>
+      <p>Description longue de l'offre...</p>
+      <h6>Entreprise</h6>
+      <p>Détails supplémentaires...</p>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

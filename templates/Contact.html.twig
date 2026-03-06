@@ -1,0 +1,35 @@
+{% extends "base.html.twig" %}
+{% block contenu %}
+
+<div class="container py-5">
+  <div class="row">
+    <div class="col-md-6">
+      <h2>Nous contacter</h2>
+      <p>Nous sommes là pour répondre à vos questions</p>
+      <p>+33123456789</p>
+      <p>contact@cesi.fr</p>
+      <p>123 rue de support, 51100</p>
+    </div>
+    <div class="col-md-6">
+      <div class="mb-3">
+        <label class="form-label">Nom</label>
+        <input type="text" class="form-control"/>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-control"/>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Message</label>
+        <textarea class="form-control" rows="5" placeholder="Ecrivez votre message..."></textarea>
+      </div>
+      <div class="mb-3">
+        <input type="checkbox" class="form-check-input" id="conditions"/>
+        <label class="form-check-label" for="conditions">J'accepte les Conditions</label>
+      </div>
+      <button class="btn btn-primary">Envoyer</button>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
