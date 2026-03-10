@@ -13,7 +13,7 @@ return function (App $app) {
     $twig = new Environment($loader);
 
     $app->get('/', function (Request $request, Response $response) use ($twig) {
-        $html = $twig->render('index.html.twig');
+        $html = $twig->render('page_offres.html.twig');
         $response->getBody()->write($html);
         return $response;
     });

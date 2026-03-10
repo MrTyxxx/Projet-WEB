@@ -3,42 +3,91 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Page d'acceuil</title>
-    <link href=https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <title>Page d'accueil</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/style.css">
   </head>
   <body class="d-flex flex-column min-vh-100">
-   <header>
-   <nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-  <span class="navbar-brand">
-    <img src="/images/yourjob.png" alt="Logo" height="60" class="d-inline-block align-text-top">
-</span>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#monMenu">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-mauve">
+        <div class="container-fluid px-4">
 
-    <div class="collapse navbar-collapse" id="monMenu">
-      <ul class="navbar-nav ">
-      <li class="nav-item"><a class="nav-link" href="/">Acceuil</a></li>
-      <li class="nav-item"><a class="nav-link" href="#">Offres</a></li>
-      <li class="nav-item"><a class="nav-link" href="#">Entreprise</a></li>
-      </ul>
-      <div class="dropdown ms-auto">
-        <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-          👤 Profil
-        </button>
-        <ul class="dropdown-menu dropdown-menu-end"> <li><h6 class="dropdown-header">Mon Compte</h6></li>
-          <li><a class="dropdown-item" href="#">⚙️ Réglages</a></li>
-          <li><a class="dropdown-item" href="#">🔔 Notifications</a></li>
-          <li><hr class="dropdown-divider"></li>
-          <li><a class="dropdown-item text-danger" href="/Connexion">Connexion</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</nav>
-   </header>
+          <!-- Logo -->
+          <a class="navbar-brand" href="/">
+            <img src="/images/yourjob.png" alt="Logo YourJob" height="52"
+                 class="logo d-inline-block align-middle rounded-3">
+          </a>
+
+          <!-- Burger mobile -->
+          <button class="navbar-toggler border-0 shadow-none" type="button"
+                  data-bs-toggle="collapse" data-bs-target="#monMenu"
+                  aria-controls="monMenu" aria-expanded="false" aria-label="Menu">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <!-- Menu principal -->
+          <div class="collapse navbar-collapse" id="monMenu">
+
+            <!-- Liens nav — centrés -->
+            <ul class="navbar-nav mx-auto gap-2">
+              <li class="nav-item">
+                <a class="nav-link nav-pill polygraphy active" href="/">
+                  🏠 Accueil
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link nav-pill polygraphy" href="#">
+                  💼 Offres
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link nav-pill polygraphy" href="#">
+                  🏢 Entreprises
+                </a>
+              </li>
+            </ul>
+
+            <!-- Dropdown profil -->
+            <div class="dropdown">
+              <button class="btn btn-profil dropdown-toggle d-flex align-items-center gap-2"
+                      type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="avatar-circle">👤</span>
+                <span class="polygraphy">Mon Profil</span>
+              </button>
+
+              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-fancy">
+                <li class="dropdown-header-block">
+                  <span class="dropdown-user-icon">👤</span>
+                  <div>
+                    <div class="dropdown-user-name polygraphy">Mon Compte</div>
+                    <div class="dropdown-user-sub">Gérer mes informations</div>
+                  </div>
+                </li>
+                <li><hr class="dropdown-divider mx-3 my-1"></li>
+                <li>
+                  <a class="dropdown-item dropdown-item-fancy polygraphy" href="#">
+                    <span class="di-icon">⚙️</span> Réglages
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item dropdown-item-fancy polygraphy" href="#">
+                    <span class="di-icon">🔔</span> Notifications
+                  </a>
+                </li>
+                <li><hr class="dropdown-divider mx-3 my-1"></li>
+                <li>
+                  <a class="dropdown-item dropdown-item-fancy dropdown-item-danger polygraphy" href="/Connexion">
+                    <span class="di-icon">🚪</span> Connexion
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+      </nav>
+    </header>
    <main>
       {% block contenu %}{% endblock %}
    </main>

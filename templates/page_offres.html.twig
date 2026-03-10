@@ -1,0 +1,262 @@
+{% extends "base.html.twig" %}
+{% block contenu %}
+
+<!-- ===== HERO ===== -->
+<section class="hero-section">
+  <h1>Trouve ton stage idéal</h1>
+  <p class="subtitle">Des centaines d'offres dans les meilleures entreprises françaises</p>
+  <div class="search-bar">
+    <input type="text" placeholder="🔍 Mots clés" />
+    <input type="text" placeholder="🧿 Ville" />
+    <button class="btn btn-mauve">Rechercher</button>
+  </div>
+</section>
+
+<!-- ===== SECTION ENTREPRISES ===== -->
+<div class="section-header">
+  <h2 class="shadowed-text">Offres disponibles</h2>
+  <p class="shadowed-text">Découvre les dernières opportunités de stages dans les entreprises qui recrutent</p>
+</div>
+
+<!--
+  6 teintes violet/violet-rose utilisées, cyclées sur les cartes :
+  1. #3b0764 → #7c3aed   (violet nuit profond)
+  2. #5b21b6 → #a855f7   (violet électrique)
+  3. #7e22ce → #c084fc   (violet moyen)
+  4. #9333ea → #d946ef   (violet → rose vif)
+  5. #a21caf → #e879f9   (magenta-violet)
+  6. #be185d → #f472b6   (violet-rose / pink)
+-->
+<div class="companies-grid" id="all-cards">
+
+  <!-- Capgemini — teinte 1 : violet nuit -->
+  <div class="company-card" style="border-color: #3b0764;">
+    <div class="card-banner" style="position:relative;">
+    </div>
+    <div class="card-content">
+      <div class="card-header-row">
+        <div class="card-company-name">Stage développeur chez Capgemini</div>
+        <button class="btn btn-rouge">♡</button>
+      </div>
+      <div class="card-meta">
+        <span class="pin">🧿</span> Paris ·
+        <span class="card-campus">🎓 Paris-Saclay</span> ·
+        <span class="card-sector-badge badge-it">Conseil &amp; IT</span>
+      </div>
+      <p class="card-description">Entreprise innovante spécialisée dans le digital, proposant un stage sur des projets concrets en développement web. Un environnement idéal pour monter en compétences aux côtés d’une équipe experte.</p>
+      <div class="card-footer-actions">
+        <a href="#" class="btn-voir-offres">Voir les offres</a>
+        <div class="card-logo-corner" style="background: linear-gradient(135deg, #3b0764, #7c3aed);">💠</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Thales — teinte 2 : violet électrique -->
+  <div class="company-card" style="border-color: #5b21b6;">
+    <div class="card-banner" style="position:relative;">
+    </div>
+    <div class="card-content">
+      <div class="card-header-row">
+        <div class="card-company-name">Stage développeur chez Thales</div>
+        <button class="btn btn-rouge">♡</button>
+      </div>
+      <div class="card-meta">
+        <span class="pin">🧿</span> Toulouse ·
+        <span class="card-campus">🎓 ISAE-SUPAERO</span> ·
+        <span class="card-sector-badge badge-cyber">Cybersécurité</span>
+      </div>
+      <p class="card-description">Stage au cœur de projets critiques liés à la cybersécurité et à l’aérospatial. Une expérience unique dans un environnement technologique de pointe et hautement sécurisé.</p>
+      <div class="card-footer-actions">
+        <a href="#" class="btn-voir-offres">Voir les offres</a>
+        <div class="card-logo-corner" style="background: linear-gradient(135deg, #5b21b6, #a855f7);">🔐</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Orange — teinte 3 : violet moyen -->
+  <div class="company-card" style="border-color: #7e22ce;">
+    <div class="card-banner" style="position:relative;">
+    </div>
+    <div class="card-content">
+      <div class="card-header-row">
+        <div class="card-company-name">Stage développeur chez Orange</div>
+        <div class="text-end mb-2">
+      <button class="btn btn-rouge">♡</button>
+    </div>
+      </div>
+      <div class="card-meta">
+        <span class="pin">🧿</span> Nancy ·
+        <span class="card-campus">🎓 Univ. de Lorraine</span> 
+        <span class="card-sector-badge badge-telecom">Télécoms</span>
+      </div>
+      <p class="card-description">Intègre une équipe tech d’un opérateur majeur pour participer à des projets liés au réseau, au mobile et aux services numériques. Un cadre idéal pour apprendre à large échelle.</p>
+      <div class="card-footer-actions">
+        <a href="#" class="btn-voir-offres">Voir les offres</a>
+        <div class="card-logo-corner" style="background: linear-gradient(135deg, #7e22ce, #c084fc);">📡</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Société Générale — teinte 4 : violet → rose vif -->
+  <div class="company-card" style="border-color: #9333ea;">
+    <div class="card-banner" style="position:relative;">
+    </div>
+    <div class="card-content">
+      <div class="card-header-row">
+        <div class="card-company-name">Stage développeur chez Société Générale</div>
+        <button class="btn btn-rouge">♡</button>
+      </div>
+      <div class="card-meta">
+        <span class="pin">🧿</span> Paris ·
+        <span class="card-campus">🎓 HEC Paris</span> ·
+        <span class="card-sector-badge badge-finance">Finance</span>
+      </div>
+      <p class="card-description">Stage orienté innovation au sein d’une grande banque internationale, avec participation à des projets IT, finance et data. Expérience formatrice dans un environnement exigeant.</p>
+      <div class="card-footer-actions">
+        <a href="#" class="btn-voir-offres">Voir les offres</a>
+        <div class="card-logo-corner" style="background: linear-gradient(135deg, #9333ea, #d946ef);">🏦</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Schneider Electric — teinte 5 : magenta-violet -->
+  <div class="company-card" style="border-color: #a21caf;">
+    <div class="card-banner" style="position:relative;">
+    </div>
+    <div class="card-content">
+      <div class="card-header-row">
+        <div class="card-company-name">Stage développeur chez Schneider Electric</div>
+        <button class="btn btn-rouge">♡</button>
+      </div>
+      <div class="card-meta">
+        <span class="pin">🧿</span> Grenoble ·
+        <span class="card-campus">🎓 Grenoble INP</span> ·
+        <span class="card-sector-badge badge-industrie">Industrie</span>
+      </div>
+      <p class="card-description">Apporte tes compétences à un leader mondial de l’énergie et de l’automatisation. Stage centré sur des solutions industrielles innovantes et des technologies durables.
+</p>
+      <div class="card-footer-actions">
+        <a href="#" class="btn-voir-offres">Voir les offres</a>
+        <div class="card-logo-corner" style="background: linear-gradient(135deg, #a21caf, #e879f9);">⚡</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Doctolib — teinte 6 : violet-rose pink -->
+  <div class="company-card" style="border-color: #be185d;">
+    <div class="card-banner" style="position:relative;">
+    </div>
+    <div class="card-content">
+      <div class="card-header-row">
+        <div class="card-company-name">Stage développeur chez Doctolib</div>
+        <button class="btn btn-rouge">♡</button>
+      </div>
+      <div class="card-meta">
+        <span class="pin">🧿</span> Paris ·
+        <span class="card-campus">🎓 Paris Cité</span> ·
+        <span class="card-sector-badge badge-sante">Santé &amp; Tech</span>
+      </div>
+      <p class="card-description">Participe au développement d’un service numérique médical utilisé partout en Europe. Stage idéal pour apprendre dans une scale‑up tech centrée sur l’impact et l’expérience utilisateur.
+</p>
+      <div class="card-footer-actions">
+        <a href="#" class="btn-voir-offres">Voir les offres</a>
+        <div class="card-logo-corner" style="background: linear-gradient(135deg, #be185d, #f472b6);">🏥</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BNP Paribas — teinte 1 : violet nuit -->
+  <div class="company-card" style="border-color: #3b0764;">
+    <div class="card-banner" style="position:relative;">
+    </div>
+    <div class="card-content">
+      <div class="card-header-row">
+        <div class="card-company-name">Stage développeur chez BNP Paribas</div>
+        <button class="btn btn-rouge">♡</button>
+      </div>
+      <div class="card-meta">
+        <span class="pin">🧿</span> Paris ·
+        <span class="card-campus">🎓 ESSEC</span> ·
+        <span class="card-sector-badge badge-finance">Finance</span>
+      </div>
+      <p class="card-description">Première banque européenne avec des opportunités en finance, IT et innovation.</p>
+      <div class="card-footer-actions">
+        <a href="#" class="btn-voir-offres">Voir les offres</a>
+        <div class="card-logo-corner" style="background: linear-gradient(135deg, #3b0764, #7c3aed);">💳</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Airbus — teinte 2 : violet électrique -->
+  <div class="company-card" style="border-color: #5b21b6;">
+    <div class="card-banner" style="position:relative;">
+    </div>
+    <div class="card-content">
+      <div class="card-header-row">
+        <div class="card-company-name">Stage développeur chez Airbus</div>
+        <button class="btn btn-rouge">♡</button>
+      </div>
+      <div class="card-meta">
+        <span class="pin">🧿</span> Toulouse ·
+        <span class="card-campus">🎓 INSA Toulouse</span> ·
+        <span class="card-sector-badge badge-industrie">Aérospatiale</span>
+      </div>
+      <p class="card-description">Leader mondial de l'aéronautique civile et de la défense, innovant sans cesse.</p>
+      <div class="card-footer-actions">
+        <a href="#" class="btn-voir-offres">Voir les offres</a>
+        <div class="card-logo-corner" style="background: linear-gradient(135deg, #5b21b6, #a855f7);">✈️</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===== PAGINATION ===== -->
+<div class="pagination-wrapper">
+  <nav>
+    <ul class="pagination" id="pagination-controls"></ul>
+  </nav>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const CARDS_PER_PAGE = 6;
+  const allCards = document.querySelectorAll('#all-cards .company-card');
+  const totalPages = Math.ceil(allCards.length / CARDS_PER_PAGE);
+  let currentPage = 1;
+
+  function showPage(page) {
+    currentPage = page;
+    const start = (page - 1) * CARDS_PER_PAGE;
+    const end   = start + CARDS_PER_PAGE;
+    allCards.forEach(function (card, i) {
+      card.style.display = (i >= start && i < end) ? '' : 'none';
+    });
+    buildPagination();
+  }
+
+  function buildPagination() {
+    const container = document.getElementById('pagination-controls');
+    container.innerHTML = '';
+    for (let i = 1; i <= totalPages; i++) {
+      const li = document.createElement('li');
+      li.className = 'page-item' + (i === currentPage ? ' active' : '');
+      const a = document.createElement('a');
+      a.className = 'page-link';
+      a.href = '#';
+      a.textContent = i;
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        showPage(i);
+        window.scrollTo({ top: document.querySelector('.section-header').offsetTop - 20, behavior: 'smooth' });
+      });
+      li.appendChild(a);
+      container.appendChild(li);
+    }
+  }
+
+  showPage(1);
+});
+</script>
+
+{% endblock %}
