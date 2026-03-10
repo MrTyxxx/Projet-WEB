@@ -13,7 +13,7 @@ return function (App $app) {
     $twig = new Environment($loader);
 
     $app->get('/', function (Request $request, Response $response) use ($twig) {
-        $html = $twig->render('page_offres.html.twig');
+        $html = $twig->render('acceuil.html.twig');
         $response->getBody()->write($html);
         return $response;
     });
@@ -23,6 +23,12 @@ return function (App $app) {
         $response->getBody()->write($html);
         return $response;
     });
+
+    $app->get('/page_offres', function (Request $request, Response $response) use ($twig) {
+    $html = $twig->render('page_offres.html.twig');
+    $response->getBody()->write($html);
+    return $response;
+});
     $app->get('/Mentions', function ($request, $response) use ($twig) {
     $html = $twig->render('Mentions.html.twig');
     $response->getBody()->write($html);
