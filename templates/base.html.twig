@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Page d'accueil</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
-   <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
   </head>
   <body class="d-flex flex-column min-vh-100">
 
@@ -13,72 +13,72 @@
       <nav class="navbar navbar-expand-lg navbar-mauve">
         <div class="container-fluid px-4">
 
-          <!-- Logo -->
           <a class="navbar-brand" href="/">
             <img src="/images/yourjob.png" alt="Logo YourJob" height="52"
                  class="logo d-inline-block align-middle rounded-3">
           </a>
 
-          <!-- Burger mobile -->
           <button class="navbar-toggler border-0 shadow-none" type="button"
                   data-bs-toggle="collapse" data-bs-target="#monMenu"
                   aria-controls="monMenu" aria-expanded="false" aria-label="Menu">
             <span class="navbar-toggler-icon"></span>
           </button>
 
-          <!-- Menu principal -->
           <div class="collapse navbar-collapse" id="monMenu">
 
-            <!-- Liens nav — centrés -->
             <ul class="navbar-nav mx-auto gap-2">
               <li class="nav-item">
-                <a class="nav-link nav-pill polygraphy active" href="/">
-                  Accueil
-                </a>
+                <a class="nav-link nav-pill polygraphy active" href="/">Accueil</a>
               </li>
               <li class="nav-item">
-               <a class="nav-link  nav-pill polygraphy active" href="/page_offres">Offres</a>
+                <a class="nav-link nav-pill polygraphy active" href="/page_offres">Offres</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link nav-pill polygraphy" href="#">
-                  Entreprises
-                </a>
+                <a class="nav-link nav-pill polygraphy" href="#">Entreprises</a>
               </li>
             </ul>
 
-            <!-- Dropdown profil -->
             <div class="dropdown">
               <button class="btn btn-profil dropdown-toggle d-flex align-items-center gap-2"
                       type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <span class="avatar-circle">👤</span>
-                <span class="polygraphy">Mon Profil</span>
+                <span class="polygraphy">
+                  {% if user %}{{ user.email }}{% else %}Mon Profil{% endif %}
+                </span>
               </button>
 
               <ul class="dropdown-menu dropdown-menu-end dropdown-menu-fancy">
                 <li class="dropdown-header-block">
                   <span class="dropdown-user-icon">👤</span>
                   <div>
-                    <div class="dropdown-user-name polygraphy">Mon Compte</div>
+                    <div class="dropdown-user-name polygraphy">
+                      {% if user %}{{ user.email }}{% else %}Mon Compte{% endif %}
+                    </div>
                     <div class="dropdown-user-sub">Gérer mes informations</div>
                   </div>
                 </li>
                 <li><hr class="dropdown-divider mx-3 my-1"></li>
-                <li>
-                  <a class="dropdown-item dropdown-item-fancy polygraphy" href="#">
-                    <span class="di-icon">⚙️</span> Réglages
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item dropdown-item-fancy polygraphy" href="#">
-                    <span class="di-icon">🔔</span> Notifications
-                  </a>
-                </li>
-                <li><hr class="dropdown-divider mx-3 my-1"></li>
-                <li>
-                  <a class="dropdown-item dropdown-item-fancy dropdown-item-danger polygraphy" href="/Connexion">
-                    <span class="di-icon">🚪</span> Connexion
-                  </a>
-                </li>
+
+                {% if user %}
+                  <li>
+                    <a class="dropdown-item dropdown-item-fancy polygraphy" href="#">
+                      <span class="di-icon">👤</span> Mon espace
+                    </a>
+                  </li>
+                  <li><hr class="dropdown-divider mx-3 my-1"></li>
+                  <li>
+                    <a class="dropdown-item dropdown-item-fancy dropdown-item-danger polygraphy" href="/logout">
+                      <span class="di-icon">🚪</span> Déconnexion
+                    </a>
+                  </li>
+                {% else %}
+                  <li>
+                    <a class="dropdown-item dropdown-item-fancy dropdown-item-danger polygraphy" href="/Connexion">
+                      <span class="di-icon">🚪</span> Connexion
+                    </a>
+                  </li>
+                {% endif %}
+
               </ul>
             </div>
 
@@ -86,19 +86,22 @@
         </div>
       </nav>
     </header>
-   <main>
+
+    <main>
       {% block contenu %}{% endblock %}
-   </main>
-  <footer class="mt-auto border-top mt-4 py-3">
-  <ul class="list-inline text-center mb-0">
-    <li class="list-inline-item">
-      <a href="/Mentions" class="text-muted text-decoration-none">Mentions Légales</a>
-    </li>
-    <li class="list-inline-item">
-      <a href="/Contact" class="text-muted text-decoration-none">Support</a>
-    </li>
-  </ul>
-</footer>
-    <script src=https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    </main>
+
+    <footer class="mt-auto border-top mt-4 py-3">
+      <ul class="list-inline text-center mb-0">
+        <li class="list-inline-item">
+          <a href="/Mentions" class="text-muted text-decoration-none">Mentions Légales</a>
+        </li>
+        <li class="list-inline-item">
+          <a href="/Contact" class="text-muted text-decoration-none">Support</a>
+        </li>
+      </ul>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
   </body>
 </html>
