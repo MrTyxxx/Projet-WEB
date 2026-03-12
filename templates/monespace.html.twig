@@ -1,0 +1,84 @@
+{% extends "base.html.twig" %}
+{% block contenu %}
+
+<div class="container-fluid py-4">
+  <div class="row">
+
+    <!-- Sidebar -->
+    <div class="col-md-3 col-lg-2">
+      <div class="d-grid mb-3">
+        <button class="btn btn-primary fw-bold">Tableau de bord</button>
+      </div>
+
+      <div class="mb-3 text-muted small px-1">
+        {% if user %}
+          {% if 'ROLE_ETUDIANT' in user.roles %}
+            Ravi de vous revoir ! 👋
+          {% else %}
+            Bienvenue ! 👋
+          {% endif %}
+          <div class="fw-bold text-dark">{{ user.email }}</div>
+        {% endif %}
+      </div>
+
+      <ul class="nav flex-column gap-1">
+
+        {% if user and 'ROLE_ETUDIANT' in user.roles %}
+          <li class="nav-item">
+            <a class="nav-link text-dark" href="/espace/profil">■ Mes informations</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark" href="/espace/offres-enregistrees">■ Offres enregistrées</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark" href="/espace/candidatures">■ Mes candidatures</a>
+          </li>
+        {% endif %}
+
+        {% if user and ('ROLE_PILOTE' in user.roles or 'ROLE_ADMIN' in user.roles) %}
+          <li class="nav-item">
+            <a class="nav-link text-dark" href="/espace/profil">■ Mon profil</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark" href="/espace/etudiants">■ Gestion des Étudiants</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark" href="/espace/entreprises">■ Gestion des Entreprises</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark" href="/espace/offres">■ Gestion des Offres</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark" href="/espace/candidatures">■ Gestion des Candidatures</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark" href="/espace/statistiques">■ Statistiques</a>
+          </li>
+        {% endif %}
+
+        {% if user and 'ROLE_ADMIN' in user.roles %}
+          <li class="nav-item">
+            <a class="nav-link text-dark" href="/espace/pilotes">■ Gestion des Pilotes</a>
+          </li>
+        {% endif %}
+
+      </ul>
+
+      <div class="mt-4">
+        <a href="/logout" class="btn btn-dark w-100">Déconnexion</a>
+      </div>
+    </div>
+
+    <!-- Zone d'affichage -->
+    <div class="col-md-9 col-lg-10">
+      <div class="border rounded-3 p-4 min-vh-75">
+        {% block contenu_espace %}
+          <p class="text-muted text-center mt-5">Sélectionnez une section dans le menu.</p>
+        {% endblock %}
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

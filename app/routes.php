@@ -27,7 +27,7 @@ return function (App $app) {
     $app->get('/Connexion',   [$auth,  'showLogin']);
     $app->post('/Connexion',  [$auth,  'login']);
     $app->get('/logout',      [$auth,  'logout']);
-
+    $app->get('/espace', [$home, 'monEspace']);
     $app->options('/{routes:.*}', function (Request $request, Response $response) {
         return $response;
     });

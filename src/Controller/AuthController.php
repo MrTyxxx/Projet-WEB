@@ -21,15 +21,24 @@ class AuthController
     public function login(Request $request, Response $response): Response
     {
         $data = $request->getParsedBody();
-        
-        // exemple statique
-        if ($data['email'] === 'admin@test.com' && $data['password'] === 'admin') {
+
+        $users = [
+            'admin@test.com'    => ['password' => 'admin',    'roles' => ['ROLE_ADMIN']],
+            'pilote@test.com'   => ['password' => 'pilote',   'roles' => ['ROLE_PILOTE']],
+            'etudiant@test.com' => ['password' => 'etudiant', 'roles' => ['ROLE_ETUDIANT']],
+        ];
+
+        $email    = $data['email']    ?? '';
+        $password = $data['password'] ?? '';
+
+        if (isset($users[$email]) && $users[$email]['password'] === $password) {
             $_SESSION['user'] = [
-                'email' => $data['email'],
-                'roles' => ['ROLE_ADMIN'],
+                'email' => $email,
+                'roles' => $users[$email]['roles'],
             ];
             return $response->withHeader('Location', '/')->withStatus(302);
         }
+
         $html = $this->twig->render('Connexion.html.twig', [
             'error' => 'Identifiants incorrects',
             'user'  => null,
@@ -43,4 +52,5 @@ class AuthController
         unset($_SESSION['user']);
         return $response->withHeader('Location', '/')->withStatus(302);
     }
+   
 }

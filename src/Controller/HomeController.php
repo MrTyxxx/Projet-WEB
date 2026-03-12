@@ -44,4 +44,16 @@ class HomeController
         $response->getBody()->write($html);
         return $response;
     }
+    public function monEspace(Request $request, Response $response): Response
+{
+    if (!isset($_SESSION['user'])) {
+        return $response->withHeader('Location', '/Connexion')->withStatus(302);
+    }
+
+    $html = $this->twig->render('monespace.html.twig', [
+        'user' => $_SESSION['user'],
+    ]);
+    $response->getBody()->write($html);
+    return $response;
+}
 }
