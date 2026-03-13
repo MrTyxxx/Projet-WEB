@@ -1,0 +1,65 @@
+{% extends "monespace.html.twig" %}
+{% block contenu_espace %}
+
+<div class="container-fluid px-4">
+
+  <!-- En-tête profil -->
+  <div class="d-flex align-items-center gap-4 mb-4">
+    <div class="position-relative">
+      <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center"
+           style="width:90px; height:90px; font-size:2.5rem; color:white;">
+        👤
+      </div>
+    </div>
+    <div>
+      <h4 class="mb-0 fw-bold">{{ user.prenom ?? 'Prénom' }} {{ user.nom ?? 'Nom' }}</h4>
+      <span class="badge bg-primary mt-1">
+        {% if 'ROLE_ADMIN' in user.roles %}Administrateur{% else %}Pilote{% endif %}
+      </span>
+    </div>
+  </div>
+
+  <!-- Infos -->
+  <div class="border rounded-3 p-4 bg-light">
+    <div class="row g-3">
+
+      <div class="col-md-6">
+        <label class="form-label text-muted small">Nom</label>
+        <div class="form-control bg-white">{{ user.nom ?? 'Dupont' }}</div>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label text-muted small">Prénom</label>
+        <div class="form-control bg-white">{{ user.prenom ?? 'Jean' }}</div>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label text-muted small">Email</label>
+        <div class="form-control bg-white">{{ user.email }}</div>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label text-muted small">Téléphone</label>
+        <div class="form-control bg-white">{{ user.telephone ?? '06 00 00 00 00' }}</div>
+      </div>
+
+      {% if 'ROLE_PILOTE' in user.roles %}
+      <div class="col-md-6">
+        <label class="form-label text-muted small">Campus rattaché</label>
+        <div class="form-control bg-white">{{ user.campus ?? 'Paris' }}</div>
+      </div>
+      {% endif %}
+
+      {% if 'ROLE_ADMIN' in user.roles %}
+      <div class="col-md-6">
+        <label class="form-label text-muted small">Niveau d'accès</label>
+        <div class="form-control bg-white">Administrateur système</div>
+      </div>
+      {% endif %}
+
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

@@ -10,6 +10,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
+use App\Controller\UserController;
 
 return function (App $app) {
     $loader = new FilesystemLoader(__DIR__ . '/../templates');
@@ -31,4 +32,6 @@ return function (App $app) {
     $app->options('/{routes:.*}', function (Request $request, Response $response) {
         return $response;
     });
+    $user = new UserController($twig);
+    $app->get('/espace/profil', [$user, 'mesInformations']);
 };
