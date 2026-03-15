@@ -34,4 +34,8 @@ return function (App $app) {
     });
     $user = new UserController($twig);
     $app->get('/espace/profil', [$user, 'mesInformations']);
+    $app->get('/espace/etudiants', [$user, 'gestionEtudiants']);
+    $app->get('/espace/pilotes',        [$user, 'gestionPilotes']);
+    $app->get('/espace/pilotes/creer',  [$user, 'creerCompte']);
+    $app->get('/espace/etudiants/creer',[$user, 'creerCompte']);
 };

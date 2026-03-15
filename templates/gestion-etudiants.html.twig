@@ -1,0 +1,98 @@
+{% extends "monespace.html.twig" %}
+{% block contenu_espace %}
+
+<div class="container-fluid px-2">
+
+  <!-- Filtres -->
+  <div class="d-flex gap-2 mb-3 flex-wrap">
+    <button class="btn btn-dark btn-sm">Tous les Étudiants</button>
+    <input type="text" class="form-control form-control-sm w-auto" placeholder="Recherche par Noms" id="searchNom">
+    <select class="form-select form-select-sm w-auto" id="filterClasse">
+      <option value="">Classes</option>
+      <option value="A1">A1</option>
+      <option value="A2">A2</option>
+      <option value="A3">A3</option>
+      <option value="A4">A4</option>
+      <option value="A5">A5</option>
+    </select>
+  </div>
+
+  <!-- Tableau -->
+  <div class="border rounded-3 p-3">
+    <table class="table table-bordered table-sm text-center align-middle" id="tableEtudiants">
+      <thead class="table-light">
+        <tr>
+          <th>N°</th>
+          <th>Étudiants</th>
+          <th>Classes</th>
+          <th>Campus</th>
+          <th>Contact</th>
+          <th>Email</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td><td>Martin Lucas</td><td>A1</td><td>Reims</td><td>06 11 22 33 44</td><td>lucas.martin@email.com</td>
+          <td><a href="#" class="btn btn-sm btn-outline-secondary me-1">✏️</a><a href="#" class="btn btn-sm btn-outline-danger">✖</a></td>
+        </tr>
+        <tr>
+          <td>2</td><td>Dubois Emma</td><td>A2</td><td>Strasbourg</td><td>06 22 33 44 55</td><td>emma.dubois@email.com</td>
+          <td><a href="#" class="btn btn-sm btn-outline-secondary me-1">✏️</a><a href="#" class="btn btn-sm btn-outline-danger">✖</a></td>
+        </tr>
+        <tr>
+          <td>3</td><td>Bernard Noah</td><td>A3</td><td>Reims</td><td>06 33 44 55 66</td><td>noah.bernard@email.com</td>
+          <td><a href="#" class="btn btn-sm btn-outline-secondary me-1">✏️</a><a href="#" class="btn btn-sm btn-outline-danger">✖</a></td>
+        </tr>
+        <tr>
+          <td>4</td><td>Petit Léa</td><td>A1</td><td>Strasbourg</td><td>06 44 55 66 77</td><td>lea.petit@email.com</td>
+          <td><a href="#" class="btn btn-sm btn-outline-secondary me-1">✏️</a><a href="#" class="btn btn-sm btn-outline-danger">✖</a></td>
+        </tr>
+        <tr>
+          <td>5</td><td>Moreau Jules</td><td>A4</td><td>Reims</td><td>06 55 66 77 88</td><td>jules.moreau@email.com</td>
+          <td><a href="#" class="btn btn-sm btn-outline-secondary me-1">✏️</a><a href="#" class="btn btn-sm btn-outline-danger">✖</a></td>
+        </tr>
+        <tr>
+          <td>6</td><td>Simon Jade</td><td>A2</td><td>Strasbourg</td><td>06 66 77 88 99</td><td>jade.simon@email.com</td>
+          <td><a href="#" class="btn btn-sm btn-outline-secondary me-1">✏️</a><a href="#" class="btn btn-sm btn-outline-danger">✖</a></td>
+        </tr>
+        <tr>
+          <td>7</td><td>Laurent Tom</td><td>A5</td><td>Reims</td><td>06 77 88 99 00</td><td>tom.laurent@email.com</td>
+          <td><a href="#" class="btn btn-sm btn-outline-secondary me-1">✏️</a><a href="#" class="btn btn-sm btn-outline-danger">✖</a></td>
+        </tr>
+        <tr>
+          <td>8</td><td>Garcia Inès</td><td>A3</td><td>Strasbourg</td><td>06 88 99 00 11</td><td>ines.garcia@email.com</td>
+          <td><a href="#" class="btn btn-sm btn-outline-secondary me-1">✏️</a><a href="#" class="btn btn-sm btn-outline-danger">✖</a></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Bouton ajouter + pagination -->
+    <div class="d-flex justify-content-between align-items-center mt-2">
+      <button class="btn btn-outline-secondary btn-sm">Précédent</button>
+      <a href="/espace/etudiants/creer" class="btn btn-dark btn-sm">➕</a>
+      <button class="btn btn-outline-secondary btn-sm">Suivant</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- Filtre JS -->
+<script>
+  document.getElementById('searchNom').addEventListener('input', filtrer);
+  document.getElementById('filterClasse').addEventListener('change', filtrer);
+
+  function filtrer() {
+    const nom = document.getElementById('searchNom').value.toLowerCase();
+    const classe = document.getElementById('filterClasse').value;
+    document.querySelectorAll('#tableEtudiants tbody tr').forEach(tr => {
+      const nomCell = tr.cells[1].textContent.toLowerCase();
+      const classeCell = tr.cells[2].textContent;
+      const matchNom = nomCell.includes(nom);
+      const matchClasse = classe === '' || classeCell === classe;
+      tr.style.display = matchNom && matchClasse ? '' : 'none';
+    });
+  }
+</script>
+
+{% endblock %}

@@ -23,44 +23,44 @@
 
       <ul class="nav flex-column gap-1">
 
-        {% if user and 'ROLE_ETUDIANT' in user.roles %}
-          <li class="nav-item">
-            <a class="nav-link text-dark" href="/espace/profil">■ Mes informations</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-dark" href="/espace/offres-enregistrees">■ Offres enregistrées</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-dark" href="/espace/candidatures">■ Mes candidatures</a>
-          </li>
-        {% endif %}
+       {% if user and 'ROLE_ETUDIANT' in user.roles %}
+  <li class="nav-item">
+    <a class="nav-link {% if active == 'profil' %}text-danger fw-bold{% else %}text-dark{% endif %}" href="/espace/profil">■ Mes informations</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link {% if active == 'offres-enregistrees' %}text-danger fw-bold{% else %}text-dark{% endif %}" href="/espace/offres-enregistrees">■ Offres enregistrées</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link {% if active == 'candidatures' %}text-danger fw-bold{% else %}text-dark{% endif %}" href="/espace/candidatures">■ Mes candidatures</a>
+  </li>
+{% endif %}
 
-        {% if user and ('ROLE_PILOTE' in user.roles or 'ROLE_ADMIN' in user.roles) %}
-          <li class="nav-item">
-            <a class="nav-link text-dark" href="/espace/profil">■ Mes informations </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-dark" href="/espace/etudiants">■ Gestion des Étudiants</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-dark" href="/espace/entreprises">■ Gestion des Entreprises</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-dark" href="/espace/offres">■ Gestion des Offres</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-dark" href="/espace/candidatures">■ Gestion des Candidatures</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-dark" href="/espace/statistiques">■ Statistiques</a>
-          </li>
-        {% endif %}
+{% if user and ('ROLE_PILOTE' in user.roles or 'ROLE_ADMIN' in user.roles) %}
+  <li class="nav-item">
+    <a class="nav-link {% if active == 'profil' %}text-danger fw-bold{% else %}text-dark{% endif %}" href="/espace/profil">■ Mes informations</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link {% if active == 'etudiants' %}text-danger fw-bold{% else %}text-dark{% endif %}" href="/espace/etudiants">■ Gestion des Étudiants</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link {% if active == 'entreprises' %}text-danger fw-bold{% else %}text-dark{% endif %}" href="/espace/entreprises">■ Gestion des Entreprises</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link {% if active == 'offres' %}text-danger fw-bold{% else %}text-dark{% endif %}" href="/espace/offres">■ Gestion des Offres</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link {% if active == 'candidatures' %}text-danger fw-bold{% else %}text-dark{% endif %}" href="/espace/candidatures">■ Gestion des Candidatures</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link {% if active == 'statistiques' %}text-danger fw-bold{% else %}text-dark{% endif %}" href="/espace/statistiques">■ Statistiques</a>
+  </li>
+{% endif %}
 
-        {% if user and 'ROLE_ADMIN' in user.roles %}
-          <li class="nav-item">
-            <a class="nav-link text-dark" href="/espace/pilotes">■ Gestion des Pilotes</a>
-          </li>
-        {% endif %}
+{% if user and 'ROLE_ADMIN' in user.roles %}
+  <li class="nav-item">
+    <a class="nav-link {% if active == 'pilotes' %}text-danger fw-bold{% else %}text-dark{% endif %}" href="/espace/pilotes">■ Gestion des Pilotes</a>
+  </li>
+{% endif %}
 
       </ul>
 
