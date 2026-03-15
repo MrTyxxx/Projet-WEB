@@ -1,218 +1,375 @@
 {% extends "base.html.twig" %}
 {% block contenu %}
 
-<!-- ===== HERO ===== -->
-<section class="hero-section">
-  <h1>Trouve ton stage idéal</h1>
-  <p class="subtitle">Des centaines d'offres dans les meilleures entreprises françaises</p>
-  <div class="search-bar">
-    <input type="text" placeholder="Postes" />
-    <input type="text" placeholder="Campus" />
-    <button class="btn btn-mauve">Rechercher</button>
+{# recherche #}
+<section style="background-color: #f3e5fe;" class="py-5 text-center">
+  <h1 class="fw-bold fs-2 mb-2">Trouve ton stage idéal</h1>
+  <p class="text-secondary mb-4">Des centaines d'offres dans les meilleures entreprises françaises</p>
+  <div class="d-flex flex-wrap gap-2 justify-content-center">
+    <input type="text" placeholder="Postes" class="form-control rounded-3" style="max-width:220px; border:1.5px solid #ddd;" />
+    <input type="text" placeholder="Campus" class="form-control rounded-3" style="max-width:220px; border:1.5px solid #ddd;" />
+    <button class="btn rounded-3 fw-semibold px-4"
+            style="background: #7f399d; color: #fff; box-shadow:0 4px 14px rgba(127,57,157,.3);">
+            Rechercher
+    </button>
   </div>
 </section>
 
-<!-- ===== SECTION ENTREPRISES ===== -->
-<div class="section-header">
-  <h2 class="shadowed-text">Offres disponibles</h2>
-  <p class="shadowed-text">Découvre les dernières opportunités de stages dans les entreprises qui recrutent</p>
+{# cards header #}
+<div class="text-center py-5 pb-3">
+  <h2 class="fw-bold fs-4 mb-1" style="text-shadow:2px 2px 4px rgba(0,0,0,.3);">Offres disponibles</h2>
+  <p class="text-secondary" style="text-shadow:2px 2px 4px rgba(0,0,0,.3);">
+    Découvre les dernières opportunités de stages dans les entreprises qui recrutent
+  </p>
 </div>
 
-<!--
-  6 teintes violet/violet-rose utilisées, cyclées sur les cartes :
-  1. #3b0764 → #7c3aed   (violet nuit profond)
-  2. #5b21b6 → #a855f7   (violet électrique)
-  3. #7e22ce → #c084fc   (violet moyen)
-  4. #9333ea → #d946ef   (violet → rose vif)
-  5. #a21caf → #e879f9   (magenta-violet)
-  6. #be185d → #f472b6   (violet-rose / pink)
--->
-<div class="companies-grid" id="all-cards">
+{# nombre de cartes par page #}
+<div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4 px-4 mb-5 mx-auto"
+     style="max-width:1500px;" id="all-cards">
 
-  <!-- Capgemini — teinte 1 : violet nuit -->
-  <div class="company-card" style="border-color: #3b0764;">
-    <div class="card-banner" style="position:relative;">
-    </div>
-    <div class="card-content">
-      <div class="card-header-row">
-        <div class="card-company-name">Stage développeur chez Capgemini</div>
-        <button class="btn btn-rouge">♡</button>
-      </div>
-      <div class="card-meta">
-        <span class="pin">🧿</span> Paris ·
-        <span class="card-campus">🎓 Paris-Saclay</span> ·
-        <span class="card-sector-badge badge-it">Conseil &amp; IT</span>
-      </div>
-      <p class="card-description">Entreprise innovante spécialisée dans le digital, proposant un stage sur des projets concrets en développement web. Un environnement idéal pour monter en compétences aux côtés d’une équipe experte.</p>
-      <div class="card-footer-actions">
-        <a href="#" class="btn-voir-offres">Voir les offres</a>
-        <div class="card-logo-corner" style="background: linear-gradient(135deg, #3b0764, #7c3aed);">💠</div>
+  {# ---------- Capgemini — violet nuit ---------- #}
+  <div class="col">
+    <div class="card h-100 rounded-4"
+         style="border:5px solid #3b0764; box-shadow:0 4px 20px rgba(0,0,0,0.6); transition:transform .2s, box-shadow .2s;"
+         onmouseenter="this.style.transform='translateY(-4px)';this.style.boxShadow='0 4px 20px rgba(0,0,0,1)'"
+         onmouseleave="this.style.transform='';this.style.boxShadow='0 4px 20px rgba(0,0,0,.6)'">
+      <div class="card-body d-flex flex-column pt-4">
+        <div class="d-flex align-items-start justify-content-between gap-2 mb-1">
+          <span class="fw-bold fs-6 text-dark">Stage développeur chez Capgemini</span>
+          <button type="button"
+                  class="btn btn-outline-danger rounded-circle d-inline-flex justify-content-center align-items-center ms-2"
+                  style="width: 36px; height: 36px;">
+                  <i class="bi bi-heart"></i>
+          </button>
+        </div>
+        <div class="d-flex align-items-center flex-wrap gap-1 mb-3 text-secondary" style="font-size:.82rem;">
+          <span style="color:#e74c3c;">🧿</span> Paris ·
+          <span class="badge rounded-pill px-2 py-1"
+                style="background:#f3eaff;color:#7f399d;font-size:.75rem;font-weight:600;">🎓 Paris-Saclay</span>
+          <span class="badge rounded-pill px-2 py-1"
+                style="background:#e8f0ff;color:#2563eb;font-size:.78rem;font-weight:600;">Conseil &amp; IT</span>
+        </div>
+        <p class="text-secondary flex-grow-1" style="font-size:.88rem;line-height:1.55;">
+          Entreprise innovante spécialisée dans le digital, proposant un stage sur des projets concrets en développement web.
+          Un environnement idéal pour monter en compétences aux côtés d'une équipe experte.
+        </p>
+        <div class="d-flex align-items-center gap-2 mt-auto">
+          <a href="/offre1" class="btn rounded-pill fw-semibold px-4"
+             style="background:#7f399d;color:#fff;font-size:.84rem;
+                    box-shadow:0 3px 10px rgba(127,57,157,.25);text-decoration:none;">
+            Voir les offres
+          </a>
+          <div class="ms-auto rounded-3 d-flex align-items-center justify-content-center fs-5"
+               style="width:56px;height:56px;
+                      background:linear-gradient(135deg,#3b0764,#7c3aed);
+                      box-shadow:-3px -3px 14px rgba(0,0,0,.15);">💠</div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Thales — teinte 2 : violet électrique -->
-  <div class="company-card" style="border-color: #5b21b6;">
-    <div class="card-banner" style="position:relative;">
-    </div>
-    <div class="card-content">
-      <div class="card-header-row">
-        <div class="card-company-name">Stage développeur chez Thales</div>
-        <button class="btn btn-rouge">♡</button>
-      </div>
-      <div class="card-meta">
-        <span class="pin">🧿</span> Toulouse ·
-        <span class="card-campus">🎓 ISAE-SUPAERO</span> ·
-        <span class="card-sector-badge badge-cyber">Cybersécurité</span>
-      </div>
-      <p class="card-description">Stage au cœur de projets critiques liés à la cybersécurité et à l’aérospatial. Une expérience unique dans un environnement technologique de pointe et hautement sécurisé.</p>
-      <div class="card-footer-actions">
-        <a href="#" class="btn-voir-offres">Voir les offres</a>
-        <div class="card-logo-corner" style="background: linear-gradient(135deg, #5b21b6, #a855f7);">🔐</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Orange — teinte 3 : violet moyen -->
-  <div class="company-card" style="border-color: #7e22ce;">
-    <div class="card-banner" style="position:relative;">
-    </div>
-    <div class="card-content">
-      <div class="card-header-row">
-        <div class="card-company-name">Stage développeur chez Orange</div>
-        <div class="text-end mb-2">
-      <button class="btn btn-rouge">♡</button>
-    </div>
-      </div>
-      <div class="card-meta">
-        <span class="pin">🧿</span> Nancy ·
-        <span class="card-campus">🎓 Univ. de Lorraine</span> 
-        <span class="card-sector-badge badge-telecom">Télécoms</span>
-      </div>
-      <p class="card-description">Intègre une équipe tech d’un opérateur majeur pour participer à des projets liés au réseau, au mobile et aux services numériques. Un cadre idéal pour apprendre à large échelle.</p>
-      <div class="card-footer-actions">
-        <a href="#" class="btn-voir-offres">Voir les offres</a>
-        <div class="card-logo-corner" style="background: linear-gradient(135deg, #7e22ce, #c084fc);">📡</div>
+  {# ---------- Thales — violet électrique ---------- #}
+  <div class="col">
+    <div class="card h-100 border-0 rounded-4 overflow-hidden position-relative"
+         style="border:5px solid #5b21b6 !important;
+                box-shadow:0 4px 20px rgba(0,0,0,.6);
+                transition:transform .2s, box-shadow .2s;"
+         onmouseenter="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 32px rgba(0,0,0,1)'"
+         onmouseleave="this.style.transform='';this.style.boxShadow='0 4px 20px rgba(0,0,0,.6)'">
+      <div class="card-body d-flex flex-column pt-4">
+        <div class="d-flex align-items-start justify-content-between gap-2 mb-1">
+          <span class="fw-bold fs-6 text-dark">Stage développeur chez Thales</span>
+          <button type="button"
+                  class="btn btn-outline-danger rounded-circle d-inline-flex justify-content-center align-items-center ms-2"
+                  style="width: 36px; height: 36px;">
+                  <i class="bi bi-heart"></i>
+          </button>
+        </div>
+        <div class="d-flex align-items-center flex-wrap gap-1 mb-3 text-secondary" style="font-size:.82rem;">
+          <span style="color:#e74c3c;">🧿</span> Toulouse ·
+          <span class="badge rounded-pill px-2 py-1"
+                style="background:#f3eaff;color:#7f399d;font-size:.75rem;font-weight:600;">🎓 ISAE-SUPAERO</span>
+          <span class="badge rounded-pill px-2 py-1"
+                style="background:#fff3e0;color:#e65c00;font-size:.78rem;font-weight:600;">Cybersécurité</span>
+        </div>
+        <p class="text-secondary flex-grow-1" style="font-size:.88rem;line-height:1.55;">
+          Stage au cœur de projets critiques liés à la cybersécurité et à l'aérospatial.
+          Une expérience unique dans un environnement technologique de pointe et hautement sécurisé.
+        </p>
+        <div class="d-flex align-items-center gap-2 mt-auto">
+          <a href="/offre1" class="btn rounded-pill fw-semibold px-4"
+             style="background:#7f399d;color:#fff;font-size:.84rem;
+                    box-shadow:0 3px 10px rgba(127,57,157,.25);text-decoration:none;">
+            Voir les offres
+          </a>
+          <div class="ms-auto rounded-3 d-flex align-items-center justify-content-center fs-5"
+               style="width:56px;height:56px;
+                      background:linear-gradient(135deg,#5b21b6,#a855f7);
+                      box-shadow:-3px -3px 14px rgba(0,0,0,.15);">🔐</div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Société Générale — teinte 4 : violet → rose vif -->
-  <div class="company-card" style="border-color: #9333ea;">
-    <div class="card-banner" style="position:relative;">
-    </div>
-    <div class="card-content">
-      <div class="card-header-row">
-        <div class="card-company-name">Stage développeur chez Société Générale</div>
-        <button class="btn btn-rouge">♡</button>
-      </div>
-      <div class="card-meta">
-        <span class="pin">🧿</span> Paris ·
-        <span class="card-campus">🎓 HEC Paris</span> ·
-        <span class="card-sector-badge badge-finance">Finance</span>
-      </div>
-      <p class="card-description">Stage orienté innovation au sein d’une grande banque internationale, avec participation à des projets IT, finance et data. Expérience formatrice dans un environnement exigeant.</p>
-      <div class="card-footer-actions">
-        <a href="#" class="btn-voir-offres">Voir les offres</a>
-        <div class="card-logo-corner" style="background: linear-gradient(135deg, #9333ea, #d946ef);">🏦</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Schneider Electric — teinte 5 : magenta-violet -->
-  <div class="company-card" style="border-color: #a21caf;">
-    <div class="card-banner" style="position:relative;">
-    </div>
-    <div class="card-content">
-      <div class="card-header-row">
-        <div class="card-company-name">Stage développeur chez Schneider Electric</div>
-        <button class="btn btn-rouge">♡</button>
-      </div>
-      <div class="card-meta">
-        <span class="pin">🧿</span> Grenoble ·
-        <span class="card-campus">🎓 Grenoble INP</span> ·
-        <span class="card-sector-badge badge-industrie">Industrie</span>
-      </div>
-      <p class="card-description">Apporte tes compétences à un leader mondial de l’énergie et de l’automatisation. Stage centré sur des solutions industrielles innovantes et des technologies durables.
-</p>
-      <div class="card-footer-actions">
-        <a href="#" class="btn-voir-offres">Voir les offres</a>
-        <div class="card-logo-corner" style="background: linear-gradient(135deg, #a21caf, #e879f9);">⚡</div>
+  {# ---------- Orange — violet moyen ---------- #}
+  <div class="col">
+    <div class="card h-100 border-0 rounded-4 overflow-hidden position-relative"
+         style="border:5px solid #7e22ce !important;
+                box-shadow:0 4px 20px rgba(0,0,0,.6);
+                transition:transform .2s, box-shadow .2s;"
+         onmouseenter="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 32px rgba(0,0,0,1)'"
+         onmouseleave="this.style.transform='';this.style.boxShadow='0 4px 20px rgba(0,0,0,.6)'">
+      <div class="card-body d-flex flex-column pt-4">
+        <div class="d-flex align-items-start justify-content-between gap-2 mb-1">
+          <span class="fw-bold fs-6 text-dark">Stage développeur chez Orange</span>
+          <button type="button"
+                  class="btn btn-outline-danger rounded-circle d-inline-flex justify-content-center align-items-center ms-2"
+                  style="width: 36px; height: 36px;">
+                  <i class="bi bi-heart"></i>
+          </button>
+        </div>
+        <div class="d-flex align-items-center flex-wrap gap-1 mb-3 text-secondary" style="font-size:.82rem;">
+          <span style="color:#e74c3c;">🧿</span> Nancy ·
+          <span class="badge rounded-pill px-2 py-1"
+                style="background:#f3eaff;color:#7f399d;font-size:.75rem;font-weight:600;">🎓 Univ. de Lorraine</span>
+          <span class="badge rounded-pill px-2 py-1"
+                style="background:#e0f7fa;color:#00838f;font-size:.78rem;font-weight:600;">Télécoms</span>
+        </div>
+        <p class="text-secondary flex-grow-1" style="font-size:.88rem;line-height:1.55;">
+          Intègre une équipe tech d'un opérateur majeur pour participer à des projets liés au réseau,
+          au mobile et aux services numériques. Un cadre idéal pour apprendre à large échelle.
+        </p>
+        <div class="d-flex align-items-center gap-2 mt-auto">
+          <a href="/offre1" class="btn rounded-pill fw-semibold px-4"
+             style="background:#7f399d;color:#fff;font-size:.84rem;
+                    box-shadow:0 3px 10px rgba(127,57,157,.25);text-decoration:none;">
+            Voir les offres
+          </a>
+          <div class="ms-auto rounded-3 d-flex align-items-center justify-content-center fs-5"
+               style="width:56px;height:56px;
+                      background:linear-gradient(135deg,#7e22ce,#c084fc);
+                      box-shadow:-3px -3px 14px rgba(0,0,0,.15);">📡</div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Doctolib — teinte 6 : violet-rose pink -->
-  <div class="company-card" style="border-color: #be185d;">
-    <div class="card-banner" style="position:relative;">
-    </div>
-    <div class="card-content">
-      <div class="card-header-row">
-        <div class="card-company-name">Stage développeur chez Doctolib</div>
-        <button class="btn btn-rouge">♡</button>
-      </div>
-      <div class="card-meta">
-        <span class="pin">🧿</span> Paris ·
-        <span class="card-campus">🎓 Paris Cité</span> ·
-        <span class="card-sector-badge badge-sante">Santé &amp; Tech</span>
-      </div>
-      <p class="card-description">Participe au développement d’un service numérique médical utilisé partout en Europe. Stage idéal pour apprendre dans une scale‑up tech centrée sur l’impact et l’expérience utilisateur.
-</p>
-      <div class="card-footer-actions">
-        <a href="#" class="btn-voir-offres">Voir les offres</a>
-        <div class="card-logo-corner" style="background: linear-gradient(135deg, #be185d, #f472b6);">🏥</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- BNP Paribas — teinte 1 : violet nuit -->
-  <div class="company-card" style="border-color: #3b0764;">
-    <div class="card-banner" style="position:relative;">
-    </div>
-    <div class="card-content">
-      <div class="card-header-row">
-        <div class="card-company-name">Stage développeur chez BNP Paribas</div>
-        <button class="btn btn-rouge">♡</button>
-      </div>
-      <div class="card-meta">
-        <span class="pin">🧿</span> Paris ·
-        <span class="card-campus">🎓 ESSEC</span> ·
-        <span class="card-sector-badge badge-finance">Finance</span>
-      </div>
-      <p class="card-description">Première banque européenne avec des opportunités en finance, IT et innovation.</p>
-      <div class="card-footer-actions">
-        <a href="#" class="btn-voir-offres">Voir les offres</a>
-        <div class="card-logo-corner" style="background: linear-gradient(135deg, #3b0764, #7c3aed);">💳</div>
+  {# ---------- Société Générale — violet rose vif ---------- #}
+  <div class="col">
+    <div class="card h-100 border-0 rounded-4 overflow-hidden position-relative"
+         style="border:5px solid #9333ea !important;
+                box-shadow:0 4px 20px rgba(0,0,0,.6);
+                transition:transform .2s, box-shadow .2s;"
+         onmouseenter="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 32px rgba(0,0,0,1)'"
+         onmouseleave="this.style.transform='';this.style.boxShadow='0 4px 20px rgba(0,0,0,.6)'">
+      <div class="card-body d-flex flex-column pt-4">
+        <div class="d-flex align-items-start justify-content-between gap-2 mb-1">
+          <span class="fw-bold fs-6 text-dark">Stage développeur chez Société Générale</span>
+          <button type="button"
+                  class="btn btn-outline-danger rounded-circle d-inline-flex justify-content-center align-items-center ms-2"
+                  style="width: 36px; height: 36px;">
+                  <i class="bi bi-heart"></i>
+          </button>
+        </div>
+        <div class="d-flex align-items-center flex-wrap gap-1 mb-3 text-secondary" style="font-size:.82rem;">
+          <span style="color:#e74c3c;">🧿</span> Paris ·
+          <span class="badge rounded-pill px-2 py-1"
+                style="background:#f3eaff;color:#7f399d;font-size:.75rem;font-weight:600;">🎓 HEC Paris</span>
+          <span class="badge rounded-pill px-2 py-1"
+                style="background:#e8f5e9;color:#2e7d32;font-size:.78rem;font-weight:600;">Finance</span>
+        </div>
+        <p class="text-secondary flex-grow-1" style="font-size:.88rem;line-height:1.55;">
+          Stage orienté innovation au sein d'une grande banque internationale, avec participation à des projets
+          IT, finance et data. Expérience formatrice dans un environnement exigeant.
+        </p>
+        <div class="d-flex align-items-center gap-2 mt-auto">
+          <a href="/offre1" class="btn rounded-pill fw-semibold px-4"
+             style="background:#7f399d;color:#fff;font-size:.84rem;
+                    box-shadow:0 3px 10px rgba(127,57,157,.25);text-decoration:none;">
+            Voir les offres
+          </a>
+          <div class="ms-auto rounded-3 d-flex align-items-center justify-content-center fs-5"
+               style="width:56px;height:56px;
+                      background:linear-gradient(135deg,#9333ea,#d946ef);
+                      box-shadow:-3px -3px 14px rgba(0,0,0,.15);">🏦</div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Airbus — teinte 2 : violet électrique -->
-  <div class="company-card" style="border-color: #5b21b6;">
-    <div class="card-banner" style="position:relative;">
-    </div>
-    <div class="card-content">
-      <div class="card-header-row">
-        <div class="card-company-name">Stage développeur chez Airbus</div>
-        <button class="btn btn-rouge">♡</button>
-      </div>
-      <div class="card-meta">
-        <span class="pin">🧿</span> Toulouse ·
-        <span class="card-campus">🎓 INSA Toulouse</span> ·
-        <span class="card-sector-badge badge-industrie">Aérospatiale</span>
-      </div>
-      <p class="card-description">Leader mondial de l'aéronautique civile et de la défense, innovant sans cesse.</p>
-      <div class="card-footer-actions">
-        <a href="#" class="btn-voir-offres">Voir les offres</a>
-        <div class="card-logo-corner" style="background: linear-gradient(135deg, #5b21b6, #a855f7);">✈️</div>
+  {# ---------- Schneider Electric — magenta-violet ---------- #}
+  <div class="col">
+    <div class="card h-100 border-0 rounded-4 overflow-hidden position-relative"
+         style="border:5px solid #a21caf !important;
+                box-shadow:0 4px 20px rgba(0,0,0,.6);
+                transition:transform .2s, box-shadow .2s;"
+         onmouseenter="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 32px rgba(0,0,0,1)'"
+         onmouseleave="this.style.transform='';this.style.boxShadow='0 4px 20px rgba(0,0,0,.6)'">
+      <div class="card-body d-flex flex-column pt-4">
+        <div class="d-flex align-items-start justify-content-between gap-2 mb-1">
+          <span class="fw-bold fs-6 text-dark">Stage développeur chez Schneider Electric</span>
+          <button type="button"
+                  class="btn btn-outline-danger rounded-circle d-inline-flex justify-content-center align-items-center ms-2"
+                  style="width: 36px; height: 36px;">
+                  <i class="bi bi-heart"></i>
+        </div>
+        <div class="d-flex align-items-center flex-wrap gap-1 mb-3 text-secondary" style="font-size:.82rem;">
+          <span style="color:#e74c3c;">🧿</span> Grenoble ·
+          <span class="badge rounded-pill px-2 py-1"
+                style="background:#f3eaff;color:#7f399d;font-size:.75rem;font-weight:600;">🎓 Grenoble INP</span>
+          <span class="badge rounded-pill px-2 py-1"
+                style="background:#fce4ec;color:#c2185b;font-size:.78rem;font-weight:600;">Industrie</span>
+        </div>
+        <p class="text-secondary flex-grow-1" style="font-size:.88rem;line-height:1.55;">
+          Apporte tes compétences à un leader mondial de l'énergie et de l'automatisation.
+          Stage centré sur des solutions industrielles innovantes et des technologies durables.
+        </p>
+        <div class="d-flex align-items-center gap-2 mt-auto">
+          <a href="/offre1" class="btn rounded-pill fw-semibold px-4"
+             style="background:#7f399d;color:#fff;font-size:.84rem;
+                    box-shadow:0 3px 10px rgba(127,57,157,.25);text-decoration:none;">
+            Voir les offres
+          </a>
+          <div class="ms-auto rounded-3 d-flex align-items-center justify-content-center fs-5"
+               style="width:56px;height:56px;
+                      background:linear-gradient(135deg,#a21caf,#e879f9);
+                      box-shadow:-3px -3px 14px rgba(0,0,0,.15);">⚡</div>
+        </div>
       </div>
     </div>
   </div>
 
-</div>
+  {# ---------- Doctolib — violet-rose pink ---------- #}
+  <div class="col">
+    <div class="card h-100 border-0 rounded-4 overflow-hidden position-relative"
+         style="border:5px solid #be185d !important;
+                box-shadow:0 4px 20px rgba(0,0,0,.6);
+                transition:transform .2s, box-shadow .2s;"
+         onmouseenter="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 32px rgba(0,0,0,1)'"
+         onmouseleave="this.style.transform='';this.style.boxShadow='0 4px 20px rgba(0,0,0,.6)'">
+      <div class="card-body d-flex flex-column pt-4">
+        <div class="d-flex align-items-start justify-content-between gap-2 mb-1">
+          <span class="fw-bold fs-6 text-dark">Stage développeur chez Doctolib</span>
+          <button type="button"
+                  class="btn btn-outline-danger rounded-circle d-inline-flex justify-content-center align-items-center ms-2"
+                  style="width: 36px; height: 36px;">
+                  <i class="bi bi-heart"></i>
+          </button>
+        </div>
+        <div class="d-flex align-items-center flex-wrap gap-1 mb-3 text-secondary" style="font-size:.82rem;">
+          <span style="color:#e74c3c;">🧿</span> Paris ·
+          <span class="badge rounded-pill px-2 py-1"
+                style="background:#f3eaff;color:#7f399d;font-size:.75rem;font-weight:600;">🎓 Paris Cité</span>
+          <span class="badge rounded-pill px-2 py-1"
+                style="background:#e8f5e9;color:#1b5e20;font-size:.78rem;font-weight:600;">Santé &amp; Tech</span>
+        </div>
+        <p class="text-secondary flex-grow-1" style="font-size:.88rem;line-height:1.55;">
+          Participe au développement d'un service numérique médical utilisé partout en Europe.
+          Stage idéal pour apprendre dans une scale‑up tech centrée sur l'impact et l'expérience utilisateur.
+        </p>
+        <div class="d-flex align-items-center gap-2 mt-auto">
+          <a href="/offre1" class="btn rounded-pill fw-semibold px-4"
+             style="background:#7f399d;color:#fff;font-size:.84rem;
+                    box-shadow:0 3px 10px rgba(127,57,157,.25);text-decoration:none;">
+            Voir les offres
+          </a>
+          <div class="ms-auto rounded-3 d-flex align-items-center justify-content-center fs-5"
+               style="width:56px;height:56px;
+                      background:linear-gradient(135deg,#be185d,#f472b6);
+                      box-shadow:-3px -3px 14px rgba(0,0,0,.15);">🏥</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<!-- ===== PAGINATION ===== -->
-<div class="pagination-wrapper">
+  {# ---------- BNP Paribas — violet nuit ---------- #}
+  <div class="col">
+    <div class="card h-100 border-0 rounded-4 overflow-hidden position-relative"
+         style="border:5px solid #3b0764 !important;
+                box-shadow:0 4px 20px rgba(0,0,0,.6);
+                transition:transform .2s, box-shadow .2s;"
+         onmouseenter="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 32px rgba(0,0,0,1)'"
+         onmouseleave="this.style.transform='';this.style.boxShadow='0 4px 20px rgba(0,0,0,.6)'">
+      <div class="card-body d-flex flex-column pt-4">
+        <div class="d-flex align-items-start justify-content-between gap-2 mb-1">
+          <span class="fw-bold fs-6 text-dark">Stage développeur chez BNP Paribas</span>
+          <button type="button"
+                  class="btn btn-outline-danger rounded-circle d-inline-flex justify-content-center align-items-center ms-2"
+                  style="width: 36px; height: 36px;">
+                  <i class="bi bi-heart"></i>
+          </button>
+        </div>
+        <div class="d-flex align-items-center flex-wrap gap-1 mb-3 text-secondary" style="font-size:.82rem;">
+          <span style="color:#e74c3c;">🧿</span> Paris ·
+          <span class="badge rounded-pill px-2 py-1"
+                style="background:#f3eaff;color:#7f399d;font-size:.75rem;font-weight:600;">🎓 ESSEC</span>
+          <span class="badge rounded-pill px-2 py-1"
+                style="background:#e8f5e9;color:#2e7d32;font-size:.78rem;font-weight:600;">Finance</span>
+        </div>
+        <p class="text-secondary flex-grow-1" style="font-size:.88rem;line-height:1.55;">
+          Première banque européenne avec des opportunités en finance, IT et innovation.
+        </p>
+        <div class="d-flex align-items-center gap-2 mt-auto">
+          <a href="/offre1" class="btn rounded-pill fw-semibold px-4"
+             style="background:#7f399d;color:#fff;font-size:.84rem;
+                    box-shadow:0 3px 10px rgba(127,57,157,.25);text-decoration:none;">
+            Voir les offres
+          </a>
+          <div class="ms-auto rounded-3 d-flex align-items-center justify-content-center fs-5"
+               style="width:56px;height:56px;
+                      background:linear-gradient(135deg,#3b0764,#7c3aed);
+                      box-shadow:-3px -3px 14px rgba(0,0,0,.15);">💳</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# ---------- Airbus — violet électrique ---------- #}
+  <div class="col">
+    <div class="card h-100 border-0 rounded-4 overflow-hidden position-relative"
+         style="border:5px solid #5b21b6 !important;
+                box-shadow:0 4px 20px rgba(0,0,0,.6);
+                transition:transform .2s, box-shadow .2s;"
+         onmouseenter="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 32px rgba(0,0,0,1)'"
+         onmouseleave="this.style.transform='';this.style.boxShadow='0 4px 20px rgba(0,0,0,.6)'">
+      <div class="card-body d-flex flex-column pt-4">
+        <div class="d-flex align-items-start justify-content-between gap-2 mb-1">
+          <span class="fw-bold fs-6 text-dark">Stage développeur chez Airbus</span>
+          <button type="button"
+                  class="btn btn-outline-danger rounded-circle d-inline-flex justify-content-center align-items-center ms-2"
+                  style="width: 36px; height: 36px;">
+                  <i class="bi bi-heart"></i>
+          </button>
+        </div>
+        <div class="d-flex align-items-center flex-wrap gap-1 mb-3 text-secondary" style="font-size:.82rem;">
+          <span style="color:#e74c3c;">🧿</span> Toulouse ·
+          <span class="badge rounded-pill px-2 py-1"
+                style="background:#f3eaff;color:#7f399d;font-size:.75rem;font-weight:600;">🎓 INSA Toulouse</span>
+          <span class="badge rounded-pill px-2 py-1"
+                style="background:#fce4ec;color:#c2185b;font-size:.78rem;font-weight:600;">Aérospatiale</span>
+        </div>
+        <p class="text-secondary flex-grow-1" style="font-size:.88rem;line-height:1.55;">
+          Leader mondial de l'aéronautique civile et de la défense, innovant sans cesse.
+        </p>
+        <div class="d-flex align-items-center gap-2 mt-auto">
+          <a href="/offre1" class="btn rounded-pill fw-semibold px-4"
+             style="background:#7f399d;color:#fff;font-size:.84rem;
+                    box-shadow:0 3px 10px rgba(127,57,157,.25);text-decoration:none;">
+            Voir les offres
+          </a>
+          <div class="ms-auto rounded-3 d-flex align-items-center justify-content-center fs-5"
+               style="width:56px;height:56px;
+                      background:linear-gradient(135deg,#5b21b6,#a855f7);
+                      box-shadow:-3px -3px 14px rgba(0,0,0,.15);">✈️</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>{# fin #all-cards #}
+
+{# ===== PAGINATION ===== #}
+<div class="d-flex justify-content-center pb-5 px-3">
   <nav>
     <ul class="pagination" id="pagination-controls"></ul>
   </nav>
@@ -221,7 +378,7 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   const CARDS_PER_PAGE = 6;
-  const allCards = document.querySelectorAll('#all-cards .company-card');
+  const allCards = document.querySelectorAll('#all-cards .col');
   const totalPages = Math.ceil(allCards.length / CARDS_PER_PAGE);
   let currentPage = 1;
 
@@ -229,8 +386,8 @@ document.addEventListener('DOMContentLoaded', function () {
     currentPage = page;
     const start = (page - 1) * CARDS_PER_PAGE;
     const end   = start + CARDS_PER_PAGE;
-    allCards.forEach(function (card, i) {
-      card.style.display = (i >= start && i < end) ? '' : 'none';
+    allCards.forEach(function (col, i) {
+      col.style.display = (i >= start && i < end) ? '' : 'none';
     });
     buildPagination();
   }
@@ -242,13 +399,18 @@ document.addEventListener('DOMContentLoaded', function () {
       const li = document.createElement('li');
       li.className = 'page-item' + (i === currentPage ? ' active' : '');
       const a = document.createElement('a');
-      a.className = 'page-link';
+      a.className = 'page-link rounded-2';
       a.href = '#';
       a.textContent = i;
+      if (i === currentPage) {
+        a.style.backgroundColor = '#7f399d';
+        a.style.borderColor = '#7f399d';
+        a.style.color = '#fff';
+      }
       a.addEventListener('click', function (e) {
         e.preventDefault();
         showPage(i);
-        window.scrollTo({ top: document.querySelector('.section-header').offsetTop - 20, behavior: 'smooth' });
+        window.scrollTo({ top: document.querySelector('.text-center.py-5').offsetTop - 20, behavior: 'smooth' });
       });
       li.appendChild(a);
       container.appendChild(li);
