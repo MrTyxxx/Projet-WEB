@@ -27,6 +27,15 @@ class HomeController
         return $response;
     }
 
+    public function pageEntreprise(Request $request, Response $response): Response
+    {
+        $html = $this->twig->render('page_entreprise.html.twig', [
+            'user' => $_SESSION['user'] ?? null,
+        ]);
+        $response->getBody()->write($html);
+        return $response;
+    }
+
     public function mentions(Request $request, Response $response): Response
     {
         $html = $this->twig->render('Mentions.html.twig', [

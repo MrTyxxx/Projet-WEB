@@ -22,6 +22,7 @@ return function (App $app) {
 
     $app->get('/',            [$home,  'index']);
     $app->get('/page_offres', [$home,  'pageOffres']);
+    $app->get('/page_entreprise', [$home,  'pageEntreprise']);
     $app->get('/Mentions',    [$home,  'mentions']);
     $app->get('/Contact',     [$home,  'contact']);
     $app->get('/offre/{id}',  [$offre, 'show']);
