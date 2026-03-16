@@ -1,0 +1,128 @@
+{% extends "monespace.html.twig" %}
+{% block contenu_espace %}
+
+<div class="container-fluid px-4">
+
+  <h4 class="text-center mb-4 fw-bold">Créer le Compte {{ type|capitalize }}</h4>
+
+  <div class="border rounded-3 p-4">
+    <form method="post" action="/espace/{{ type == 'pilote' ? 'pilotes' : 'etudiants' }}/creer">
+
+      <div class="row g-3">
+
+        <!-- Nom + Prénom -->
+        <div class="col-md-6">
+          <label class="form-label small">Nom</label>
+          <input type="text" name="nom" class="form-control" required>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label small">Prénom</label>
+          <input type="text" name="prenom" class="form-control" required>
+        </div>
+
+        {% if type == 'etudiant' %}
+          <!-- Classes + Contact -->
+          <div class="col-md-4">
+            <label class="form-label small">Classes</label>
+            <select name="classe" class="form-select">
+              <option value="">-- Choisir --</option>
+              <option value="A1">A1</option>
+              <option value="A2">A2</option>
+              <option value="A3">A3</option>
+              <option value="A4">A4</option>
+              <option value="A5">A5</option>
+            </select>
+          </div>
+          <div class="col-md-8">
+            <label class="form-label small">Contact</label>
+            <input type="text" name="contact" class="form-control">
+          </div>
+          <!-- Campus -->
+          <div class="col-md-6">
+            <label class="form-label small">Campus</label>
+            <select name="campus" class="form-select">
+              <option value="">-- Choisir --</option>
+              <option value="Reims">Reims</option>
+              <option value="Strasbourg">Strasbourg</option>
+            </select>
+          </div>
+        {% endif %}
+
+        {% if type == 'pilote' %}
+          <!-- Promos + Campus -->
+          <div class="col-md-4">
+            <label class="form-label small">Promo(s) gérée(s)</label>
+            <select name="promos[]" class="form-select" multiple>
+              <option value="A1">A1</option>
+              <option value="A2">A2</option>
+              <option value="A3">A3</option>
+              <option value="A4">A4</option>
+              <option value="A5">A5</option>
+            </select>
+            <div class="form-text small">Ctrl+clic pour sélectionner plusieurs</div>
+          </div>
+          <div class="col-md-8">
+            <label class="form-label small">Campus</label>
+            <select name="campus" class="form-select">
+              <option value="">-- Choisir --</option>
+              <option value="Reims">Reims</option>
+              <option value="Strasbourg">Strasbourg</option>
+            </select>
+          </div>
+          <!-- Contact -->
+          <div class="col-md-6">
+            <label class="form-label small">Contact</label>
+            <input type="text" name="contact" class="form-control">
+          </div>
+        {% endif %}
+
+        <!-- Email -->
+        <div class="col-md-12">
+          <label class="form-label small">Email</label>
+          <input type="email" name="email" class="form-control" required>
+        </div>
+
+        <!-- Mot de passe -->
+        <div class="col-md-12">
+          <label class="form-label small">Mot de passe</label>
+          <div class="position-relative">
+            <input type="password" name="password" id="password" class="form-control pe-5" required>
+            <span id="togglePassword" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); cursor:pointer;">👁️</span>
+          </div>
+        </div>
+
+        <!-- Confirmation -->
+        <div class="col-md-12">
+          <label class="form-label small">Confirmation mot de passe</label>
+          <div class="position-relative">
+            <input type="password" name="password_confirm" id="password_confirm" class="form-control pe-5" required>
+            <span id="toggleConfirm" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); cursor:pointer;">👁️</span>
+          </div>
+        </div>
+
+        <!-- Boutons -->
+        <div class="col-12 d-flex gap-2 mt-2">
+          <button type="submit" class="btn btn-dark">Créer</button>
+          <button type="reset" class="btn btn-outline-secondary">Réinitialiser</button>
+        </div>
+
+      </div>
+    </form>
+  </div>
+
+</div>
+
+<script>
+  document.getElementById('togglePassword').addEventListener('click', function() {
+    const i = document.getElementById('password');
+    this.textContent = i.type === 'password' ? '🙈' : '👁️';
+    i.type = i.type === 'password' ? 'text' : 'password';
+  });
+  document.getElementById('toggleConfirm').addEventListener('click', function() {
+    const i = document.getElementById('password_confirm');
+    this.textContent = i.type === 'password' ? '🙈' : '👁️';
+    i.type = i.type === 'password' ? 'text' : 'password';
+  });
+</script>
+
+{% endblock %}
