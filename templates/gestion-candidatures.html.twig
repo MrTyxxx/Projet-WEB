@@ -1,0 +1,96 @@
+{% extends "monespace.html.twig" %}
+{% block contenu_espace %}
+
+<div class="container-fluid px-2">
+
+  <!-- Filtres -->
+  <div class="d-flex gap-2 mb-3 flex-wrap">
+    <button class="btn btn-dark btn-sm">Toutes les Candidatures</button>
+    <input type="text" class="form-control form-control-sm w-auto" placeholder="Recherche par Noms" id="searchNom">
+    <select class="form-select form-select-sm w-auto" id="filterClasse">
+      <option value="">Classes</option>
+      <option value="A1">A1</option>
+      <option value="A2">A2</option>
+      <option value="A3">A3</option>
+      <option value="A4">A4</option>
+      <option value="A5">A5</option>
+    </select>
+  </div>
+
+  <!-- Tableau -->
+  <div class="border rounded-3 p-3">
+    <table class="table table-bordered table-sm text-center align-middle" id="tableCandidatures">
+      <thead class="table-light">
+        <tr>
+          <th>N°</th>
+          <th>Étudiants</th>
+          <th>Offre</th>
+          <th>Entreprise</th>
+          <th>Date de candidature</th>
+          <th>Campus</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td><td>Martin Lucas</td><td>Stage développeur</td><td>Capgemini</td><td>01/03/2026</td><td>Reims</td>
+          <td>
+            <a href="#" class="btn btn-sm btn-success me-1">Accepter</a>
+            <a href="#" class="btn btn-sm btn-danger">Refuser</a>
+          </td>
+        </tr>
+        <tr>
+          <td>2</td><td>Dubois Emma</td><td>Stage cybersécurité</td><td>Thales</td><td>02/03/2026</td><td>Strasbourg</td>
+          <td>
+            <a href="#" class="btn btn-sm btn-success me-1">Accepter</a>
+            <a href="#" class="btn btn-sm btn-danger">Refuser</a>
+          </td>
+        </tr>
+        <tr>
+          <td>3</td><td>Bernard Noah</td><td>Stage télécoms</td><td>Orange</td><td>03/03/2026</td><td>Reims</td>
+          <td>
+            <a href="#" class="btn btn-sm btn-success me-1">Accepter</a>
+            <a href="#" class="btn btn-sm btn-danger">Refuser</a>
+          </td>
+        </tr>
+        <tr>
+          <td>4</td><td>Petit Léa</td><td>Stage finance</td><td>Société Générale</td><td>04/03/2026</td><td>Strasbourg</td>
+          <td>
+            <a href="#" class="btn btn-sm btn-success me-1">Accepter</a>
+            <a href="#" class="btn btn-sm btn-danger">Refuser</a>
+          </td>
+        </tr>
+        <tr>
+          <td>5</td><td>Moreau Jules</td><td>Stage industrie</td><td>Schneider Electric</td><td>05/03/2026</td><td>Reims</td>
+          <td>
+            <a href="#" class="btn btn-sm btn-success me-1">Accepter</a>
+            <a href="#" class="btn btn-sm btn-danger">Refuser</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="d-flex justify-content-between align-items-center mt-2">
+      <button class="btn btn-outline-secondary btn-sm">Précédent</button>
+      <button class="btn btn-outline-secondary btn-sm">Suivant</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  document.getElementById('searchNom').addEventListener('input', filtrer);
+  document.getElementById('filterClasse').addEventListener('change', filtrer);
+
+  function filtrer() {
+    const nom = document.getElementById('searchNom').value.toLowerCase();
+    const classe = document.getElementById('filterClasse').value;
+    document.querySelectorAll('#tableCandidatures tbody tr').forEach(tr => {
+      const nomCell = tr.cells[1].textContent.toLowerCase();
+      const matchNom = nomCell.includes(nom);
+      tr.style.display = matchNom ? '' : 'none';
+    });
+  }
+</script>
+
+{% endblock %}

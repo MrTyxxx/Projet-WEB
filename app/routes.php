@@ -30,13 +30,22 @@ return function (App $app) {
     $app->post('/Connexion',  [$auth,  'login']);
     $app->get('/logout',      [$auth,  'logout']);
     $app->get('/espace', [$home, 'monEspace']);
-    $app->options('/{routes:.*}', function (Request $request, Response $response) {
-        return $response;
-    });
+ 
     $user = new UserController($twig);
     $app->get('/espace/profil', [$user, 'mesInformations']);
     $app->get('/espace/etudiants', [$user, 'gestionEtudiants']);
     $app->get('/espace/pilotes',        [$user, 'gestionPilotes']);
     $app->get('/espace/pilotes/creer',  [$user, 'creerCompte']);
     $app->get('/espace/etudiants/creer',[$user, 'creerCompte']);
+    $app->get('/espace/candidatures', [$user, 'gestionCandidatures']);
+    $app->get('/espace/entreprises', [$user, 'gestionEntreprises']);
+    $app->get('/espace/offres', [$user, 'gestionOffres']);
+    $app->get('/espace/entreprises/creer', [$user, 'creerEntrepriseForm']);
+    $app->post('/espace/entreprises/creer', [$user, 'creerEntrepriseForm']);
+    $app->get('/espace/offres/creer', [$user, 'creerOffreForm']);
+    $app->post('/espace/offres/creer', [$user, 'creerOffreForm']);
+
+    $app->options('/{routes:.*}', function (Request $request, Response $response) {
+     return $response;
+    });
 };

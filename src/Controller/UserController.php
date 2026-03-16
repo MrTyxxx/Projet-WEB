@@ -68,4 +68,70 @@ class UserController
         $response->getBody()->write($html);
         return $response;
     }
+    public function gestionCandidatures(Request $request, Response $response): Response
+{
+    if (!isset($_SESSION['user'])) {
+        return $response->withHeader('Location', '/Connexion')->withStatus(302);
+    }
+
+    $html = $this->twig->render('gestion-candidatures.html.twig', [
+        'user'   => $_SESSION['user'],
+        'active' => 'candidatures',
+    ]);
+    $response->getBody()->write($html);
+    return $response;
+}
+public function gestionEntreprises(Request $request, Response $response): Response
+{
+    if (!isset($_SESSION['user'])) {
+        return $response->withHeader('Location', '/Connexion')->withStatus(302);
+    }
+
+    $html = $this->twig->render('gestion-entreprises.html.twig', [
+        'user'   => $_SESSION['user'],
+        'active' => 'entreprises',
+    ]);
+    $response->getBody()->write($html);
+    return $response;
+}
+public function gestionOffres(Request $request, Response $response): Response
+{
+    if (!isset($_SESSION['user'])) {
+        return $response->withHeader('Location', '/Connexion')->withStatus(302);
+    }
+
+    $html = $this->twig->render('gestion-offres.html.twig', [
+        'user'   => $_SESSION['user'],
+        'active' => 'offres',
+    ]);
+    $response->getBody()->write($html);
+    return $response;
+}
+public function creerEntrepriseForm(Request $request, Response $response): Response
+{
+    if (!isset($_SESSION['user'])) {
+        return $response->withHeader('Location', '/Connexion')->withStatus(302);
+    }
+
+    $html = $this->twig->render('creer-entreprises.html.twig', [
+        'user'   => $_SESSION['user'],
+        'active' => 'entreprises',
+    ]);
+    $response->getBody()->write($html);
+    return $response;
+}
+
+public function creerOffreForm(Request $request, Response $response): Response
+{
+    if (!isset($_SESSION['user'])) {
+        return $response->withHeader('Location', '/Connexion')->withStatus(302);
+    }
+
+    $html = $this->twig->render('creer-offre.html.twig', [
+        'user'   => $_SESSION['user'],
+        'active' => 'offres',
+    ]);
+    $response->getBody()->write($html);
+    return $response;
+}
 }
