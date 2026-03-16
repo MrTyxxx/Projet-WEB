@@ -1,5 +1,53 @@
 {% extends "base.html.twig" %}
-{% block contenu %}
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit possimus corrupti voluptatem placeat praesentium, veritatis distinctio quos est autem a. Deserunt totam harum corporis optio delectus enim est ipsa architecto!
 
+{% block contenu %}
+<div class="container mt-5">
+
+   <header class="card border-0 shadow-lg mb-5 overflow-hidden">
+    <img src="/images/accueil.png" class="card-img" alt="Fond Sup'Stage">
+    
+    <div class="card-img-overlay d-flex align-items-center justify-content-center">
+        <div class="bg-dark bg-opacity-50 p-5 rounded text-center text-white">
+            <h1 class="display-3 fw-bold">Bienvenue sur Sup'Stage </h1>
+            <p class="lead fs-4">La plateforme n°1 pour trouver ton stage au CESI.</p>
+            <div class="mt-4">
+                <a href="/page_offres" class="btn btn-primary btn-lg px-5 shadow">Parcourir les offres</a>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <section class="mb-5">
+        <h2 class="text-center mb-4">Le site en quelques chiffres 📊</h2>
+        
+        <div id="carouselExmpl" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner bg-dark text-white rounded shadow-sm p-5">
+                
+                <div class="carousel-item active text-center">
+                    <h3 class="display-6 fw-bold">+150 Offres disponibles</h3>
+                    <p class="lead">Trouvez des opportunités partout en France.</p>
+                </div>
+                
+                <div class="carousel-item text-center">
+                    <h3 class="display-6 fw-bold">50 Entreprises partenaires</h3>
+                    <p class="lead">Des entreprises qui font confiance à nos étudiants.</p>
+                </div>
+                
+                <div class="carousel-item text-center">
+                    <h3 class="display-6 fw-bold">90% de réussite</h3>
+                    <p class="lead">D'étudiants satisfaits de leur recherche.</p>
+                </div>
+                
+            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExmpl" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExmpl" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            </button>
+        </div>
+    </section>
+
+</div>
 {% endblock %}

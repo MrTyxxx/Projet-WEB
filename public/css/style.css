@@ -491,3 +491,9 @@
     font-size: 1.7rem;
   }
 }
+.mon-fond-accueil {
+    background-image: url('page acceuil.png'); 
+    background-size: cover;      
+    background-position: center; 
+    min-height: 400px;          
+    color: white;               
