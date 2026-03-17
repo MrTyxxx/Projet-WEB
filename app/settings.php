@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+define('APP_ROOT', __DIR__);
+
 use App\Application\Settings\Settings;
 use App\Application\Settings\SettingsInterface;
 use DI\ContainerBuilder;
