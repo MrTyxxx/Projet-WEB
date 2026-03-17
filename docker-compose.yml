@@ -9,3 +9,23 @@ services:
     environment:
       - APACHE_DOCUMENT_ROOT=/var/www/html/public-----------------
     command: bash -c "sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf && apache2-foreground"
+
+  db:
+    image: mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: toto
+    # (this is just an example, not intended to be a production configuration)
+
+  phpmyadmin:
+      image: phpmyadmin
+      restart: always
+      ports:
+        - 99:80
+      environment:
+        - PMA_HOST=db
+        - PMA_USER=root
+        - PMA_PASSWORD=example

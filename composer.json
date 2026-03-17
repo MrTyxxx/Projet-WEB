@@ -24,10 +24,14 @@
    "require": {
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
+        "doctrine/dbal": "^4.0",
+        "doctrine/orm": "^3.0",
         "monolog/monolog": "^2.8",
         "php-di/php-di": "^7.0",
         "slim/psr7": "^1.5",
         "slim/slim": "^4.10",
+        "symfony/cache": "^8.0",
+        "symfony/var-exporter": "^8.0",
         "twig/twig": "^3.23"
     },
     "require-dev": {
