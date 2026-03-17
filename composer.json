@@ -31,7 +31,7 @@
         "slim/psr7": "^1.5",
         "slim/slim": "^4.10",
         "symfony/cache": "^8.0",
-        "symfony/var-exporter": "^8.0",
+        "symfony/var-exporter": "^7.0",
         "twig/twig": "^3.23"
     },
     "require-dev": {

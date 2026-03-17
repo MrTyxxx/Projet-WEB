@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-define('APP_ROOT', __DIR__);
-
 use App\Application\Settings\Settings;
 use App\Application\Settings\SettingsInterface;
 use DI\ContainerBuilder;
 use Monolog\Logger;
+
+define('APP_ROOT', __DIR__);
 
 return function (ContainerBuilder $containerBuilder) {
 
@@ -23,6 +23,7 @@ return function (ContainerBuilder $containerBuilder) {
                     'path' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../logs/app.log',
                     'level' => Logger::DEBUG,
                 ],
+
                 'doctrine' => [
                     // Enables or disables Doctrine metadata caching
                     // for either performance or convenience during development.
@@ -44,15 +45,15 @@ return function (ContainerBuilder $containerBuilder) {
                     // of valid parameters: https://www.doctrine-project.org/projects/doctrine-dbal/en/current/reference/configuration.html
                     'connection' => [
                         'driver' => 'pdo_mysql',
-                        'host' => 'localhost',
+                        'host' => '127.0.0.1',
                         'port' => 3306,
-                        'dbname' => 'mydb',
-                        'user' => 'user',
-                        'password' => 'secret',
-                        'charset' => 'utf-8'
-                    ],
-                ],
+                        'dbname' => 'toto',
+                        'user' => 'root',
+                        'password' => 'example',
+                        'charset' => 'utf8mb4'
+                    ]
+                ]
             ]);
-        },
+        }
     ]);
 };
