@@ -74,7 +74,12 @@ class UserController
         return $response->withHeader('Location', '/Connexion')->withStatus(302);
     }
 
-    $html = $this->twig->render('gestion-candidatures.html.twig', [
+    $roles = $_SESSION['user']['roles'];
+    $template = in_array('ROLE_ETUDIANT', $roles) 
+        ? 'mes-candidatures.html.twig' 
+        : 'gestion-candidatures.html.twig';
+
+    $html = $this->twig->render($template, [
         'user'   => $_SESSION['user'],
         'active' => 'candidatures',
     ]);
