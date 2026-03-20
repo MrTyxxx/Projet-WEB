@@ -1,0 +1,20 @@
+{% extends "monespace.html.twig" %}
+{% block contenu %}
+<div class="container">
+    <h2 class="mb-4">Offres Enregistrées</h2>
+    {% if offres is empty %}
+        <p>Vous n'avez aucune offre enregistrée.</p>
+    {% else %}
+        <div class="list-group">
+            {% for offre in offres %}
+                <a href="/offre/{{ offre.id }}" class="list-group-item list-group-item-action">
+                    <h5 class="mb-1">{{ offre.titre }}</h5>
+                    <p class="mb-1">{{ offre.entreprise }}</p>
+                    <small>{{ offre.type }} - {{ offre.localisation }}</small>
+                </a>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+

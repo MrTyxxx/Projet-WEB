@@ -11,6 +11,7 @@ use Slim\App;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 use App\Controller\UserController;
+use App\Controller\WishlistController;
 
 return function (App $app) {
     $loader = new FilesystemLoader(__DIR__ . '/../templates');
@@ -44,6 +45,11 @@ return function (App $app) {
     $app->post('/espace/entreprises/creer', [$user, 'creerEntrepriseForm']);
     $app->get('/espace/offres/creer', [$user, 'creerOffreForm']);
     $app->post('/espace/offres/creer', [$user, 'creerOffreForm']);
+
+    $wishlist = new WishlistController();
+    $app->get('/wishlist', [$wishlist, 'wishlist']);
+    
+    
 
     $app->options('/{routes:.*}', function (Request $request, Response $response) {
      return $response;
