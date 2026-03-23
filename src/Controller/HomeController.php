@@ -3,66 +3,55 @@ namespace App\Controller;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Twig\Environment;
+use Slim\Views\Twig;
 
 class HomeController
 {
-    public function __construct(private Environment $twig) {}
-
     public function index(Request $request, Response $response): Response
     {
-        $html = $this->twig->render('acceuil.html.twig', [
+        $view = Twig::fromRequest($request);
+        return $view->render($response, 'acceuil.html.twig', [
             'user' => $_SESSION['user'] ?? null,
         ]);
-        $response->getBody()->write($html);
-        return $response;
     }
 
     public function pageOffres(Request $request, Response $response): Response
     {
-        $html = $this->twig->render('page_offres.html.twig', [
+        $view = Twig::fromRequest($request);
+        return $view->render($response, 'page_offres.html.twig', [
             'user' => $_SESSION['user'] ?? null,
         ]);
-        $response->getBody()->write($html);
-        return $response;
     }
 
     public function pageEntreprise(Request $request, Response $response): Response
     {
-        $html = $this->twig->render('page_entreprise.html.twig', [
+        $view = Twig::fromRequest($request);
+        return $view->render($response, 'page_entreprise.html.twig', [
             'user' => $_SESSION['user'] ?? null,
         ]);
-        $response->getBody()->write($html);
-        return $response;
     }
 
     public function mentions(Request $request, Response $response): Response
     {
-        $html = $this->twig->render('Mentions.html.twig', [
+        $view = Twig::fromRequest($request);
+        return $view->render($response, 'Mentions.html.twig', [
             'user' => $_SESSION['user'] ?? null,
         ]);
-        $response->getBody()->write($html);
-        return $response;
     }
 
     public function contact(Request $request, Response $response): Response
     {
-        $html = $this->twig->render('Contact.html.twig', [
+        $view = Twig::fromRequest($request);
+        return $view->render($response, 'Contact.html.twig', [
             'user' => $_SESSION['user'] ?? null,
         ]);
-        $response->getBody()->write($html);
-        return $response;
-    }
-    public function monEspace(Request $request, Response $response): Response
-{
-    if (!isset($_SESSION['user'])) {
-        return $response->withHeader('Location', '/Connexion')->withStatus(302);
     }
 
-    $html = $this->twig->render('monespace.html.twig', [
-        'user' => $_SESSION['user'],
-    ]);
-    $response->getBody()->write($html);
-    return $response;
-}
+    public function monEspace(Request $request, Response $response): Response
+    {
+        $view = Twig::fromRequest($request);
+        return $view->render($response, 'monespace.html.twig', [
+            'user' => $_SESSION['user'] ?? null,
+        ]);
+    }
 }

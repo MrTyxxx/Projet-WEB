@@ -1,57 +1,51 @@
 <?php
-
 declare(strict_types=1);
 
+use App\Application\Middleware\AuthMiddleware;
 use App\Controller\AuthController;
+use App\Controller\CandidatureController;
+use App\Controller\EntrepriseController;
 use App\Controller\HomeController;
 use App\Controller\OffreController;
+use App\Controller\UserController;
+use App\Controller\WishlistController;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
-use Twig\Environment;
-use Twig\Loader\FilesystemLoader;
-use App\Controller\UserController;
-use App\Controller\WishlistController;
 
 return function (App $app) {
-    $loader = new FilesystemLoader(__DIR__ . '/../templates');
-    $twig   = new Environment($loader);
-
-    $home  = new HomeController($twig);
-    $offre = new OffreController($twig);
-    $auth  = new AuthController($twig);
-
-    $app->get('/',            [$home,  'index']);
-    $app->get('/page_offres', [$home,  'pageOffres']);
-    $app->get('/page_entreprise', [$home,  'pageEntreprise']);
-    $app->get('/Mentions',    [$home,  'mentions']);
-    $app->get('/Contact',     [$home,  'contact']);
-    $app->get('/offre/{id}',  [$offre, 'show']);
-    $app->get('/Connexion',   [$auth,  'showLogin']);
-    $app->post('/Connexion',  [$auth,  'login']);
-    $app->get('/logout',      [$auth,  'logout']);
-    $app->get('/espace', [$home, 'monEspace']);
- 
-    $user = new UserController($twig);
-    $app->get('/espace/profil', [$user, 'mesInformations']);
-    $app->get('/espace/etudiants', [$user, 'gestionEtudiants']);
-    $app->get('/espace/pilotes',        [$user, 'gestionPilotes']);
-    $app->get('/espace/pilotes/creer',  [$user, 'creerCompte']);
-    $app->get('/espace/etudiants/creer',[$user, 'creerCompte']);
-    $app->get('/espace/candidatures', [$user, 'gestionCandidatures']);
-    $app->get('/espace/entreprises', [$user, 'gestionEntreprises']);
-    $app->get('/espace/offres', [$user, 'gestionOffres']);
-    $app->get('/espace/entreprises/creer', [$user, 'creerEntrepriseForm']);
-    $app->post('/espace/entreprises/creer', [$user, 'creerEntrepriseForm']);
-    $app->get('/espace/offres/creer', [$user, 'creerOffreForm']);
-    $app->post('/espace/offres/creer', [$user, 'creerOffreForm']);
-
-    $wishlist = new WishlistController();
-    $app->get('/wishlist', [$wishlist, 'wishlist']);
-    
-    
-
     $app->options('/{routes:.*}', function (Request $request, Response $response) {
-     return $response;
+        return $response;
     });
+
+    // Routes publiques
+    $app->get('/',                [HomeController::class,  'index']);
+    $app->get('/page_offres',     [HomeController::class,  'pageOffres']);
+    $app->get('/page_entreprise', [HomeController::class,  'pageEntreprise']);
+    $app->get('/Mentions',        [HomeController::class,  'mentions']);
+    $app->get('/Contact',         [HomeController::class,  'contact']);
+    $app->get('/offre/{id}',      [OffreController::class, 'show']);
+    $app->get('/Connexion',       [AuthController::class,  'showLogin']);
+    $app->post('/Connexion',      [AuthController::class,  'login']);
+    $app->get('/logout',          [AuthController::class,  'logout']);
+    // Routes protégées
+    $app->group('/espace', function ($group) {
+        $group->get('',                    [HomeController::class,        'monEspace']);
+        $group->get('/profil',             [UserController::class,        'mesInformations']);
+        $group->get('/etudiants',          [UserController::class,        'gestionEtudiants']);
+        $group->get('/etudiants/creer',    [UserController::class,        'creerCompte']);
+        $group->post('/etudiants/creer',   [UserController::class,        'creerCompte']);
+        $group->get('/pilotes',            [UserController::class,        'gestionPilotes']);
+        $group->get('/pilotes/creer',      [UserController::class,        'creerCompte']);
+        $group->post('/pilotes/creer',     [UserController::class,        'creerCompte']);
+        $group->get('/candidatures',       [CandidatureController::class, 'gestionCandidatures']);
+        $group->get('/entreprises',        [EntrepriseController::class,  'gestionEntreprises']);
+        $group->get('/entreprises/creer',  [EntrepriseController::class,  'creerEntrepriseForm']);
+        $group->post('/entreprises/creer', [EntrepriseController::class,  'creerEntrepriseForm']);
+        $group->get('/offres',             [OffreController::class,       'gestionOffres']);
+        $group->get('/offres/creer',       [OffreController::class,       'creerOffreForm']);
+        $group->post('/offres/creer',      [OffreController::class,       'creerOffreForm']);
+    })->add(new AuthMiddleware());
+
+    $app->get('/wishlist', [WishlistController::class, 'wishlist']);
 };

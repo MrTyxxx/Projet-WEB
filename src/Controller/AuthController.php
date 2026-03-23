@@ -3,19 +3,17 @@ namespace App\Controller;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Twig\Environment;
+use Slim\Views\Twig;
 
 class AuthController
 {
-    public function __construct(private Environment $twig) {}
 
     public function showLogin(Request $request, Response $response): Response
     {
-        $html = $this->twig->render('Connexion.html.twig', [
+        $view = Twig ::fromRequest($request);
+        return $view->render($response,'Connexion.html.twig', [
             'user' => $_SESSION['user'] ?? null,
         ]);
-        $response->getBody()->write($html);
-        return $response;
     }
 
     public function login(Request $request, Response $response): Response
@@ -38,13 +36,12 @@ class AuthController
             ];
             return $response->withHeader('Location', '/')->withStatus(302);
         }
-
-        $html = $this->twig->render('Connexion.html.twig', [
+        $view = Twig :: fromRequest($request);
+        return $view->render('Connexion.html.twig', [
             'error' => 'Identifiants incorrects',
             'user'  => null,
         ]);
-        $response->getBody()->write($html);
-        return $response;
+       
     }
 
     public function logout(Request $request, Response $response): Response
@@ -54,3 +51,4 @@ class AuthController
     }
    
 }
+ 
