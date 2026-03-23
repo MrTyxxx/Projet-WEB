@@ -40,48 +40,39 @@
             </ul>
 
             <div class="dropdown">
-              <button class="btn btn-profil dropdown-toggle d-flex align-items-center gap-2"
-                      type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <span class="avatar-circle">👤</span>
-                <span class="polygraphy">
-                  {% if user %}{{ user.email }}{% else %}Mon Profil{% endif %}
-                </span>
-              </button>
+              <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-person-fill"></i> Mon Profil
+               </button>
+  
+               <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2">
+                 <li class="px-3 py-2">
+              <div class="fw-bold text-dark">
+                {% if user %}{{ user.email }}{% else %}Mon Compte{% endif %}
+              </div>
+                 </li>
+    
+                <li><hr class="dropdown-divider"></li>
 
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-fancy">
-                <li class="dropdown-header-block">
-                  <span class="dropdown-user-icon">👤</span>
-                  <div>
-                    <div class="dropdown-user-name polygraphy">
-                      {% if user %}{{ user.email }}{% else %}Mon Compte{% endif %}
-                    </div>
-                    <div class="dropdown-user-sub">Gérer mes informations</div>
-                  </div>
-                </li>
-                <li><hr class="dropdown-divider mx-3 my-1"></li>
-
-                {% if user %}
-                  <li>
-                    <a class="dropdown-item dropdown-item-fancy polygraphy" href="/espace">
-                      <span class="di-icon">👤</span> Mon espace
-                    </a>
-                  </li>
-                  <li><hr class="dropdown-divider mx-3 my-1"></li>
-                  <li>
-                    <a class="dropdown-item dropdown-item-fancy dropdown-item-danger polygraphy" href="/logout">
-                      <span class="di-icon">🚪</span> Déconnexion
-                    </a>
-                  </li>
-                {% else %}
-                  <li>
-                    <a class="dropdown-item dropdown-item-fancy dropdown-item-danger polygraphy" href="/Connexion">
-                      <span class="di-icon">🚪</span> Connexion
-                    </a>
-                  </li>
-                {% endif %}
-
-              </ul>
-            </div>
+             {% if user %}
+                <li>
+        <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="/espace">
+          <i class="bi bi-person-circle text-secondary"></i> Mon espace
+        </a>
+      </li>
+      <li>
+        <a class="dropdown-item d-flex align-items-center gap-2 py-2 text-danger fw-semibold" href="/logout">
+          <i class="bi bi-box-arrow-right"></i> Déconnexion
+        </a>
+      </li>
+    {% else %}
+      <li>
+        <a class="dropdown-item d-flex align-items-center gap-2 py-2 fw-semibold" href="/Connexion">
+          <i class="bi bi-box-arrow-in-right text-primary"></i> Connexion
+        </a>
+      </li>
+    {% endif %}
+  </ul>
+</div>
 
           </div>
         </div>

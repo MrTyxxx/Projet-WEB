@@ -1,443 +1,187 @@
 {% extends "base.html.twig" %}
+
 {% block contenu %}
 
-{# ===== HERO ===== #}
-<section style="background: linear-gradient(135deg, #f8f0ff 0%, #ede4f7 100%);"
-         class="py-5 text-center px-3">
-  <h1 class="fw-bold fs-2 text-dark mb-2">Les entreprises partenaires</h1>
-  <p class="text-secondary mb-4">Explore les entreprises qui recrutent et trouve celle qui te correspond</p>
-  <div class="d-flex flex-wrap gap-2 justify-content-center mx-auto" style="max-width:720px;">
-    <input type="text" placeholder="Nom d'entreprise"
-           class="form-control rounded-3 flex-grow-1"
-           style="max-width:220px; border:1.5px solid #ddd;" />
-    <input type="text" placeholder="Secteur"
-           class="form-control rounded-3 flex-grow-1"
-           style="max-width:220px; border:1.5px solid #ddd;" />
-    <button class="btn rounded-3 fw-semibold px-4"
-            style="background:#7f399d; color:#fff; box-shadow:0 4px 14px rgba(127,57,157,.3);">
-      Rechercher
-    </button>
+<section class="bg-light py-5 text-center px-3">
+  <div class="container col-lg-8">
+    <h1 class="fw-bold fs-2 text-dark mb-3">Les entreprises partenaires</h1>
+    <p class="text-secondary mb-4">Explorez les entreprises qui recrutent et trouvez celle qui vous correspond</p>
+    
+    <form class="row g-2 justify-content-center">
+      <div class="col-md-5">
+        <input type="text" placeholder="Nom d'entreprise" class="form-control">
+      </div>
+      <div class="col-md-4">
+        <input type="text" placeholder="Secteur" class="form-control">
+      </div>
+      <div class="col-md-3 d-grid">
+        <button type="submit" class="btn btn-primary fw-semibold">Rechercher</button>
+      </div>
+    </form>
   </div>
 </section>
 
-{# ===== SECTION HEADER ===== #}
-<div class="text-center py-5 pb-3 px-3">
-  <h2 class="fw-bold fs-4 text-dark mb-1"
-      style="text-shadow:2px 2px 4px rgba(0,0,0,.3);">Entreprises disponibles</h2>
-  <p class="text-secondary"
-     style="text-shadow:2px 2px 4px rgba(0,0,0,.3);">
-    Découvre les entreprises partenaires et leurs opportunités de stage
+<div class="container text-center py-5 pb-4">
+  <h2 class="fw-bold fs-4 text-dark mb-2">Entreprises disponibles</h2>
+  <p class="text-secondary">
+    Découvrez les entreprises partenaires et leurs opportunités de stage
   </p>
 </div>
 
-{# ===== LISTE ENTREPRISES ===== #}
-<div class="d-flex flex-column gap-4 px-4 px-md-5 mb-5 mx-auto" style="max-width:860px;" id="all-cards">
+<div class="container mb-5 col-lg-9">
+  <div class="d-flex flex-column gap-3">
 
-  {# ---------- Capgemini ---------- #}
-  <div class="card border-0 rounded-4 overflow-hidden"
-       style="border:5px solid #3b0764 !important;
-              box-shadow:0 4px 20px rgba(0,0,0,.55);
-              transition:transform .2s, box-shadow .2s;"
-       onmouseenter="this.style.transform='translateY(-3px)';this.style.boxShadow='0 10px 32px rgba(0,0,0,.9)'"
-       onmouseleave="this.style.transform='';this.style.boxShadow='0 4px 20px rgba(0,0,0,.55)'">
-    <div class="card-body d-flex align-items-center gap-4 py-4 px-4">
-
-      {# Icône #}
-      <div class="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0"
-           style="width:72px;height:72px;font-size:2rem;
-                  background:linear-gradient(135deg,#3b0764,#7c3aed);
-                  box-shadow:0 4px 14px rgba(59,7,100,.35);">💠</div>
-
-      {# Infos principales #}
-      <div class="flex-grow-1 min-width-0">
-        <div class="d-flex align-items-center flex-wrap gap-2 mb-1">
-          <span class="fw-bold fs-5 text-dark">Capgemini</span>
-          <span class="badge rounded-pill px-2 py-1"
-                style="background:#e8f0ff;color:#2563eb;font-size:.75rem;font-weight:600;">Conseil &amp; IT</span>
+    <div class="card shadow-sm border-0">
+      <div class="card-body d-flex flex-column flex-md-row align-items-center gap-4 p-4">
+        <div class="display-6 fw-bold text-primary bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 4.5rem; height: 4.5rem;">
+          CG
         </div>
-        <div class="d-flex align-items-center flex-wrap gap-2 mb-2" style="font-size:.82rem;color:#777;">
-          <span>📍 Paris, France</span>
-          <span>·</span>
-          <span>👥 +300 000 employés</span>
-          <span>·</span>
-          <span class="badge rounded-pill px-2 py-1"
-                style="background:#f3eaff;color:#7f399d;font-size:.75rem;font-weight:600;">🎓 Paris-Saclay</span>
+        <div class="flex-grow-1 text-center text-md-start">
+          <h5 class="fw-bold mb-1">Capgemini <span class="badge text-bg-primary ms-2 align-middle small">Conseil & IT</span></h5>
+          <p class="text-muted small mb-2">
+            <i class="bi bi-geo-alt-fill text-secondary"></i> Paris, France &bull; 
+            <i class="bi bi-people-fill text-secondary"></i> +300 000 collaborateurs &bull; 
+            <span class="badge text-bg-light border"><i class="bi bi-mortarboard-fill text-secondary"></i> Paris-Saclay</span>
+          </p>
+          <div class="text-warning small">
+            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i>
+            <span class="text-dark fw-bold ms-1">4.1</span> <span class="text-muted">(284 avis)</span>
+          </div>
         </div>
-        {# Étoiles #}
-        <div class="d-flex align-items-center gap-1">
-          <span style="color:#f5a623;font-size:.9rem;">★★★★</span><span style="color:#e0e0e0;font-size:.9rem;">★</span>
-          <span class="fw-bold ms-1" style="font-size:.82rem;color:#888;">4.1</span>
-          <span style="font-size:.78rem;color:#aaa;">(284 avis)</span>
+        <div class="flex-shrink-0 mt-3 mt-md-0">
+          <a href="#" class="btn btn-outline-primary rounded-pill px-4">Voir plus d'infos</a>
         </div>
-      </div>
-
-      {# Bouton #}
-      <div class="flex-shrink-0">
-        <a href="#" class="btn rounded-pill fw-semibold px-4"
-           style="background:#7f399d;color:#fff;font-size:.84rem;
-                  box-shadow:0 3px 10px rgba(127,57,157,.25);
-                  white-space:nowrap;text-decoration:none;">
-          Voir plus d'infos
-        </a>
-      </div>
-
-    </div>
-  </div>
-
-  {# ---------- Thales ---------- #}
-  <div class="card border-0 rounded-4 overflow-hidden"
-       style="border:5px solid #5b21b6 !important;
-              box-shadow:0 4px 20px rgba(0,0,0,.55);
-              transition:transform .2s, box-shadow .2s;"
-       onmouseenter="this.style.transform='translateY(-3px)';this.style.boxShadow='0 10px 32px rgba(0,0,0,.9)'"
-       onmouseleave="this.style.transform='';this.style.boxShadow='0 4px 20px rgba(0,0,0,.55)'">
-    <div class="card-body d-flex align-items-center gap-4 py-4 px-4">
-      <div class="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0"
-           style="width:72px;height:72px;font-size:2rem;
-                  background:linear-gradient(135deg,#5b21b6,#a855f7);
-                  box-shadow:0 4px 14px rgba(91,33,182,.35);">🔐</div>
-      <div class="flex-grow-1 min-width-0">
-        <div class="d-flex align-items-center flex-wrap gap-2 mb-1">
-          <span class="fw-bold fs-5 text-dark">Thales</span>
-          <span class="badge rounded-pill px-2 py-1"
-                style="background:#fff3e0;color:#e65c00;font-size:.75rem;font-weight:600;">Cybersécurité</span>
-        </div>
-        <div class="d-flex align-items-center flex-wrap gap-2 mb-2" style="font-size:.82rem;color:#777;">
-          <span>📍 Toulouse, France</span>
-          <span>·</span>
-          <span>👥 +81 000 employés</span>
-          <span>·</span>
-          <span class="badge rounded-pill px-2 py-1"
-                style="background:#f3eaff;color:#7f399d;font-size:.75rem;font-weight:600;">🎓 ISAE-SUPAERO</span>
-        </div>
-        <div class="d-flex align-items-center gap-1">
-          <span style="color:#f5a623;font-size:.9rem;">★★★★</span><span style="color:#e0e0e0;font-size:.9rem;">★</span>
-          <span class="fw-bold ms-1" style="font-size:.82rem;color:#888;">4.3</span>
-          <span style="font-size:.78rem;color:#aaa;">(512 avis)</span>
-        </div>
-      </div>
-      <div class="flex-shrink-0">
-        <a href="#" class="btn rounded-pill fw-semibold px-4"
-           style="background:#7f399d;color:#fff;font-size:.84rem;
-                  box-shadow:0 3px 10px rgba(127,57,157,.25);
-                  white-space:nowrap;text-decoration:none;">
-          Voir plus d'infos
-        </a>
       </div>
     </div>
-  </div>
 
-  {# ---------- Orange ---------- #}
-  <div class="card border-0 rounded-4 overflow-hidden"
-       style="border:5px solid #7e22ce !important;
-              box-shadow:0 4px 20px rgba(0,0,0,.55);
-              transition:transform .2s, box-shadow .2s;"
-       onmouseenter="this.style.transform='translateY(-3px)';this.style.boxShadow='0 10px 32px rgba(0,0,0,.9)'"
-       onmouseleave="this.style.transform='';this.style.boxShadow='0 4px 20px rgba(0,0,0,.55)'">
-    <div class="card-body d-flex align-items-center gap-4 py-4 px-4">
-      <div class="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0"
-           style="width:72px;height:72px;font-size:2rem;
-                  background:linear-gradient(135deg,#7e22ce,#c084fc);
-                  box-shadow:0 4px 14px rgba(126,34,206,.35);">📡</div>
-      <div class="flex-grow-1 min-width-0">
-        <div class="d-flex align-items-center flex-wrap gap-2 mb-1">
-          <span class="fw-bold fs-5 text-dark">Orange</span>
-          <span class="badge rounded-pill px-2 py-1"
-                style="background:#e0f7fa;color:#00838f;font-size:.75rem;font-weight:600;">Télécoms</span>
+    <div class="card shadow-sm border-0">
+      <div class="card-body d-flex flex-column flex-md-row align-items-center gap-4 p-4">
+        <div class="display-6 fw-bold text-success bg-success bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 4.5rem; height: 4.5rem;">
+          CA
         </div>
-        <div class="d-flex align-items-center flex-wrap gap-2 mb-2" style="font-size:.82rem;color:#777;">
-          <span>📍 Nancy, France</span>
-          <span>·</span>
-          <span>👥 +140 000 employés</span>
-          <span>·</span>
-          <span class="badge rounded-pill px-2 py-1"
-                style="background:#f3eaff;color:#7f399d;font-size:.75rem;font-weight:600;">🎓 Univ. de Lorraine</span>
+        <div class="flex-grow-1 text-center text-md-start">
+          <h5 class="fw-bold mb-1">Crédit Agricole <span class="badge text-bg-success ms-2 align-middle small">Banque & Assurance</span></h5>
+          <p class="text-muted small mb-2">
+            <i class="bi bi-geo-alt-fill text-secondary"></i> Montrouge, France &bull; 
+            <i class="bi bi-people-fill text-secondary"></i> +140 000 collaborateurs &bull; 
+            <span class="badge text-bg-light border"><i class="bi bi-mortarboard-fill text-secondary"></i> Paris Dauphine</span>
+          </p>
+          <div class="text-warning small">
+            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
+            <span class="text-dark fw-bold ms-1">4.3</span> <span class="text-muted">(512 avis)</span>
+          </div>
         </div>
-        <div class="d-flex align-items-center gap-1">
-          <span style="color:#f5a623;font-size:.9rem;">★★★</span><span style="color:#e0e0e0;font-size:.9rem;">★★</span>
-          <span class="fw-bold ms-1" style="font-size:.82rem;color:#888;">3.8</span>
-          <span style="font-size:.78rem;color:#aaa;">(197 avis)</span>
+        <div class="flex-shrink-0 mt-3 mt-md-0">
+          <a href="#" class="btn btn-outline-primary rounded-pill px-4">Voir plus d'infos</a>
         </div>
-      </div>
-      <div class="flex-shrink-0">
-        <a href="#" class="btn rounded-pill fw-semibold px-4"
-           style="background:#7f399d;color:#fff;font-size:.84rem;
-                  box-shadow:0 3px 10px rgba(127,57,157,.25);
-                  white-space:nowrap;text-decoration:none;">
-          Voir plus d'infos
-        </a>
       </div>
     </div>
-  </div>
 
-  {# ---------- Société Générale ---------- #}
-  <div class="card border-0 rounded-4 overflow-hidden"
-       style="border:5px solid #9333ea !important;
-              box-shadow:0 4px 20px rgba(0,0,0,.55);
-              transition:transform .2s, box-shadow .2s;"
-       onmouseenter="this.style.transform='translateY(-3px)';this.style.boxShadow='0 10px 32px rgba(0,0,0,.9)'"
-       onmouseleave="this.style.transform='';this.style.boxShadow='0 4px 20px rgba(0,0,0,.55)'">
-    <div class="card-body d-flex align-items-center gap-4 py-4 px-4">
-      <div class="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0"
-           style="width:72px;height:72px;font-size:2rem;
-                  background:linear-gradient(135deg,#9333ea,#d946ef);
-                  box-shadow:0 4px 14px rgba(147,51,234,.35);">🏦</div>
-      <div class="flex-grow-1 min-width-0">
-        <div class="d-flex align-items-center flex-wrap gap-2 mb-1">
-          <span class="fw-bold fs-5 text-dark">Société Générale</span>
-          <span class="badge rounded-pill px-2 py-1"
-                style="background:#e8f5e9;color:#2e7d32;font-size:.75rem;font-weight:600;">Finance</span>
+    <div class="card shadow-sm border-0">
+      <div class="card-body d-flex flex-column flex-md-row align-items-center gap-4 p-4">
+        <div class="display-6 fw-bold text-dark bg-warning bg-opacity-25 rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 4.5rem; height: 4.5rem;">
+          O
         </div>
-        <div class="d-flex align-items-center flex-wrap gap-2 mb-2" style="font-size:.82rem;color:#777;">
-          <span>📍 Paris, France</span>
-          <span>·</span>
-          <span>👥 +117 000 employés</span>
-          <span>·</span>
-          <span class="badge rounded-pill px-2 py-1"
-                style="background:#f3eaff;color:#7f399d;font-size:.75rem;font-weight:600;">🎓 HEC Paris</span>
+        <div class="flex-grow-1 text-center text-md-start">
+          <h5 class="fw-bold mb-1">Orange <span class="badge text-bg-warning ms-2 align-middle small">Télécoms</span></h5>
+          <p class="text-muted small mb-2">
+            <i class="bi bi-geo-alt-fill text-secondary"></i> Nancy, France &bull; 
+            <i class="bi bi-people-fill text-secondary"></i> +140 000 collaborateurs &bull; 
+            <span class="badge text-bg-light border"><i class="bi bi-mortarboard-fill text-secondary"></i> Univ. de Lorraine</span>
+          </p>
+          <div class="text-warning small">
+            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i><i class="bi bi-star"></i>
+            <span class="text-dark fw-bold ms-1">3.8</span> <span class="text-muted">(197 avis)</span>
+          </div>
         </div>
-        <div class="d-flex align-items-center gap-1">
-          <span style="color:#f5a623;font-size:.9rem;">★★★★</span><span style="color:#e0e0e0;font-size:.9rem;">★</span>
-          <span class="fw-bold ms-1" style="font-size:.82rem;color:#888;">4.0</span>
-          <span style="font-size:.78rem;color:#aaa;">(341 avis)</span>
+        <div class="flex-shrink-0 mt-3 mt-md-0">
+          <a href="#" class="btn btn-outline-primary rounded-pill px-4">Voir plus d'infos</a>
         </div>
-      </div>
-      <div class="flex-shrink-0">
-        <a href="#" class="btn rounded-pill fw-semibold px-4"
-           style="background:#7f399d;color:#fff;font-size:.84rem;
-                  box-shadow:0 3px 10px rgba(127,57,157,.25);
-                  white-space:nowrap;text-decoration:none;">
-          Voir plus d'infos
-        </a>
       </div>
     </div>
-  </div>
 
-  {# ---------- Schneider Electric ---------- #}
-  <div class="card border-0 rounded-4 overflow-hidden"
-       style="border:5px solid #a21caf !important;
-              box-shadow:0 4px 20px rgba(0,0,0,.55);
-              transition:transform .2s, box-shadow .2s;"
-       onmouseenter="this.style.transform='translateY(-3px)';this.style.boxShadow='0 10px 32px rgba(0,0,0,.9)'"
-       onmouseleave="this.style.transform='';this.style.boxShadow='0 4px 20px rgba(0,0,0,.55)'">
-    <div class="card-body d-flex align-items-center gap-4 py-4 px-4">
-      <div class="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0"
-           style="width:72px;height:72px;font-size:2rem;
-                  background:linear-gradient(135deg,#a21caf,#e879f9);
-                  box-shadow:0 4px 14px rgba(162,28,175,.35);">⚡</div>
-      <div class="flex-grow-1 min-width-0">
-        <div class="d-flex align-items-center flex-wrap gap-2 mb-1">
-          <span class="fw-bold fs-5 text-dark">Schneider Electric</span>
-          <span class="badge rounded-pill px-2 py-1"
-                style="background:#fce4ec;color:#c2185b;font-size:.75rem;font-weight:600;">Industrie</span>
+    <div class="card shadow-sm border-0">
+      <div class="card-body d-flex flex-column flex-md-row align-items-center gap-4 p-4">
+        <div class="display-6 fw-bold text-danger bg-danger bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 4.5rem; height: 4.5rem;">
+          SG
         </div>
-        <div class="d-flex align-items-center flex-wrap gap-2 mb-2" style="font-size:.82rem;color:#777;">
-          <span>📍 Grenoble, France</span>
-          <span>·</span>
-          <span>👥 +135 000 employés</span>
-          <span>·</span>
-          <span class="badge rounded-pill px-2 py-1"
-                style="background:#f3eaff;color:#7f399d;font-size:.75rem;font-weight:600;">🎓 Grenoble INP</span>
+        <div class="flex-grow-1 text-center text-md-start">
+          <h5 class="fw-bold mb-1">Société Générale <span class="badge text-bg-danger ms-2 align-middle small">Finance</span></h5>
+          <p class="text-muted small mb-2">
+            <i class="bi bi-geo-alt-fill text-secondary"></i> Paris, France &bull; 
+            <i class="bi bi-people-fill text-secondary"></i> +117 000 collaborateurs &bull; 
+            <span class="badge text-bg-light border"><i class="bi bi-mortarboard-fill text-secondary"></i> HEC Paris</span>
+          </p>
+          <div class="text-warning small">
+            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i>
+            <span class="text-dark fw-bold ms-1">4.0</span> <span class="text-muted">(341 avis)</span>
+          </div>
         </div>
-        <div class="d-flex align-items-center gap-1">
-          <span style="color:#f5a623;font-size:.9rem;">★★★★★</span>
-          <span class="fw-bold ms-1" style="font-size:.82rem;color:#888;">4.6</span>
-          <span style="font-size:.78rem;color:#aaa;">(428 avis)</span>
+        <div class="flex-shrink-0 mt-3 mt-md-0">
+          <a href="#" class="btn btn-outline-primary rounded-pill px-4">Voir plus d'infos</a>
         </div>
-      </div>
-      <div class="flex-shrink-0">
-        <a href="#" class="btn rounded-pill fw-semibold px-4"
-           style="background:#7f399d;color:#fff;font-size:.84rem;
-                  box-shadow:0 3px 10px rgba(127,57,157,.25);
-                  white-space:nowrap;text-decoration:none;">
-          Voir plus d'infos
-        </a>
       </div>
     </div>
-  </div>
 
-  {# ---------- Doctolib ---------- #}
-  <div class="card border-0 rounded-4 overflow-hidden"
-       style="border:5px solid #be185d !important;
-              box-shadow:0 4px 20px rgba(0,0,0,.55);
-              transition:transform .2s, box-shadow .2s;"
-       onmouseenter="this.style.transform='translateY(-3px)';this.style.boxShadow='0 10px 32px rgba(0,0,0,.9)'"
-       onmouseleave="this.style.transform='';this.style.boxShadow='0 4px 20px rgba(0,0,0,.55)'">
-    <div class="card-body d-flex align-items-center gap-4 py-4 px-4">
-      <div class="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0"
-           style="width:72px;height:72px;font-size:2rem;
-                  background:linear-gradient(135deg,#be185d,#f472b6);
-                  box-shadow:0 4px 14px rgba(190,24,93,.35);">🏥</div>
-      <div class="flex-grow-1 min-width-0">
-        <div class="d-flex align-items-center flex-wrap gap-2 mb-1">
-          <span class="fw-bold fs-5 text-dark">Doctolib</span>
-          <span class="badge rounded-pill px-2 py-1"
-                style="background:#e8f5e9;color:#1b5e20;font-size:.75rem;font-weight:600;">Santé &amp; Tech</span>
+    <div class="card shadow-sm border-0">
+      <div class="card-body d-flex flex-column flex-md-row align-items-center gap-4 p-4">
+        <div class="display-6 fw-bold text-dark bg-dark bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 4.5rem; height: 4.5rem;">
+          L
         </div>
-        <div class="d-flex align-items-center flex-wrap gap-2 mb-2" style="font-size:.82rem;color:#777;">
-          <span>📍 Paris, France</span>
-          <span>·</span>
-          <span>👥 +2 800 employés</span>
-          <span>·</span>
-          <span class="badge rounded-pill px-2 py-1"
-                style="background:#f3eaff;color:#7f399d;font-size:.75rem;font-weight:600;">🎓 Paris Cité</span>
+        <div class="flex-grow-1 text-center text-md-start">
+          <h5 class="fw-bold mb-1">Latitude <span class="badge text-bg-dark ms-2 align-middle small">Aérospatial</span></h5>
+          <p class="text-muted small mb-2">
+            <i class="bi bi-geo-alt-fill text-secondary"></i> Reims, France &bull; 
+            <i class="bi bi-people-fill text-secondary"></i> +100 collaborateurs &bull; 
+            <span class="badge text-bg-light border"><i class="bi bi-mortarboard-fill text-secondary"></i> CESI</span>
+          </p>
+          <div class="text-warning small">
+            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
+            <span class="text-dark fw-bold ms-1">4.6</span> <span class="text-muted">(128 avis)</span>
+          </div>
         </div>
-        <div class="d-flex align-items-center gap-1">
-          <span style="color:#f5a623;font-size:.9rem;">★★★★</span><span style="color:#e0e0e0;font-size:.9rem;">★</span>
-          <span class="fw-bold ms-1" style="font-size:.82rem;color:#888;">4.4</span>
-          <span style="font-size:.78rem;color:#aaa;">(163 avis)</span>
+        <div class="flex-shrink-0 mt-3 mt-md-0">
+          <a href="#" class="btn btn-outline-primary rounded-pill px-4">Voir plus d'infos</a>
         </div>
-      </div>
-      <div class="flex-shrink-0">
-        <a href="#" class="btn rounded-pill fw-semibold px-4"
-           style="background:#7f399d;color:#fff;font-size:.84rem;
-                  box-shadow:0 3px 10px rgba(127,57,157,.25);
-                  white-space:nowrap;text-decoration:none;">
-          Voir plus d'infos
-        </a>
       </div>
     </div>
-  </div>
 
-  {# ---------- BNP Paribas ---------- #}
-  <div class="card border-0 rounded-4 overflow-hidden"
-       style="border:5px solid #3b0764 !important;
-              box-shadow:0 4px 20px rgba(0,0,0,.55);
-              transition:transform .2s, box-shadow .2s;"
-       onmouseenter="this.style.transform='translateY(-3px)';this.style.boxShadow='0 10px 32px rgba(0,0,0,.9)'"
-       onmouseleave="this.style.transform='';this.style.boxShadow='0 4px 20px rgba(0,0,0,.55)'">
-    <div class="card-body d-flex align-items-center gap-4 py-4 px-4">
-      <div class="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0"
-           style="width:72px;height:72px;font-size:2rem;
-                  background:linear-gradient(135deg,#3b0764,#7c3aed);
-                  box-shadow:0 4px 14px rgba(59,7,100,.35);">💳</div>
-      <div class="flex-grow-1 min-width-0">
-        <div class="d-flex align-items-center flex-wrap gap-2 mb-1">
-          <span class="fw-bold fs-5 text-dark">BNP Paribas</span>
-          <span class="badge rounded-pill px-2 py-1"
-                style="background:#e8f5e9;color:#2e7d32;font-size:.75rem;font-weight:600;">Finance</span>
+    <div class="card shadow-sm border-0">
+      <div class="card-body d-flex flex-column flex-md-row align-items-center gap-4 p-4">
+        <div class="display-6 fw-bold text-info bg-info bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 4.5rem; height: 4.5rem;">
+          D
         </div>
-        <div class="d-flex align-items-center flex-wrap gap-2 mb-2" style="font-size:.82rem;color:#777;">
-          <span>📍 Paris, France</span>
-          <span>·</span>
-          <span>👥 +190 000 employés</span>
-          <span>·</span>
-          <span class="badge rounded-pill px-2 py-1"
-                style="background:#f3eaff;color:#7f399d;font-size:.75rem;font-weight:600;">🎓 ESSEC</span>
+        <div class="flex-grow-1 text-center text-md-start">
+          <h5 class="fw-bold mb-1">Doctolib <span class="badge text-bg-info text-white ms-2 align-middle small">Santé & Tech</span></h5>
+          <p class="text-muted small mb-2">
+            <i class="bi bi-geo-alt-fill text-secondary"></i> Paris, France &bull; 
+            <i class="bi bi-people-fill text-secondary"></i> +2 800 collaborateurs &bull; 
+            <span class="badge text-bg-light border"><i class="bi bi-mortarboard-fill text-secondary"></i> Paris Cité</span>
+          </p>
+          <div class="text-warning small">
+            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
+            <span class="text-dark fw-bold ms-1">4.4</span> <span class="text-muted">(163 avis)</span>
+          </div>
         </div>
-        <div class="d-flex align-items-center gap-1">
-          <span style="color:#f5a623;font-size:.9rem;">★★★★</span><span style="color:#e0e0e0;font-size:.9rem;">★</span>
-          <span class="fw-bold ms-1" style="font-size:.82rem;color:#888;">4.2</span>
-          <span style="font-size:.78rem;color:#aaa;">(605 avis)</span>
+        <div class="flex-shrink-0 mt-3 mt-md-0">
+          <a href="#" class="btn btn-outline-primary rounded-pill px-4">Voir plus d'infos</a>
         </div>
-      </div>
-      <div class="flex-shrink-0">
-        <a href="#" class="btn rounded-pill fw-semibold px-4"
-           style="background:#7f399d;color:#fff;font-size:.84rem;
-                  box-shadow:0 3px 10px rgba(127,57,157,.25);
-                  white-space:nowrap;text-decoration:none;">
-          Voir plus d'infos
-        </a>
       </div>
     </div>
+
   </div>
-
-  {# ---------- Airbus ---------- #}
-  <div class="card border-0 rounded-4 overflow-hidden"
-       style="border:5px solid #5b21b6 !important;
-              box-shadow:0 4px 20px rgba(0,0,0,.55);
-              transition:transform .2s, box-shadow .2s;"
-       onmouseenter="this.style.transform='translateY(-3px)';this.style.boxShadow='0 10px 32px rgba(0,0,0,.9)'"
-       onmouseleave="this.style.transform='';this.style.boxShadow='0 4px 20px rgba(0,0,0,.55)'">
-    <div class="card-body d-flex align-items-center gap-4 py-4 px-4">
-      <div class="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0"
-           style="width:72px;height:72px;font-size:2rem;
-                  background:linear-gradient(135deg,#5b21b6,#a855f7);
-                  box-shadow:0 4px 14px rgba(91,33,182,.35);">✈️</div>
-      <div class="flex-grow-1 min-width-0">
-        <div class="d-flex align-items-center flex-wrap gap-2 mb-1">
-          <span class="fw-bold fs-5 text-dark">Airbus</span>
-          <span class="badge rounded-pill px-2 py-1"
-                style="background:#fce4ec;color:#c2185b;font-size:.75rem;font-weight:600;">Aérospatiale</span>
-        </div>
-        <div class="d-flex align-items-center flex-wrap gap-2 mb-2" style="font-size:.82rem;color:#777;">
-          <span>📍 Toulouse, France</span>
-          <span>·</span>
-          <span>👥 +134 000 employés</span>
-          <span>·</span>
-          <span class="badge rounded-pill px-2 py-1"
-                style="background:#f3eaff;color:#7f399d;font-size:.75rem;font-weight:600;">🎓 INSA Toulouse</span>
-        </div>
-        <div class="d-flex align-items-center gap-1">
-          <span style="color:#f5a623;font-size:.9rem;">★★★★★</span>
-          <span class="fw-bold ms-1" style="font-size:.82rem;color:#888;">4.7</span>
-          <span style="font-size:.78rem;color:#aaa;">(892 avis)</span>
-        </div>
-      </div>
-      <div class="flex-shrink-0">
-        <a href="#" class="btn rounded-pill fw-semibold px-4"
-           style="background:#7f399d;color:#fff;font-size:.84rem;
-                  box-shadow:0 3px 10px rgba(127,57,157,.25);
-                  white-space:nowrap;text-decoration:none;">
-          Voir plus d'infos
-        </a>
-      </div>
-    </div>
-  </div>
-
-</div>{# fin #all-cards #}
-
-{# ===== PAGINATION ===== #}
-<div class="d-flex justify-content-center pb-5 px-3">
-  <nav>
-    <ul class="pagination" id="pagination-controls"></ul>
-  </nav>
 </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  const CARDS_PER_PAGE = 5;
-  const allCards = document.querySelectorAll('#all-cards .card');
-  const totalPages = Math.ceil(allCards.length / CARDS_PER_PAGE);
-  let currentPage = 1;
-
-  function showPage(page) {
-    currentPage = page;
-    const start = (page - 1) * CARDS_PER_PAGE;
-    const end   = start + CARDS_PER_PAGE;
-    allCards.forEach(function (card, i) {
-      card.style.display = (i >= start && i < end) ? '' : 'none';
-    });
-    buildPagination();
-  }
-
-  function buildPagination() {
-    const container = document.getElementById('pagination-controls');
-    container.innerHTML = '';
-    for (let i = 1; i <= totalPages; i++) {
-      const li = document.createElement('li');
-      li.className = 'page-item' + (i === currentPage ? ' active' : '');
-      const a = document.createElement('a');
-      a.className = 'page-link rounded-2';
-      a.href = '#';
-      a.textContent = i;
-      if (i === currentPage) {
-        a.style.backgroundColor = '#7f399d';
-        a.style.borderColor     = '#7f399d';
-        a.style.color           = '#fff';
-      }
-      a.addEventListener('click', function (e) {
-        e.preventDefault();
-        showPage(i);
-        window.scrollTo({ top: document.querySelector('.text-center.py-5').offsetTop - 20, behavior: 'smooth' });
-      });
-      li.appendChild(a);
-      container.appendChild(li);
-    }
-  }
-
-  showPage(1);
-});
-</script>
+<div class="container d-flex justify-content-center pb-5">
+  <nav aria-label="Pagination des entreprises">
+    <ul class="pagination">
+      <li class="page-item disabled"><a class="page-link" href="#">Précédent</a></li>
+      <li class="page-item active"><a class="page-link" href="#">1</a></li>
+      <li class="page-item"><a class="page-link" href="#">2</a></li>
+      <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <li class="page-item"><a class="page-link" href="#">Suivant</a></li>
+    </ul>
+  </nav>
+</div>
 
 {% endblock %}
