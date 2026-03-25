@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
 
-#[Entity, Table(name: 'Utilisateur')]
+#[Entity, Table(name: 'Utilisateurs')]
 class Utilisateur {
     #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
     private int $id_utilisateur;
@@ -17,7 +17,7 @@ class Utilisateur {
     private string $nom;
     #[Column(type: 'string', nullable: false)]
     private string $prenom;
-     #[Column(type: 'string', nullable: false)]
+     #[Column(type: 'string', nullable: false ,unique : true)]
     private string $email;
      #[Column(type: 'string', nullable: false)]
     private string $motdepasse;
@@ -27,6 +27,7 @@ class Utilisateur {
         $this->prenom = $prenom;
         $this->email = $email;
         $this->motdepasse = password_hash($motdepasse, PASSWORD_BCRYPT);
+        $this->role = $role;
 
     }
 

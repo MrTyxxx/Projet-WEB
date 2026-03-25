@@ -1,22 +1,29 @@
 <?php
 
-namespace App\Model;
+namespace App\Domain;
+// importation 
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use \DateTimeImmutable;
 
 #[Entity, Table(name: 'offrestages')]
-class Entreprise {
+class Offrestage {
    #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
     private int $id;
-   #[Column(name : 'titre_offre',type: 'string', nullabse : false)]
+   #[Column(name : 'titre_offre',type: 'string', nullable : false)]
    private string $titre;
-   #[Column(name : 'description',type: 'string', nullabse : false)]
+   #[Column(name : 'description',type: 'string', nullable : false)]
    private ?string $description;
-   #[Column(name : 'remuneration ',type: 'float', nullabse : false)]
-   private ?string $remuneration;
+   #[Column(name : 'remuneration',type: 'float', nullable : false)]
+   private ?float $remuneration;
    #[Column(name: 'date_offre', type: 'date_immutable', nullable: true)]
     private ?DateTimeImmutable $dateOffre;
    
@@ -27,8 +34,8 @@ class Entreprise {
 
     // Relation vers Candidature
     #[OneToMany(targetEntity: Candidature::class, mappedBy: 'offre')]
-
     private Collection $candidatures;
+
      public function __construct(
         string $titre,
         ?string $description = null,
@@ -36,15 +43,15 @@ class Entreprise {
         ?DateTimeImmutable $dateOffre = null,
         ?Entreprise $entreprise = null
     ) {
-        $this->titre        = $titre;
-        $this->description  = $description;
-        $this->remuneration = $remuneration;
-        $this->dateOffre    = $dateOffre;
-        $this->entreprise   = $entreprise;
-        $this->candidatures = new ArrayCollection();
+       $this->titre = $titre;
+       $this->description = $description;
+       $this->remuneration = $remuneration;
+       $this->dateOffre = $dateOffre;
+       $this->entreprise = $entreprise;
+       $this->candidatures = new ArrayCollection();
     }
 
-    public function getIdOffre(): int { return $this->id_offre; }
+    public function getIdOffre(): int { return $this->id; }
 
     public function getTitre(): string { return $this->titre; }
     public function setTitre(string $titre): void { $this->titre = $titre; }
