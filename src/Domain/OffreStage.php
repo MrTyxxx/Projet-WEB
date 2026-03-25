@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain;
+namespace App\Model;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
@@ -11,6 +11,56 @@ use Doctrine\ORM\Mapping\Table;
 class Entreprise {
    #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
     private int $id;
-   #[Column(name : 'titre_offre',type: "string", nullabse : false)]
-   private string $nom;
+   #[Column(name : 'titre_offre',type: 'string', nullabse : false)]
+   private string $titre;
+   #[Column(name : 'description',type: 'string', nullabse : false)]
+   private ?string $description;
+   #[Column(name : 'remuneration ',type: 'float', nullabse : false)]
+   private ?string $remuneration;
+   #[Column(name: 'date_offre', type: 'date_immutable', nullable: true)]
+    private ?DateTimeImmutable $dateOffre;
+   
+    // Relation vers Entreprise
+    #[ManyToOne(targetEntity: Entreprise::class, inversedBy: 'offres')]
+    #[JoinColumn(name: 'id_entreprise', referencedColumnName: 'id_entreprise')]
+    private ?Entreprise $entreprise;
+
+    // Relation vers Candidature
+    #[OneToMany(targetEntity: Candidature::class, mappedBy: 'offre')]
+
+    private Collection $candidatures;
+     public function __construct(
+        string $titre,
+        ?string $description = null,
+        ?float $remuneration = null,
+        ?DateTimeImmutable $dateOffre = null,
+        ?Entreprise $entreprise = null
+    ) {
+        $this->titre        = $titre;
+        $this->description  = $description;
+        $this->remuneration = $remuneration;
+        $this->dateOffre    = $dateOffre;
+        $this->entreprise   = $entreprise;
+        $this->candidatures = new ArrayCollection();
+    }
+
+    public function getIdOffre(): int { return $this->id_offre; }
+
+    public function getTitre(): string { return $this->titre; }
+    public function setTitre(string $titre): void { $this->titre = $titre; }
+
+    public function getDescription(): ?string { return $this->description; }
+    public function setDescription(?string $description): void { $this->description = $description; }
+
+    public function getRemuneration(): ?float { return $this->remuneration; }
+    public function setRemuneration(?float $remuneration): void { $this->remuneration = $remuneration; }
+
+    public function getDateOffre(): ?DateTimeImmutable { return $this->dateOffre; }
+    public function setDateOffre(?DateTimeImmutable $dateOffre): void { $this->dateOffre = $dateOffre; }
+
+    public function getEntreprise(): ?Entreprise { return $this->entreprise; }
+    public function setEntreprise(?Entreprise $entreprise): void { $this->entreprise = $entreprise; }
+
+    public function getCandidatures(): Collection { return $this->candidatures; }
+    public function getNombreCandidatures(): int { return $this->candidatures->count(); }
 }

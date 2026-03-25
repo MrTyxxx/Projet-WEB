@@ -2,11 +2,13 @@
 
 namespace App\Model;
 
-use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
 
 #[Entity, Table(name: 'Entreprise')]
@@ -29,6 +31,9 @@ class Entreprise
 
     #[Column(type: 'text', nullable: true)]
     private ?string $description;
+    
+    #[OneToMany(targetEntity: OffreStage::class, mappedBy: 'entreprise')]
+    private Collection $offres;
 
     public function __construct(string $nom, string $secteur, string $email, ?string $telephone = null, ?string $description = null)
     {
@@ -37,6 +42,7 @@ class Entreprise
         $this->email       = $email;
         $this->telephone   = $telephone;
         $this->description = $description;
+        $this->offres      = new ArrayCollection();
     }
 
     public function getIdEntreprise(): int { return $this->id_entreprise; }
@@ -55,4 +61,7 @@ class Entreprise
 
     public function getDescription(): ?string { return $this->description; }
     public function setDescription(?string $description): void { $this->description = $description; }
+
+    public function getOffres(): Collection { return $this->offres; }
+    public function getNombreOffres(): int { return $this->offres->count(); }
 }
