@@ -37,23 +37,11 @@
         </div>
 
         <div class="col-md-6">
-          <label class="form-label small">Date de l'offre</label>
+          <label class="form-label small">Date de  l'offre</label>
           <input type="date" name="date_offre" class="form-control">
         </div>
 
-        <div class="col-md-12">
-          <label class="form-label small">Compétences requises</label>
-          <div class="d-flex flex-wrap gap-2">
-            {% set competences = ['PHP', 'Python', 'JavaScript', 'Java', 'SQL', 'React', 'Docker', 'Git'] %}
-            {% for comp in competences %}
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="competences[]" value="{{ comp }}" id="comp_{{ comp }}">
-                <label class="form-check-label small" for="comp_{{ comp }}">{{ comp }}</label>
-              </div>
-            {% endfor %}
-          </div>
-        </div>
-
+        
         <div class="col-md-12">
           <label class="form-label small">Description</label>
           <textarea name="description" class="form-control" rows="4" required></textarea>
