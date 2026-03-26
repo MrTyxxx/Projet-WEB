@@ -45,11 +45,11 @@ return function (ContainerBuilder $containerBuilder) {
                     // of valid parameters: https://www.doctrine-project.org/projects/doctrine-dbal/en/current/reference/configuration.html
                     'connection' => [
                         'driver' => 'pdo_mysql',
-                        'host' => '127.0.0.1',
+                        'host' => 'db',
                         'port' => 3306,
-                        'dbname' => 'toto',
+                        'dbname' => 'yourjob',
                         'user' => 'root',
-                        'password' => 'example',
+                        'password' => 'root',
                         'charset' => 'utf8mb4'
                     ]
                 ]
