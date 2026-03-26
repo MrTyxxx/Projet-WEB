@@ -16,8 +16,8 @@ use \DateTimeImmutable;
 
 #[Entity, Table(name: 'offrestages')]
 class Offrestage {
-   #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
-    private int $id;
+   #[Id, Column(name: 'id_offre', type: 'integer'), GeneratedValue(strategy: 'AUTO')]
+    private int $id_offre;
    #[Column(name : 'titre_offre',type: 'string', nullable : false)]
    private string $titre;
    #[Column(name : 'description',type: 'string', nullable : false)]
@@ -51,7 +51,7 @@ class Offrestage {
        $this->candidatures = new ArrayCollection();
     }
 
-    public function getIdOffre(): int { return $this->id; }
+    public function getIdOffre(): int { return $this->id_offre; }
 
     public function getTitre(): string { return $this->titre; }
     public function setTitre(string $titre): void { $this->titre = $titre; }

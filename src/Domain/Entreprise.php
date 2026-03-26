@@ -37,12 +37,12 @@ class Entreprise
 
     public function __construct(string $nom, string $secteur, string $email, ?string $telephone = null, ?string $description = null)
     {
-        $this->nom         = $nom;
-        $this->secteur     = $secteur;
-        $this->email       = $email;
-        $this->telephone   = $telephone;
+        $this->nom = $nom;
+        $this->secteur  = $secteur;
+        $this->email  = $email;
+        $this->localite  = $localite;
         $this->description = $description;
-        $this->offres      = new ArrayCollection();
+        $this->offres  = new ArrayCollection();
     }
 
     public function getIdEntreprise(): int { return $this->id_entreprise; }
