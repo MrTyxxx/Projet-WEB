@@ -26,8 +26,8 @@ class Entreprise
     #[Column(name: 'email_contact', type: 'string', nullable: false)]
     private string $email;
 
-    #[Column(name: 'tel_contact', type: 'string', nullable: true)]
-    private ?string $telephone;
+    #[Column(name: 'localite', type: 'string', nullable: true)]
+    private ?string $localite;
 
     #[Column(type: 'text', nullable: true)]
     private ?string $description;
@@ -56,8 +56,8 @@ class Entreprise
     public function getEmail(): string { return $this->email; }
     public function setEmail(string $email): void { $this->email = $email; }
 
-    public function getTelephone(): ?string { return $this->telephone; }
-    public function setTelephone(?string $telephone): void { $this->telephone = $telephone; }
+    public function getLocalite(): ?string { return $this->localite; }
+    public function setTelephone(?string $telephone): void { $this->localite = $localite; }
 
     public function getDescription(): ?string { return $this->description; }
     public function setDescription(?string $description): void { $this->description = $description; }

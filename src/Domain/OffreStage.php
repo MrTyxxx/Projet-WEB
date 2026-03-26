@@ -22,7 +22,7 @@ class Offrestage {
    private string $titre;
    #[Column(name : 'description',type: 'string', nullable : false)]
    private ?string $description;
-   #[Column(name : 'remuneration',type: 'float', nullable : false)]
+   #[Column(name : 'remuneration',type: 'string', nullable : false)]
    private ?float $remuneration;
    #[Column(name: 'date_offre', type: 'date_immutable', nullable: true)]
     private ?DateTimeImmutable $dateOffre;
@@ -59,8 +59,8 @@ class Offrestage {
     public function getDescription(): ?string { return $this->description; }
     public function setDescription(?string $description): void { $this->description = $description; }
 
-    public function getRemuneration(): ?float { return $this->remuneration; }
-    public function setRemuneration(?float $remuneration): void { $this->remuneration = $remuneration; }
+    public function getRemuneration(): ?string { return $this->remuneration; }
+    public function setRemuneration(?string $remuneration): void { $this->remuneration = $remuneration; }
 
     public function getDateOffre(): ?DateTimeImmutable { return $this->dateOffre; }
     public function setDateOffre(?DateTimeImmutable $dateOffre): void { $this->dateOffre = $dateOffre; }
