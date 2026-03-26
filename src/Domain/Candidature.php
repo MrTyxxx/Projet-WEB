@@ -2,35 +2,42 @@
 
 namespace App\Domain;
 
-use DateTimeInterface;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\Table;
 
-#[ORM\Entity]
-#[ORM\Table(name: 'CANDIDATURE')]
+
+#[Entity]
+#[Table(name: 'CANDIDATURE')]
 class Candidature
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'AUTO')]
-    #[ORM\Column(name: 'id_candidature', type: 'integer')]
+    #[Id]
+    #[GeneratedValue(strategy: 'AUTO')]
+    #[Column(name: 'id_candidature', type: 'integer')]
     private int $id_candidature;
 
     // relation vers la table UTILISATEUR (id_utilisateur)
-    #[ORM\ManyToOne(targetEntity: Utilisateur::class, inversedBy: 'candidatures')]
-    #[ORM\JoinColumn(name: 'id_utilisateur', referencedColumnName: 'id_utilisateur', nullable: false)]
+    #[ManyToOne(targetEntity: Utilisateur::class, inversedBy: 'candidatures')]
+    #[JoinColumn(name: 'id_utilisateur', referencedColumnName: 'id_utilisateur', nullable: false)]
     private Utilisateur $utilisateur;
 
     // relation vers la table OFFRE_STAGE (id_offre)
-    #[ORM\ManyToOne(targetEntity: OffreStage::class, inversedBy: 'candidatures')]
-    #[ORM\JoinColumn(name: 'id_offre', referencedColumnName: 'id_offre', nullable: false)]
+    #[ManyToOne(targetEntity: OffreStage::class, inversedBy: 'candidatures')]
+    #[JoinColumn(name: 'id_offre', referencedColumnName: 'id_offre', nullable: false)]
     private OffreStage $offre;
 
-    #[ORM\Column(name: 'chemin_cv', type: 'string', length: 255, nullable: false)]
+    #[Column(name: 'chemin_cv', type: 'string', length: 255, nullable: false)]
     private string $cheminCv;
 
-    #[ORM\Column(name: 'date_postulation', type: 'date', nullable: false)]
+    #[Column(name: 'date_postulation', type: 'date', nullable: false)]
     private DateTimeInterface $datePostulation;
 
-    #[ORM\Column(name: 'statut', type: 'string', length: 50, nullable: false)]
+    #[Column(name: 'statut', type: 'string', length: 50, nullable: false)]
     private string $statut;
 
     public function __construct(
