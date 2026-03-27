@@ -1,20 +1,51 @@
-{% extends "monespace.html.twig" %}
-{% block contenu_espace %}
-<div class="container">
-    <h2 class="mb-4">Offres Enregistrées</h2>
-    {% if offres is empty %}
-        <p>Vous n'avez aucune offre enregistrée.</p>
-    {% else %}
-        <div class="list-group">
-            {% for offre in offres %}
-                <a href="/offre/{{ offre.id }}" class="list-group-item list-group-item-action">
-                    <h5 class="mb-1">{{ offre.titre }}</h5>
-                    <p class="mb-1">{{ offre.entreprise }}</p>
-                    <small>{{ offre.type }} - {{ offre.localisation }}</small>
-                </a>
-            {% endfor %}
-        </div>
-    {% endif %}
-</div>
-{% endblock %}
+{# templates/wishlist.html.twig #}
+{% extends "monespace.html.twig" %}  {# mets ici le nom exact du fichier avec la sidebar #}
 
+{% block contenu_espace %}
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h4 mb-0">Mes Offres Enregistrées</h1>
+
+    <div class="btn-group">
+      <button type="button"
+              class="btn btn-outline-secondary btn-sm dropdown-toggle"
+              data-bs-toggle="dropdown">
+        Trier par
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end">
+        <li><a class="dropdown-item" href="#">Date d’ajout</a></li>
+        <li><a class="dropdown-item" href="#">Rémunération</a></li>
+        <li><a class="dropdown-item" href="#">Ville</a></li>
+      </ul>
+    </div>
+  </div>
+
+  {% for i in 1..4 %}
+    <article class="bg-white mb-3 p-3 p-md-4 rounded-3 border">
+      <div class="d-flex flex-column flex-md-row justify-content-between">
+        <div>
+          <h2 class="h5 mb-1">Titre du Stage + durée du stage</h2>
+          <p class="mb-1 small text-muted">Nom de l'entreprise</p>
+          <p class="mb-2 small text-muted">
+            Reims · 4 mois · 700 €/mois
+          </p>
+        </div>
+
+        <div class="text-md-end mt-3 mt-md-0 d-flex flex-column align-items-md-end">
+          <p class="small text-warning mb-2">Derniers jours</p>
+          <button class="btn btn-dark btn-sm px-4">Postuler</button>
+        </div>
+      </div>
+    </article>
+  {% endfor %}
+
+  <nav class="mt-4 d-flex justify-content-center">
+    <ul class="pagination pagination-sm mb-0">
+      <li class="page-item active"><span class="page-link">1</span></li>
+      <li class="page-item disabled"><span class="page-link">2</span></li>
+      <li class="page-item disabled"><span class="page-link">3</span></li>
+      <li class="page-item disabled"><span class="page-link">4</span></li>
+      <li class="page-item disabled"><span class="page-link">…</span></li>
+      <li class="page-item disabled"><span class="page-link">N</span></li>
+    </ul>
+  </nav>
+{% endblock %}

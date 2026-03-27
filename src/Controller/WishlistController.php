@@ -6,10 +6,16 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
 
 class WishlistController
-{ 
+{
     public function wishlist(Request $request, Response $response, array $args): Response
     {
         $view = Twig::fromRequest($request);
-        return $view->render($response, 'Wishlist.html.twig', []);
+
+        $user = $_SESSION['user'] ?? null;
+
+        return $view->render($response, 'wishlist.html.twig', [
+            'user'   => $user,
+            'active' => 'offres-enregistrees',
+        ]);
     }
 }
