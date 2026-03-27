@@ -5,7 +5,6 @@
   <div class="container">
     <h1 class="fw-bold mb-3">Trouve ton stage idéal</h1>
     <p class="text-muted mb-4">Des centaines d'offres dans les meilleures entreprises</p>
-    
     <form class="row justify-content-center g-2">
       <div class="col-auto">
         <input type="text" placeholder="Poste (ex: Développeur)" class="form-control">
@@ -24,94 +23,41 @@
   <h2 class="fw-bold mb-4 text-center">Offres disponibles</h2>
 
   <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-
+    {% for offre in offres %}
     <div class="col">
       <div class="card h-100 shadow-sm">
         <div class="card-body">
-          <h5 class="card-title fw-bold">Stage Développeur Fullstack</h5>
-          <h6 class="card-subtitle mb-3 text-muted">Capgemini • Paris</h6>
-          <p class="card-text">Participez à la création d'applications web innovantes aux côtés d'une équipe experte dans un environnement agile.</p>
-          <a href="#" class="btn btn-outline-primary btn-sm">Voir l'offre</a>
+          <h5 class="card-title fw-bold">{{ offre.titre }}</h5>
+          <h6 class="card-subtitle mb-3 text-muted">{{ offre.remuneration }}</h6>
+          <p class="card-text">{{ offre.description }}</p>
+          <a href="/offre/{{ offre.idOffre }}" class="btn btn-outline-primary btn-sm">Voir l'offre</a>
         </div>
       </div>
     </div>
-
-    <div class="col">
-      <div class="card h-100 shadow-sm">
-        <div class="card-body">
-          <h5 class="card-title fw-bold">Stage Développeur Front-End</h5>
-          <h6 class="card-subtitle mb-3 text-muted">Google • Paris</h6>
-          <p class="card-text">Rejoignez nos équipes pour concevoir des interfaces web performantes utilisées par des millions de personnes.</p>
-          <a href="#" class="btn btn-outline-primary btn-sm">Voir l'offre</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="col">
-      <div class="card h-100 shadow-sm">
-        <div class="card-body">
-          <h5 class="card-title fw-bold">Stage Développeur Web</h5>
-          <h6 class="card-subtitle mb-3 text-muted">Orange • Nancy</h6>
-          <p class="card-text">Intégrez une équipe technique d'un opérateur majeur pour participer au développement de nouveaux services numériques.</p>
-          <a href="#" class="btn btn-outline-primary btn-sm">Voir l'offre</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="col">
-      <div class="card h-100 shadow-sm">
-        <div class="card-body">
-          <h5 class="card-title fw-bold">Stage IT & Data</h5>
-          <h6 class="card-subtitle mb-3 text-muted">Société Générale • Paris</h6>
-          <p class="card-text">Stage orienté innovation. Participez au développement d'outils internes liés à la finance et à l'analyse de données.</p>
-          <a href="#" class="btn btn-outline-primary btn-sm">Voir l'offre</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="col">
-      <div class="card h-100 shadow-sm">
-        <div class="card-body">
-          <h5 class="card-title fw-bold">Stage Ingénieur Logiciel</h5>
-          <h6 class="card-subtitle mb-3 text-muted">Microsoft • Issy-les-Moulineaux</h6>
-          <p class="card-text">Apportez vos compétences à un leader mondial de la tech. Stage centré sur les technologies cloud et l'intelligence artificielle.</p>
-          <a href="#" class="btn btn-outline-primary btn-sm">Voir l'offre</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="col">
-      <div class="card h-100 shadow-sm">
-        <div class="card-body">
-          <h5 class="card-title fw-bold">Stage Développeur Backend</h5>
-          <h6 class="card-subtitle mb-3 text-muted">Doctolib • Nantes</h6>
-          <p class="card-text">Participez à l'évolution d'un service de santé utilisé partout en Europe. Idéal pour apprendre dans une scale-up tech.</p>
-          <a href="#" class="btn btn-outline-primary btn-sm">Voir l'offre</a>
-        </div>
-      </div>
-    </div>
-
+    {% else %}
+      <p class="text-center text-muted">Aucune offre disponible.</p>
+    {% endfor %}
   </div>
 
-    <div class="container d-flex justify-content-center pb-5">
-    <nav aria-label="Page navigation example">
-    <nav class="mt-2">
-       <ul class="pagination">
-        <li class="page-item">
-          <a class="page-link" href="#" aria-label="Previous">
-            <span>&laquo;</span>
-          </a>
-       </li>
-       <li class="page-item"><a class="page-link" href="#">1</a></li>
-       <li class="page-item"><a class="page-link" href="#">2</a></li>
-       <li class="page-item"><a class="page-link" href="#">3</a></li>
-       <li class="page-item">
-          <a class="page-link" href="#" aria-label="Next">
-           <span>&raquo;</span>
-      </a>
-    </li>
-  </ul>
-</nav>
-</div>
+  {% if pages > 1 %}
+  <div class="container d-flex justify-content-center pb-5 mt-4">
+    <nav>
+      <ul class="pagination">
+        <li class="page-item {% if page == 1 %}disabled{% endif %}">
+          <a class="page-link" href="?page={{ page - 1 }}">&laquo;</a>
+        </li>
+        {% for p in 1..pages %}
+        <li class="page-item {% if p == page %}active{% endif %}">
+          <a class="page-link" href="?page={{ p }}">{{ p }}</a>
+        </li>
+        {% endfor %}
+        <li class="page-item {% if page == pages %}disabled{% endif %}">
+          <a class="page-link" href="?page={{ page + 1 }}">&raquo;</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  {% endif %}
 
+</div>
 {% endblock %}

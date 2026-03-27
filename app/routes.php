@@ -20,7 +20,7 @@ return function (App $app) {
 
     // Routes publiques
     $app->get('/',                [HomeController::class,  'index']);
-    $app->get('/page_offres',     [HomeController::class,  'pageOffres']);
+    $app->get('/page_offres',     [OffreController::class,  'pageOffres']);
     $app->get('/page_entreprise', [HomeController::class,  'pageEntreprise']);
     $app->get('/Mentions',        [HomeController::class,  'mentions']);
     $app->get('/Contact',         [HomeController::class,  'contact']);
