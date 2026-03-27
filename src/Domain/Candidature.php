@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Domain;
-
+use App\Domain\Utilisateur;
+use App\Domain\Offrestage;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
@@ -28,7 +29,7 @@ class Candidature
     private Utilisateur $utilisateur;
 
     // relation vers la table OFFRE_STAGE (id_offre)
-    #[ManyToOne(targetEntity: OffreStage::class, inversedBy: 'candidatures')]
+    #[ManyToOne(targetEntity: Offrestage::class, inversedBy: 'candidatures')]
     #[JoinColumn(name: 'id_offre', referencedColumnName: 'id_offre', nullable: false)]
     private OffreStage $offre;
 

@@ -1,24 +1,57 @@
 <?php
 namespace App\Controller;
 
+use App\Domain\Offrestage;
+use Doctrine\ORM\EntityManager;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
 
 class OffreController
 {
-    public function show(Request $request, Response $response, array $args): Response
+    private EntityManager $em;
+
+    public function __construct(EntityManager $em)
     {
+        $this->em = $em;
+    }
+
+        public function pageOffres(Request $request, Response $response): Response
+    {
+        $params = $request->getQueryParams();
+        $page   = max(1, (int)($params['page'] ?? 1));
+        $limit  = 6;
+        $offset = ($page - 1) * $limit;
+
+        $total  = $this->em->getRepository(Offrestage::class)->count([]);
+        $offres = $this->em->getRepository(Offrestage::class)->findBy([], ['id_offre' => 'ASC'], $limit, $offset);
+        $pages  = (int)ceil($total / $limit);
+
         $view = Twig::fromRequest($request);
-        return $view->render($response, 'offre1.html.twig', [
-            'id'   => $args['id'],
-            'user' => $_SESSION['user'] ?? null,
+        return $view->render($response, 'page_offres.html.twig', [
+            'offres' => $offres,
+            'page'   => $page,
+            'pages'  => $pages,
+            'user'   => $_SESSION['user'] ?? null,
         ]);
     }
-     public function gestionOffres(Request $request, Response $response): Response
+
+    public function show(Request $request, Response $response, array $args): Response
     {
-        $view = Twig::fromRequest($request);
+        $offre = $this->em->getRepository(Offrestage::class)->find($args['id']);
+        $view  = Twig::fromRequest($request);
+        return $view->render($response, 'offre1.html.twig', [
+            'offre' => $offre,
+            'user'  => $_SESSION['user'] ?? null,
+        ]);
+    }
+
+    public function gestionOffres(Request $request, Response $response): Response
+    {
+        $offres = $this->em->getRepository(Offrestage::class)->findAll();
+        $view   = Twig::fromRequest($request);
         return $view->render($response, 'gestion-offres.html.twig', [
+            'offres' => $offres,
             'user'   => $_SESSION['user'],
             'active' => 'offres',
         ]);

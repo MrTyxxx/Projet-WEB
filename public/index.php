@@ -25,6 +25,7 @@ $dependencies($containerBuilder);
 $repositories = require __DIR__ . '/../app/repositories.php';
 $repositories($containerBuilder);
 
+$containerBuilder->useAutowiring(true);
 $container = $containerBuilder->build();
 
 AppFactory::setContainer($container);

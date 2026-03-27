@@ -23,7 +23,7 @@ class Offrestage {
    #[Column(name : 'description',type: 'string', nullable : false)]
    private ?string $description;
    #[Column(name : 'remuneration',type: 'string', nullable : false)]
-   private ?float $remuneration;
+   private ?string $remuneration;
    #[Column(name: 'date_offre', type: 'date_immutable', nullable: true)]
     private ?DateTimeImmutable $dateOffre;
    
@@ -39,7 +39,7 @@ class Offrestage {
      public function __construct(
         string $titre,
         ?string $description = null,
-        ?float $remuneration = null,
+        ?string $remuneration = null,
         ?DateTimeImmutable $dateOffre = null,
         ?Entreprise $entreprise = null
     ) {

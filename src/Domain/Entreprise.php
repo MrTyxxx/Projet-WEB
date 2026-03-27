@@ -32,7 +32,7 @@ class Entreprise
     #[Column(type: 'text', nullable: true)]
     private ?string $description;
 
-    #[OneToMany(targetEntity: OffreStage::class, mappedBy: 'entreprise')]
+    #[OneToMany(targetEntity: Offrestage::class, mappedBy: 'entreprise')]
     private Collection $offres;
 
     public function __construct(string $nom, string $secteur, string $email, ?string $telephone = null, ?string $description = null)
@@ -57,7 +57,7 @@ class Entreprise
     public function setEmail(string $email): void { $this->email = $email; }
 
     public function getLocalite(): ?string { return $this->localite; }
-    public function setTelephone(?string $telephone): void { $this->localite = $localite; }
+    public function setTelephone(?string $localite): void { $this->localite = $localite; }
 
     public function getDescription(): ?string { return $this->description; }
     public function setDescription(?string $description): void { $this->description = $description; }
