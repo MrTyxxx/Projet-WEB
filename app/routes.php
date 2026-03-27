@@ -25,6 +25,7 @@ return function (App $app) {
     $app->get('/Mentions',        [HomeController::class,  'mentions']);
     $app->get('/Contact',         [HomeController::class,  'contact']);
     $app->get('/offre/{id}',      [OffreController::class, 'show']);
+    $app->get('/entreprise/{id}', [EntrepriseController::class, 'showEntreprise']);
     $app->get('/Connexion',       [AuthController::class,  'showLogin']);
     $app->post('/Connexion',      [AuthController::class,  'login']);
     $app->get('/logout',          [AuthController::class,  'logout']);

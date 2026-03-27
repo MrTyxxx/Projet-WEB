@@ -7,6 +7,14 @@ use Slim\Views\Twig;
 
 class EntrepriseController
 {
+    public function showEntreprise(Request $request, Response $response, array $args): Response
+    {
+        $view = Twig::fromRequest($request);
+        return $view->render($response, 'Entreprise1.html.twig', [
+            'id'   => $args['id'],
+            'user' => $_SESSION['user'] ?? null,
+        ]);
+    }
     public function gestionEntreprises(Request $request, Response $response): Response
     {
         $view = Twig::fromRequest($request);
