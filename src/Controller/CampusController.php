@@ -13,7 +13,7 @@ public function gestionCampus(Request $request, Response $response): Response
         $view = Twig::fromRequest($request);
 
         return $view->render($response, 'gestion-campus.html.twig', [
-            'user'   => $_SESSION['user'] ?? null,
+            'user' => $request->getAttribute('user'),
             'active' => 'campus',
         ]);
 

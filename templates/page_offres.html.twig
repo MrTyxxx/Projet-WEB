@@ -7,7 +7,7 @@
     <p class="text-muted mb-4">Des centaines d'offres dans les meilleures entreprises</p>
     <form class="row justify-content-center g-2">
       <div class="col-auto">
-        <input type="text" placeholder="Poste (ex: Développeur)" class="form-control">
+        <input type="text" placeholder="Poste" class="form-control">
       </div>
       <div class="col-auto">
         <input type="text" placeholder="Ville" class="form-control">
@@ -28,7 +28,7 @@
       <div class="card h-100 shadow-sm">
         <div class="card-body">
           <h5 class="card-title fw-bold">{{ offre.titre }}</h5>
-          <h6 class="card-subtitle mb-3 text-muted">{{ offre.remuneration }}</h6>
+          <h6 class="card-subtitle mb-3 text-muted">{% if offre.entreprise %}{{ offre.entreprise.nom }} • {% endif %}{{ offre.remuneration }}</h6>
           <p class="card-text">{{ offre.description }}</p>
           <a href="/offre/{{ offre.idOffre }}" class="btn btn-outline-primary btn-sm">Voir l'offre</a>
         </div>

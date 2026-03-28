@@ -16,7 +16,7 @@ class OffreController
         $this->em = $em;
     }
 
-        public function pageOffres(Request $request, Response $response): Response
+    public function pageOffres(Request $request, Response $response): Response
     {
         $params = $request->getQueryParams();
         $page   = max(1, (int)($params['page'] ?? 1));
@@ -32,7 +32,7 @@ class OffreController
             'offres' => $offres,
             'page'   => $page,
             'pages'  => $pages,
-            'user'   => $_SESSION['user'] ?? null,
+            'user'   => $request->getAttribute('user'),
         ]);
     }
 
@@ -42,7 +42,7 @@ class OffreController
         $view  = Twig::fromRequest($request);
         return $view->render($response, 'offre1.html.twig', [
             'offre' => $offre,
-            'user'  => $_SESSION['user'] ?? null,
+            'user'  => $request->getAttribute('user'),
         ]);
     }
 
@@ -52,7 +52,7 @@ class OffreController
         $view   = Twig::fromRequest($request);
         return $view->render($response, 'gestion-offres.html.twig', [
             'offres' => $offres,
-            'user'   => $_SESSION['user'],
+            'user'   => $request->getAttribute('user'),
             'active' => 'offres',
         ]);
     }
@@ -61,7 +61,7 @@ class OffreController
     {
         $view = Twig::fromRequest($request);
         return $view->render($response, 'creer-offre.html.twig', [
-            'user'   => $_SESSION['user'],
+            'user'   => $request->getAttribute('user'),
             'active' => 'offres',
         ]);
     }

@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Slim\Psr7\Factory\ResponseFactory;
 use App\Application\Settings\SettingsInterface;
 use DI\ContainerBuilder;
 use Doctrine\DBAL\DriverManager;
@@ -52,6 +53,10 @@ return function (ContainerBuilder $containerBuilder) {
 
             return new EntityManager($connection, $config);
         },
+
+        ResponseFactoryInterface::class => function () {
+    return new ResponseFactory();
+},
 
     ]);
 };

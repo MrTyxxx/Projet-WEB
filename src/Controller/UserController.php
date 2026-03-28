@@ -11,7 +11,7 @@ class UserController
     {
         $view = Twig::fromRequest($request);
         return $view->render($response, 'mesinformations.html.twig', [
-            'user'   => $_SESSION['user'],
+            'user'   => $request->getAttribute('user'),
             'active' => 'profil',
         ]);
     }
@@ -20,7 +20,7 @@ class UserController
     {
         $view = Twig::fromRequest($request);
         return $view->render($response, 'gestion-etudiants.html.twig', [
-            'user'   => $_SESSION['user'],
+            'user'   => $request->getAttribute('user'),
             'active' => 'etudiants',
         ]);
     }
@@ -29,7 +29,7 @@ class UserController
     {
         $view = Twig::fromRequest($request);
         return $view->render($response, 'gestion-pilotes.html.twig', [
-            'user'   => $_SESSION['user'],
+            'user'   => $request->getAttribute('user'),
             'active' => 'pilotes',
         ]);
     }
@@ -41,7 +41,7 @@ class UserController
 
         $view = Twig::fromRequest($request);
         return $view->render($response, 'creer-compte.html.twig', [
-            'user'   => $_SESSION['user'],
+            'user'   => $request->getAttribute('user'),
             'active' => $type === 'pilote' ? 'pilotes' : 'etudiants',
             'type'   => $type,
         ]);

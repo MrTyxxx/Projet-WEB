@@ -12,7 +12,7 @@
 
       <div class="mb-3 text-muted small px-1">
         {% if user %}
-          {% if 'ROLE_ETUDIANT' in user.roles %}
+          {% if user.role == 'etudiant' %}
             Ravi de vous revoir ! 👋
           {% else %}
             Bienvenue ! 👋
@@ -23,7 +23,7 @@
 
       <ul class="nav flex-column gap-1">
 
-       {% if user and 'ROLE_ETUDIANT' in user.roles %}
+       {% if user and user.role == 'etudiant' %}
   <li class="nav-item">
     <a class="nav-link {% if active == 'profil' %}text-danger fw-bold{% else %}text-dark{% endif %}" href="/espace/profil">■ Mes informations</a>
   </li>
@@ -35,7 +35,7 @@
   </li>
 {% endif %}
 
-{% if user and ('ROLE_PILOTE' in user.roles or 'ROLE_ADMIN' in user.roles) %}
+{% if user and (user.role == 'pilote' or user.role == 'admin') %}
   <li class="nav-item">
     <a class="nav-link {% if active == 'profil' %}text-danger fw-bold{% else %}text-dark{% endif %}" href="/espace/profil">■ Mes informations</a>
   </li>
@@ -53,7 +53,7 @@
   </li>
 {% endif %}
 
-{% if user and 'ROLE_ADMIN' in user.roles %}
+{% if user and user.role == 'admin' %}
   <li class="nav-item">
     <a class="nav-link {% if active == 'pilotes' %}text-danger fw-bold{% else %}text-dark{% endif %}" href="/espace/pilotes">■ Gestion des Pilotes</a>
   </li>
