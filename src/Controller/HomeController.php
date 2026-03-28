@@ -11,7 +11,7 @@ class HomeController
     {
         $view = Twig::fromRequest($request);
         return $view->render($response, 'acceuil.html.twig', [
-            'user' => $_SESSION['user'] ?? null,
+            'user' => $request->getAttribute('user'),
         ]);
     }
 
@@ -19,7 +19,7 @@ class HomeController
     {
         $view = Twig::fromRequest($request);
         return $view->render($response, 'page_offres.html.twig', [
-            'user' => $_SESSION['user'] ?? null,
+             'user' => $request->getAttribute('user'),
         ]);
     }
 
@@ -27,7 +27,7 @@ class HomeController
     {
         $view = Twig::fromRequest($request);
         return $view->render($response, 'page_entreprise.html.twig', [
-            'user' => $_SESSION['user'] ?? null,
+             'user' => $request->getAttribute('user'),
         ]);
     }
 
@@ -35,7 +35,7 @@ class HomeController
     {
         $view = Twig::fromRequest($request);
         return $view->render($response, 'Mentions.html.twig', [
-            'user' => $_SESSION['user'] ?? null,
+            'user' => $request->getAttribute('user'),
         ]);
     }
 
@@ -43,7 +43,7 @@ class HomeController
     {
         $view = Twig::fromRequest($request);
         return $view->render($response, 'Contact.html.twig', [
-            'user' => $_SESSION['user'] ?? null,
+             'user' => $request->getAttribute('user'),
         ]);
     }
 
@@ -51,7 +51,7 @@ class HomeController
     {
         $view = Twig::fromRequest($request);
         return $view->render($response, 'monespace.html.twig', [
-            'user' => $_SESSION['user'] ?? null,
+             'user' => $request->getAttribute('user'),
         ]);
     }
 }

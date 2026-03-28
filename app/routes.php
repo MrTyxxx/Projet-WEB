@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-use App\Application\Middleware\AuthMiddleware;
+use App\Application\Middleware\LoggedMiddleware;
 use App\Controller\AuthController;
 use App\Controller\CandidatureController;
 use App\Controller\EntrepriseController;
@@ -17,6 +17,8 @@ return function (App $app) {
     $app->options('/{routes:.*}', function (Request $request, Response $response) {
         return $response;
     });
+
+    $factory = $app->getContainer()->get(ResponseFactoryInterface::class);
 
     // Routes publiques
     $app->get('/',                [HomeController::class,  'index']);
@@ -46,7 +48,7 @@ return function (App $app) {
         $group->get('/offres',             [OffreController::class,       'gestionOffres']);
         $group->get('/offres/creer',       [OffreController::class,       'creerOffreForm']);
         $group->post('/offres/creer',      [OffreController::class,       'creerOffreForm']);
-    })->add(new AuthMiddleware());
+    })->add(new LoggedMiddleware($factory));
 
     $app->get('/wishlist', [WishlistController::class, 'wishlist']);
 };

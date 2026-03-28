@@ -12,14 +12,15 @@ class EntrepriseController
         $view = Twig::fromRequest($request);
         return $view->render($response, 'Entreprise1.html.twig', [
             'id'   => $args['id'],
-            'user' => $_SESSION['user'] ?? null,
+            'user' => $request->getAttribute('user'),
         ]);
     }
+
     public function gestionEntreprises(Request $request, Response $response): Response
     {
         $view = Twig::fromRequest($request);
         return $view->render($response, 'gestion-entreprises.html.twig', [
-            'user'   => $_SESSION['user'],
+            'user'   => $request->getAttribute('user'),
             'active' => 'entreprises',
         ]);
     }
@@ -28,7 +29,7 @@ class EntrepriseController
     {
         $view = Twig::fromRequest($request);
         return $view->render($response, 'creer-entreprises.html.twig', [
-            'user'   => $_SESSION['user'],
+            'user'   => $request->getAttribute('user'),
             'active' => 'entreprises',
         ]);
     }

@@ -10,11 +10,8 @@ class WishlistController
     public function wishlist(Request $request, Response $response, array $args): Response
     {
         $view = Twig::fromRequest($request);
-
-        $user = $_SESSION['user'] ?? null;
-
         return $view->render($response, 'wishlist.html.twig', [
-            'user'   => $user,
+            'user'   => $request->getAttribute('user'),
             'active' => 'offres-enregistrees',
         ]);
     }

@@ -15,7 +15,7 @@ use DateTimeInterface;
 
 
 #[Entity]
-#[Table(name: 'CANDIDATURE')]
+#[Table(name: 'Candidature')]
 class Candidature
 {
     #[Id]
