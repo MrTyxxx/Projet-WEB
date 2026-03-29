@@ -13,7 +13,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 
 #[Entity]
-#[Table(name: 'WISHLIST')]
+#[Table(name: 'Wishlist')]
 class Wishlist
 {
     #[Id]

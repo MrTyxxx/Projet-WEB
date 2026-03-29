@@ -32,6 +32,10 @@ class Offrestage {
     #[JoinColumn(name: 'id_entreprise', referencedColumnName: 'id_entreprise')]
     private ?Entreprise $entreprise;
 
+     //vers Compétences
+    #[OneToMany(targetEntity: Competence::class, mappedBy: 'offre')]
+private Collection $competences;
+
     // Relation vers Candidature
     #[OneToMany(targetEntity: Candidature::class, mappedBy: 'offre')]
     private Collection $candidatures;
@@ -49,6 +53,8 @@ class Offrestage {
        $this->dateOffre = $dateOffre;
        $this->entreprise = $entreprise;
        $this->candidatures = new ArrayCollection();
+       $this->competences = new ArrayCollection();
+
     }
 
     public function getIdOffre(): int { return $this->id_offre; }
@@ -70,4 +76,6 @@ class Offrestage {
 
     public function getCandidatures(): Collection { return $this->candidatures; }
     public function getNombreCandidatures(): int { return $this->candidatures->count(); }
+
+    public function getCompetences(): Collection { return $this->competences; }
 }
