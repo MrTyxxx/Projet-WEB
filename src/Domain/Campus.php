@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Domain;
-
+use Doctrine\ORM\Mapping\OneToMany; 
+use Doctrine\Common\Collections\Collection; 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
@@ -12,7 +14,7 @@ use Doctrine\ORM\Mapping\Table;
 class Campus
 {
     #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
-    private int $id_localite;
+    private int $id_campus;
 
     #[Column(type: 'string', nullable: false)]
     private string $ville;
@@ -20,15 +22,20 @@ class Campus
     #[Column(name: 'code_postal', type: 'string', nullable: false)]
     private string $code_postal;
 
-    public function __construct(string $ville, string $code_postal)
+
+    #[OneToMany(targetEntity: Utilisateur::class, mappedBy: 'campus')]
+    private Collection $utilisateurs;
+
+    public function __construct(string $ville, string $code_postal,)
     {
         $this->ville = $ville;
         $this->code_postal = $code_postal;
+        $this->utilisateurs = new ArrayCollection();
     }
 
-    public function getIdLocalite(): int 
+    public function getIdCampus(): int 
     { 
-        return $this->id_localite; 
+        return $this->id_campus; 
     }
 
     public function getVille(): string 
@@ -50,5 +57,21 @@ class Campus
     { 
         $this->code_postal = $code_postal; 
     }
+<<<<<<< HEAD
 }
 
+=======
+
+    public function getUtilsateurs(): Collection { 
+        return $this->utilisateurs;
+         }
+
+    public function getEtudiants(): Collection {
+        return $this->utilisateurs->filter(fn($u) => $u->getRole() === 'etudiant');
+    }
+
+    public function getPilotes(): Collection {
+        return $this->utilisateurs->filter(fn($u) => $u->getRole() === 'pilote');
+    }
+}
+>>>>>>> dd3c2874190354e13910c14aade295445e529d51

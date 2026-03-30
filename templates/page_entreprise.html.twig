@@ -29,18 +29,17 @@
 </div>
 
 <div class="container mb-5 col-lg-9">
+ {% for entreprise in entreprises %}
   <div class="d-flex flex-column gap-3">
-
     <div class="card shadow-sm border-0">
       <div class="card-body d-flex flex-column flex-md-row align-items-center gap-4 p-4">
-        <div class="display-6 fw-bold text-primary bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 4.5rem; height: 4.5rem;">
-          CG
+        <div class="display-5 fw-bold text-primary bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 mb-4" style="width: 8rem; height: 8rem;">
+          {{ entreprise.nom|split(' ')[0]|first ~ entreprise.nom|split(' ')[1]|first }}
         </div>
         <div class="flex-grow-1 text-center text-md-start">
-          <h5 class="fw-bold mb-1">Capgemini <span class="badge text-bg-primary ms-2 align-middle small">Conseil & IT</span></h5>
+          <h5 class="fw-bold mb-1"> {{ entreprise.nom }} <span class="badge text-bg-primary ms-2 align-middle small">{{ entreprise.secteur }}</span></h5>
           <p class="text-muted small mb-2">
-            <i class="bi bi-geo-alt-fill text-secondary"></i> Paris, France &bull; 
-            <i class="bi bi-people-fill text-secondary"></i> +300 000 collaborateurs &bull; 
+            <i class="bi bi-geo-alt-fill text-secondary"></i> {{ entreprise.localite}} &bull; 
             <span class="badge text-bg-light border"><i class="bi bi-mortarboard-fill text-secondary"></i> Paris-Saclay</span>
           </p>
           <div class="text-warning small">
@@ -52,145 +51,34 @@
           <a href="#" class="btn btn-outline-primary rounded-pill px-4">Voir plus</a>
         </div>
       </div>
-    </div>
-
-    <div class="card shadow-sm border-0">
-      <div class="card-body d-flex flex-column flex-md-row align-items-center gap-4 p-4">
-        <div class="display-6 fw-bold text-success bg-success bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 4.5rem; height: 4.5rem;">
-          CA
-        </div>
-        <div class="flex-grow-1 text-center text-md-start">
-          <h5 class="fw-bold mb-1">Crédit Agricole <span class="badge text-bg-success ms-2 align-middle small">Banque & Assurance</span></h5>
-          <p class="text-muted small mb-2">
-            <i class="bi bi-geo-alt-fill text-secondary"></i> Montrouge, France &bull; 
-            <i class="bi bi-people-fill text-secondary"></i> +140 000 collaborateurs &bull; 
-            <span class="badge text-bg-light border"><i class="bi bi-mortarboard-fill text-secondary"></i> Paris Dauphine</span>
-          </p>
-          <div class="text-warning small">
-            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
-            <span class="text-dark fw-bold ms-1">4.3</span> <span class="text-muted">(512 avis)</span>
-          </div>
-        </div>
-        <div class="flex-shrink-0 mt-3 mt-md-0">
-          <a href="#" class="btn btn-outline-primary rounded-pill px-4">Voir plus </a>
-        </div>
       </div>
+      {% else %}
+      <p class="text-center text-muted">Aucune entreprise disponible.</p>
+    {% endfor %}
     </div>
 
-    <div class="card shadow-sm border-0">
-      <div class="card-body d-flex flex-column flex-md-row align-items-center gap-4 p-4">
-        <div class="display-6 fw-bold text-dark bg-warning bg-opacity-25 rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 4.5rem; height: 4.5rem;">
-          O
-        </div>
-        <div class="flex-grow-1 text-center text-md-start">
-          <h5 class="fw-bold mb-1">Orange <span class="badge text-bg-warning ms-2 align-middle small">Télécoms</span></h5>
-          <p class="text-muted small mb-2">
-            <i class="bi bi-geo-alt-fill text-secondary"></i> Nancy, France &bull; 
-            <i class="bi bi-people-fill text-secondary"></i> +140 000 collaborateurs &bull; 
-            <span class="badge text-bg-light border"><i class="bi bi-mortarboard-fill text-secondary"></i> Univ. de Lorraine</span>
-          </p>
-          <div class="text-warning small">
-            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i><i class="bi bi-star"></i>
-            <span class="text-dark fw-bold ms-1">3.8</span> <span class="text-muted">(197 avis)</span>
-          </div>
-        </div>
-        <div class="flex-shrink-0 mt-3 mt-md-0">
-          <a href="#" class="btn btn-outline-primary rounded-pill px-4">Voir plus</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="card shadow-sm border-0">
-      <div class="card-body d-flex flex-column flex-md-row align-items-center gap-4 p-4">
-        <div class="display-6 fw-bold text-danger bg-danger bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 4.5rem; height: 4.5rem;">
-          SG
-        </div>
-        <div class="flex-grow-1 text-center text-md-start">
-          <h5 class="fw-bold mb-1">Société Générale <span class="badge text-bg-danger ms-2 align-middle small">Finance</span></h5>
-          <p class="text-muted small mb-2">
-            <i class="bi bi-geo-alt-fill text-secondary"></i> Paris, France &bull; 
-            <i class="bi bi-people-fill text-secondary"></i> +117 000 collaborateurs &bull; 
-            <span class="badge text-bg-light border"><i class="bi bi-mortarboard-fill text-secondary"></i> HEC Paris</span>
-          </p>
-          <div class="text-warning small">
-            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i>
-            <span class="text-dark fw-bold ms-1">4.0</span> <span class="text-muted">(341 avis)</span>
-          </div>
-        </div>
-        <div class="flex-shrink-0 mt-3 mt-md-0">
-          <a href="#" class="btn btn-outline-primary rounded-pill px-4">Voir plus</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="card shadow-sm border-0">
-      <div class="card-body d-flex flex-column flex-md-row align-items-center gap-4 p-4">
-        <div class="display-6 fw-bold text-dark bg-dark bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 4.5rem; height: 4.5rem;">
-          L
-        </div>
-        <div class="flex-grow-1 text-center text-md-start">
-          <h5 class="fw-bold mb-1">Latitude <span class="badge text-bg-dark ms-2 align-middle small">Aérospatial</span></h5>
-          <p class="text-muted small mb-2">
-            <i class="bi bi-geo-alt-fill text-secondary"></i> Reims, France &bull; 
-            <i class="bi bi-people-fill text-secondary"></i> +100 collaborateurs &bull; 
-            <span class="badge text-bg-light border"><i class="bi bi-mortarboard-fill text-secondary"></i> CESI</span>
-          </p>
-          <div class="text-warning small">
-            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
-            <span class="text-dark fw-bold ms-1">4.6</span> <span class="text-muted">(128 avis)</span>
-          </div>
-        </div>
-        <div class="flex-shrink-0 mt-3 mt-md-0">
-          <a href="#" class="btn btn-outline-primary rounded-pill px-4">Voir plus</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="card shadow-sm border-0">
-      <div class="card-body d-flex flex-column flex-md-row align-items-center gap-4 p-4">
-        <div class="display-6 fw-bold text-info bg-info bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 4.5rem; height: 4.5rem;">
-          D
-        </div>
-        <div class="flex-grow-1 text-center text-md-start">
-          <h5 class="fw-bold mb-1">Doctolib <span class="badge text-bg-info text-white ms-2 align-middle small">Santé & Tech</span></h5>
-          <p class="text-muted small mb-2">
-            <i class="bi bi-geo-alt-fill text-secondary"></i> Paris, France &bull; 
-            <i class="bi bi-people-fill text-secondary"></i> +2 800 collaborateurs &bull; 
-            <span class="badge text-bg-light border"><i class="bi bi-mortarboard-fill text-secondary"></i> Paris Cité</span>
-          </p>
-          <div class="text-warning small">
-            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
-            <span class="text-dark fw-bold ms-1">4.4</span> <span class="text-muted">(163 avis)</span>
-          </div>
-        </div>
-        <div class="flex-shrink-0 mt-3 mt-md-0">
-          <a href="#" class="btn btn-outline-primary rounded-pill px-4">Voir plus</a>
-        </div>
-      </div>
-    </div>
-
-  </div>
 </div>
 
-<div class="container d-flex justify-content-center pb-5">
-    <nav aria-label="Page navigation example">
-    <nav class="mt-2">
-       <ul class="pagination">
-        <li class="page-item">
-          <a class="page-link" href="#" aria-label="Previous">
-            <span>&laquo;</span>
-          </a>
-       </li>
-       <li class="page-item"><a class="page-link" href="#">1</a></li>
-       <li class="page-item"><a class="page-link" href="#">2</a></li>
-       <li class="page-item"><a class="page-link" href="#">3</a></li>
-       <li class="page-item">
-          <a class="page-link" href="#" aria-label="Next">
-           <span>&raquo;</span>
-      </a>
-    </li>
-  </ul>
-</nav>
+{% if pages > 1 %}
+<div class="container d-flex justify-content-center pb-5 mt-4">
+  <nav>
+    <ul class="pagination">
+      <li class="page-item {% if page == 1 %}disabled{% endif %}">
+        <a class="page-link" href="?page={{ page - 1 }}">&laquo;</a>
+      </li>
+
+      {% for p in 1..pages %}
+      <li class="page-item {% if p == page %}active{% endif %}">
+        <a class="page-link" href="?page={{ p }}">{{ p }}</a>
+      </li>
+      {% endfor %}
+
+      <li class="page-item {% if page == pages %}disabled{% endif %}">
+        <a class="page-link" href="?page={{ page + 1 }}">&raquo;</a>
+      </li>
+    </ul>
+  </nav>
 </div>
+{% endif %}
 
 {% endblock %}

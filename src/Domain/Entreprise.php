@@ -20,7 +20,7 @@ class Entreprise
     #[Column(name: 'nom_entreprise', type: 'string', nullable: false)]
     private string $nom;
 
-    #[Column(type: 'string', nullable: false)]
+    #[Column(name: 'secteur', type: 'string', nullable: false)]
     private string $secteur;
 
     #[Column(name: 'email_contact', type: 'string', nullable: false)]
@@ -31,6 +31,9 @@ class Entreprise
 
     #[Column(type: 'text', nullable: true)]
     private ?string $description;
+
+    #[ManyToMany (targetEntity: Campus::class, mappedBy: 'entreprise')]
+    private Collection $campus;
 
     #[OneToMany(targetEntity: Offrestage::class, mappedBy: 'entreprise')]
     private Collection $offres;
@@ -43,6 +46,7 @@ class Entreprise
         $this->localite  = $localite;
         $this->description = $description;
         $this->offres  = new ArrayCollection();
+        $this->campus = new ArrayCollection();
     }
 
     public function getIdEntreprise(): int { return $this->id_entreprise; }
@@ -56,12 +60,13 @@ class Entreprise
     public function getEmail(): string { return $this->email; }
     public function setEmail(string $email): void { $this->email = $email; }
 
-    public function getLocalite(): ?string { return $this->localite; }
-    public function setTelephone(?string $localite): void { $this->localite = $localite; }
+    public function setTelephone(?string $campus): void { $this->campus = $campus; }
 
     public function getDescription(): ?string { return $this->description; }
     public function setDescription(?string $description): void { $this->description = $description; }
 
     public function getOffres(): Collection { return $this->offres; }
     public function getNombreOffres(): int { return $this->offres->count(); }
+
+    public function getCampus(): Collection { return $this->campus; }
 }
