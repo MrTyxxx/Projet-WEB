@@ -1,6 +1,7 @@
 {% extends "base.html.twig" %}
 {% block contenu %}
 
+
 <div class="container py-4">
   <div class="row border rounded p-3">
     
@@ -23,6 +24,18 @@
 
       <h5 class="mb-3">{{ offre.entreprise.nom }}</h5>
       <p class="mb-4">Ocean CyberSecurity est une entreprise dédiée à la protection des infrastructures numériques. Elle conçoit des solutions avancées de cybersécurité, analyse les menaces émergentes et accompagne les organisations dans la sécurisation de leurs données. Grâce à une équipe d’experts passionnés, l’entreprise combine innovation, rigueur et technologie pour offrir un haut niveau de protection à ses clients.</p>
+      <h5 class="mb-3">Compétences requises: </h5>
+      
+
+<ul>
+    {% for competence in offre.competences %}
+        <li>{{ competence.nom}}</li>
+    {% else %}
+        <li>Aucune compétence répertoriée.</li>
+    {% endfor %}
+</ul>
+
+      
       </div>
     </div>
     

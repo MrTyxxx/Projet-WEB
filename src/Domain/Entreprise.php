@@ -20,7 +20,7 @@ class Entreprise
     #[Column(name: 'nom_entreprise', type: 'string', nullable: false)]
     private string $nom;
 
-    #[Column(type: 'string', nullable: false)]
+    #[Column(name: 'secteur', type: 'string', nullable: false)]
     private string $secteur;
 
     #[Column(name: 'email_contact', type: 'string', nullable: false)]
