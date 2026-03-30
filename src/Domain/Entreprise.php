@@ -60,8 +60,7 @@ class Entreprise
     public function getEmail(): string { return $this->email; }
     public function setEmail(string $email): void { $this->email = $email; }
 
-    public function getLocalite(): ?string { return $this->localite; }
-    public function setTelephone(?string $localite): void { $this->localite = $localite; }
+    public function setTelephone(?string $campus): void { $this->campus = $campus; }
 
     public function getDescription(): ?string { return $this->description; }
     public function setDescription(?string $description): void { $this->description = $description; }
