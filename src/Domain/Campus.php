@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping\Table;
 class Campus
 {
     #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
-    private int $id_localite;
+    private int $id_campus;
 
     #[Column(type: 'string', nullable: false)]
     private string $ville;
@@ -32,9 +32,9 @@ class Campus
         $this->utilisateurs = new ArrayCollection();
     }
 
-    public function getIdLocalite(): int 
+    public function getIdCampus(): int 
     { 
-        return $this->id_localite; 
+        return $this->id_campus; 
     }
 
     public function getVille(): string 

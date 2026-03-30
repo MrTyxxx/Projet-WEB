@@ -40,7 +40,7 @@ class Utilisateur {
     private Collection $candidatures;
 
     #[ManyToOne(targetEntity: Campus::class, inversedBy: 'utilisateurs')]
-    #[JoinColumn(name: 'id_localite', referencedColumnName: 'id_localite', nullable: true)]
+    #[JoinColumn(name: 'id_campus', referencedColumnName: 'id_campus', nullable: true)]
     private ?Campus $campus;
 
 

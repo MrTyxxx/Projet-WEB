@@ -32,6 +32,9 @@ class Entreprise
     #[Column(type: 'text', nullable: true)]
     private ?string $description;
 
+    #[ManyToMany (targetEntity: Campus::class, mappedBy: 'entreprise')]
+    private Collection $campus;
+
     #[OneToMany(targetEntity: Offrestage::class, mappedBy: 'entreprise')]
     private Collection $offres;
 
@@ -43,6 +46,7 @@ class Entreprise
         $this->localite  = $localite;
         $this->description = $description;
         $this->offres  = new ArrayCollection();
+        $this->campus = new ArrayCollection();
     }
 
     public function getIdEntreprise(): int { return $this->id_entreprise; }
@@ -64,4 +68,6 @@ class Entreprise
 
     public function getOffres(): Collection { return $this->offres; }
     public function getNombreOffres(): int { return $this->offres->count(); }
+
+    public function getCampus(): Collection { return $this->campus; }
 }
