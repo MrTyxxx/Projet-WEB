@@ -48,9 +48,7 @@
   <li class="nav-item">
     <a class="nav-link {% if active == 'offres' %}text-danger fw-bold{% else %}text-dark{% endif %}" href="/espace/offres">■ Gestion des Offres</a>
   </li>
-  <li class="nav-item">
-    <a class="nav-link {% if active == 'candidatures' %}text-danger fw-bold{% else %}text-dark{% endif %}" href="/espace/candidatures">■ Gestion des Candidatures</a>
-  </li>
+  
 {% endif %}
 
 {% if user and user.role == 'admin' %}

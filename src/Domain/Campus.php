@@ -20,10 +20,6 @@ class Campus
     #[Column(name: 'code_postal', type: 'string', nullable: false)]
     private string $code_postal;
 
-    #[OneToMany(targetEntity: Entreprise::class, mappedBy: 'Campus')]
-    private Collection $offres;
-
-
     public function __construct(string $ville, string $code_postal)
     {
         $this->ville = $ville;
@@ -55,3 +51,4 @@ class Campus
         $this->code_postal = $code_postal; 
     }
 }
+
