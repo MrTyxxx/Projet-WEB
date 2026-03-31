@@ -3,114 +3,107 @@
 
 <div class="container-fluid px-2">
 
-  <!-- Filtres -->
-  <div class="d-flex gap-2 mb-3 flex-wrap">
+  <div class="d-flex gap-2 mb-3 flex-wrap align-items-center">
     <button class="btn btn-dark btn-sm">Tous les Pilotes</button>
-    <input type="text" class="form-control form-control-sm w-auto" placeholder="Recherche par Noms" id="searchNom">
-    <select class="form-select form-select-sm w-auto" id="filterCampus">
-      <option value="">Campus</option>
-      <option value="Reims">Reims</option>
-      <option value="Strasbourg">Strasbourg</option>
-    </select>
-    <div style="text-align: right ; width: 100%;">
-      <a href="/espace/pilotes/creer" class="btn btn-dark btn-sm">➕</a>
-      </div>
+
+    <form method="GET" action="" class="d-flex gap-2 flex-wrap align-items-center">
+      <input
+        type="text"
+        class="form-control form-control-sm w-auto"
+        placeholder="Recherche par Nom"
+        name="nom"
+        value="{{ searchNom }}"
+      >
+
+      {% if user.role == 'admin' %}
+        <select class="form-select form-select-sm w-auto" name="campus">
+          <option value="">Tous les Campus</option>
+          {% for c in campuses %}
+            <option value="{{ c.ville }}" {{ searchCampus == c.ville ? 'selected' : '' }}>
+              {{ c.ville }}
+            </option>
+          {% endfor %}
+        </select>
+      {% endif %}
+
+      <button type="submit" class="btn btn-dark btn-sm">🔍 Rechercher</button>
+    </form>
+
+    <div class="ms-auto">
+      <a href="/espace/pilotes/creer" class="btn btn-dark btn-sm">Ajouter un pilote ➕</a>
+    </div>
   </div>
 
-  <!-- Tableau -->
   <div class="border rounded-3 p-3">
-    <table class="table table-bordered table-sm text-center align-middle" id="tablePilotes">
+    <table class="table table-bordered table-sm text-center align-middle">
       <thead class="table-light">
         <tr>
           <th>N°</th>
-          <th>Pilotes</th>
+          <th>Pilote</th>
           <th>Email</th>
-          <th>Promo(s) gérée(s)</th>
-          <th>Contact</th>
+          <th>Téléphone</th>
           <th>Campus</th>
           <th>Action</th>
         </tr>
       </thead>
       <tbody>
+        {% for pilote in pilotes %}
         <tr>
-          <td>1</td>
-          <td>Dupont Marie</td>
-          <td>marie.dupont@yourjob.com</td>
-          <td><span class="badge bg-secondary me-1">A1</span><span class="badge bg-secondary me-1">A2</span><span class="badge bg-secondary">A3</span></td>
-          <td>06 10 20 30 40</td>
-          <td>Reims</td>
+          <td>{{ (page - 1) * 10 + loop.index }}</td>
+          <td>{{ pilote.nom }} {{ pilote.prenom }}</td>
+          <td>{{ pilote.email }}</td>
+          <td>{{ pilote.telephone }}</td>
+          <td>{{ pilote.campus ? pilote.campus.ville : 'Non défini' }}</td>
           <td>
-            <a href="#" class="btn btn-sm btn-outline-secondary me-1">✏️</a>
-            <a href="#" class="btn btn-sm btn-outline-danger">✖</a>
+            <a href="/espace/pilotes/{{ pilote.idUtilisateur }}/modifier"
+               class="btn btn-sm btn-outline-secondary me-1">✏️</a>
+
+            <button type="button"
+                    class="btn btn-sm btn-outline-danger"
+                    onclick="confirmerSuppression({{ pilote.idUtilisateur }})">✖</button>
+
+            <form id="form-supprimer-{{ pilote.idUtilisateur }}"
+                  action="/espace/pilotes/{{ pilote.idUtilisateur }}/supprimer"
+                  method="POST" style="display:none;"></form>
           </td>
         </tr>
+        {% else %}
         <tr>
-          <td>2</td>
-          <td>Renaud Pierre</td>
-          <td>pierre.renaud@yourjob.com</td>
-          <td><span class="badge bg-secondary me-1">A4</span><span class="badge bg-secondary">A5</span></td>
-          <td>06 50 60 70 80</td>
-          <td>Strasbourg</td>
-          <td>
-            <a href="#" class="btn btn-sm btn-outline-secondary me-1">✏️</a>
-            <a href="#" class="btn btn-sm btn-outline-danger">✖</a>
-          </td>
+          <td colspan="6" class="text-muted">Aucun pilote trouvé.</td>
         </tr>
-        <tr>
-          <td>3</td>
-          <td>Leclerc Sophie</td>
-          <td>sophie.leclerc@yourjob.com</td>
-          <td><span class="badge bg-secondary">A2</span></td>
-          <td>06 90 80 70 60</td>
-          <td>Reims</td>
-          <td>
-            <a href="#" class="btn btn-sm btn-outline-secondary me-1">✏️</a>
-            <a href="#" class="btn btn-sm btn-outline-danger">✖</a>
-          </td>
-        </tr>
+        {% endfor %}
       </tbody>
     </table>
 
-     <div class="d-flex justify-content-between align-items-center mt-2">
-      <div class="container d-flex justify-content-center pb-5">
-    <nav aria-label="Page gestion pilotes">
-    <nav class="mt-2">
-       <ul class="pagination">
-        <li class="page-item">
-          <a class="page-link" href="#" aria-label="Previous">
-            <span>&laquo;</span>
-          </a>
-       </li>
-       <li class="page-item"><a class="page-link" href="#">1</a></li>
-       <li class="page-item"><a class="page-link" href="#">2</a></li>
-       <li class="page-item"><a class="page-link" href="#">3</a></li>
-       <li class="page-item">
-          <a class="page-link" href="#" aria-label="Next">
-           <span>&raquo;</span>
+    {% if pages > 1 %}
+    <div class="d-flex justify-content-center mt-4">
+      <nav>
+        <ul class="pagination pagination-sm">
+          <li class="page-item {% if page == 1 %}disabled{% endif %}">
+            <a class="page-link" href="?page={{ page - 1 }}&nom={{ searchNom }}&campus={{ searchCampus }}">&laquo;</a>
+          </li>
+          {% for p in 1..pages %}
+          <li class="page-item {% if p == page %}active{% endif %}">
+            <a class="page-link" href="?page={{ p }}&nom={{ searchNom }}&campus={{ searchCampus }}">{{ p }}</a>
+          </li>
+          {% endfor %}
+          <li class="page-item {% if page == pages %}disabled{% endif %}">
+            <a class="page-link" href="?page={{ page + 1 }}&nom={{ searchNom }}&campus={{ searchCampus }}">&raquo;</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    {% endif %}
 
-      </a>
-    </li>
-  </ul>
-</nav>
-</div>
-
+  </div>
 </div>
 
 <script>
-  document.getElementById('searchNom').addEventListener('input', filtrer);
-  document.getElementById('filterCampus').addEventListener('change', filtrer);
-
-  function filtrer() {
-    const nom = document.getElementById('searchNom').value.toLowerCase();
-    const campus = document.getElementById('filterCampus').value;
-    document.querySelectorAll('#tablePilotes tbody tr').forEach(tr => {
-      const nomCell = tr.cells[1].textContent.toLowerCase();
-      const campusCell = tr.cells[5].textContent.trim();
-      const matchNom = nomCell.includes(nom);
-      const matchCampus = campus === '' || campusCell === campus;
-      tr.style.display = matchNom && matchCampus ? '' : 'none';
-    });
-  }
+function confirmerSuppression(id) {
+    if (confirm('Confirmer la suppression de ce pilote ?')) {
+        document.getElementById('form-supprimer-' + id).submit();
+    }
+}
 </script>
 
 {% endblock %}

@@ -1,44 +1,206 @@
 <?php
 namespace App\Controller;
 
+use App\Domain\Campus;
+use App\Domain\Entreprise;
 use App\Domain\Offrestage;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
 use PDO;
 
 class OffreController {
-    private EntityManager $em;
 
-    public function __construct(EntityManager $em) {
-        $this->em = $em;
-    }
+    public function __construct(
+        private EntityManagerInterface $em
+    ) {}
 
     public function pageOffres(Request $request, Response $response): Response
-{
-    // récupère le chiffre de l'URL
-    $params = $request->getQueryParams();
-    $debut = $params['offset'] ?? 0;
+    {
+        $page   = $request->getQueryParams()['page'] ?? 1;
+        $depart = ($page - 1) * 6;
 
-    // on prend 6 offres en commençant au chiffre du  debut
-    $offres = $this->em->getRepository(Offrestage::class)->findBy([], null, 6, $debut);
+        $offres = $this->em->getRepository(Offrestage::class)
+                           ->findBy([], ['id_offre' => 'ASC'], 6, $depart);
 
-    $mesLikes = [];
-    $user = $request->getAttribute('user');
+        $mesLikes = [];
+        $user = $request->getAttribute('user');
 
-    if ($user && $user->getRole() === 'etudiant') {
-        $db = new \PDO('mysql:host=db;dbname=yourjob;charset=utf8', 'root', 'root');
-        $stmt = $db->prepare("SELECT id_offre FROM WISHLIST WHERE id_utilisateur = ?");
-        $stmt->execute([$user->getIdUtilisateur()]);
-        $mesLikes = $stmt->fetchAll(\PDO::FETCH_COLUMN);
+        if ($user && $user->getRole() === 'etudiant') {
+            $db   = new \PDO('mysql:host=db;dbname=yourjob;charset=utf8', 'root', 'root');
+            $stmt = $db->prepare("SELECT id_offre FROM WISHLIST WHERE id_utilisateur = ?");
+            $stmt->execute([$user->getIdUtilisateur()]);
+            $mesLikes = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        }
+
+        return Twig::fromRequest($request)->render($response, 'page_offres.html.twig', [
+            'offres'    => $offres,
+            'page'      => $page,
+            'user'      => $user,
+            'mes_likes' => $mesLikes,
+        ]);
     }
-    
 
-    return Twig::fromRequest($request)->render($response, 'page_offres.html.twig', [
-        'offres'    => $offres,
-        'user'      => $user,
-        'mes_likes' => $mesLikes
-    ]);
-}
+    public function show(Request $request, Response $response, array $args): Response
+    {
+        $offre = $this->em->getRepository(Offrestage::class)
+            ->createQueryBuilder('o')
+            ->leftJoin('o.entreprise', 'e')
+            ->addSelect('e')
+            ->where('o.id_offre = :id')
+            ->setParameter('id', $args['id'])
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        if (!$offre) {
+            $response->getBody()->write("Offre introuvable");
+            return $response->withStatus(404);
+        }
+
+        return Twig::fromRequest($request)->render($response, 'offre1.html.twig', [
+            'offre'      => $offre,
+            'entreprise' => $offre->getEntreprise(),
+            'user'       => $request->getAttribute('user'),
+        ]);
+    }
+
+    public function gestionOffres(Request $request, Response $response): Response
+    {
+        $user   = $request->getAttribute('user');
+        $params = $request->getQueryParams();
+
+        $searchTitre  = $params['titre']  ?? '';
+        $searchCampus = $params['campus'] ?? '';
+        $page         = max(1, (int)($params['page'] ?? 1));
+        $limit        = 10;
+
+        $criteria = [];
+
+        if ($user->getRole() === 'pilote') {
+            $criteria['campus'] = $user->getCampus();
+        }
+
+        if ($user->getRole() === 'admin' && $searchCampus !== '') {
+            $campus = $this->em->getRepository(Campus::class)
+                               ->findOneBy(['ville' => $searchCampus]);
+            if ($campus) {
+                $criteria['campus'] = $campus;
+            }
+        }
+
+        $toutes = $this->em->getRepository(Offrestage::class)->findBy($criteria);
+
+        if ($searchTitre !== '') {
+            $toutes = array_values(array_filter($toutes, function($o) use ($searchTitre) {
+                return str_contains(strtolower($o->getTitre()), strtolower($searchTitre));
+            }));
+        }
+
+        $total    = count($toutes);
+        $pages    = max(1, (int)ceil($total / $limit));
+        $page     = min($page, $pages);
+        $offres   = array_slice($toutes, ($page - 1) * $limit, $limit);
+        $campuses = $this->em->getRepository(Campus::class)->findAll();
+
+        return Twig::fromRequest($request)->render($response, 'gestion-offres.html.twig', [
+            'user'         => $user,
+            'active'       => 'offres',
+            'offres'       => $offres,
+            'campuses'     => $campuses,
+            'searchTitre'  => $searchTitre,
+            'searchCampus' => $searchCampus,
+            'page'         => $page,
+            'pages'        => $pages,
+        ]);
+    }
+
+    public function supprimerOffre(Request $request, Response $response, array $args): Response
+    {
+        $offre = $this->em->getRepository(Offrestage::class)->find($args['id']);
+
+        if ($offre) {
+            $this->em->remove($offre);
+            $this->em->flush();
+        }
+
+        return $response->withHeader('Location', '/espace/offres')->withStatus(302);
+    }
+
+    public function modifierOffre(Request $request, Response $response, array $args): Response
+    {
+        $user     = $request->getAttribute('user');
+        $offre    = $this->em->getRepository(Offrestage::class)->find($args['id']);
+        $campuses = $this->em->getRepository(Campus::class)->findAll();
+        $entreprises = $this->em->getRepository(Entreprise::class)->findAll();
+
+        if (!$offre) {
+            return $response->withHeader('Location', '/espace/offres')->withStatus(302);
+        }
+
+        if ($request->getMethod() === 'POST') {
+            $data = $request->getParsedBody();
+
+            $offre->setTitre(trim($data['titre']         ?? ''));
+            $offre->setDescription(trim($data['description'] ?? ''));
+            $offre->setRemuneration(trim($data['remuneration'] ?? ''));
+
+            if (!empty($data['campus'])) {
+                $campus = $this->em->getRepository(Campus::class)->find($data['campus']);
+                $offre->setCampus($campus);
+            }
+
+            if (!empty($data['entreprise'])) {
+                $entreprise = $this->em->getRepository(Entreprise::class)->find($data['entreprise']);
+                $offre->setEntreprise($entreprise);
+            }
+
+            $this->em->flush();
+            return $response->withHeader('Location', '/espace/offres')->withStatus(302);
+        }
+
+        return Twig::fromRequest($request)->render($response, 'creer-offre.html.twig', [
+            'user'        => $user,
+            'active'      => 'offres',
+            'offre'       => $offre,
+            'campuses'    => $campuses,
+            'entreprises' => $entreprises,
+            'mode'        => 'modifier',
+        ]);
+    }
+
+    public function creerOffreForm(Request $request, Response $response): Response
+    {
+        $user        = $request->getAttribute('user');
+        $campuses    = $this->em->getRepository(Campus::class)->findAll();
+        $entreprises = $this->em->getRepository(Entreprise::class)->findAll();
+
+        if ($request->getMethod() === 'POST') {
+            $data = $request->getParsedBody();
+
+            $campus     = $this->em->getRepository(Campus::class)->find($data['campus'] ?? 0);
+            $entreprise = $this->em->getRepository(Entreprise::class)->find($data['entreprise'] ?? 0);
+
+            $offre = new Offrestage(
+                trim($data['titre']        ?? ''),
+                trim($data['description']  ?? ''),
+                trim($data['remuneration'] ?? ''),
+                $entreprise,
+                $campus,
+            );
+
+            $this->em->persist($offre);
+            $this->em->flush();
+
+            return $response->withHeader('Location', '/espace/offres')->withStatus(302);
+        }
+
+        return Twig::fromRequest($request)->render($response, 'creer-offre.html.twig', [
+            'user'        => $user,
+            'active'      => 'offres',
+            'campuses'    => $campuses,
+            'entreprises' => $entreprises,
+            'mode'        => 'creer',
+        ]);
+    }
 }
