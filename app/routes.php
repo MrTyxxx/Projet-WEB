@@ -50,5 +50,7 @@ return function (App $app) {
         $group->post('/offres/creer',      [OffreController::class,       'creerOffreForm']);
     })->add(new LoggedMiddleware($factory));
 
-    $app->get('/wishlist', [WishlistController::class, 'wishlist']);
+    $app->get('/wishlist', \App\Controller\WishlistController::class . ':wishlist');
+    $app->get('/wishlist/add/{id}', \App\Controller\WishlistController::class . ':add');
+    $app->get('/wishlist/delete/{id}', \App\Controller\WishlistController::class . ':delete'); 
 };
