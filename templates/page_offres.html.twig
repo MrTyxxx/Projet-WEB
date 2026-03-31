@@ -1,78 +1,84 @@
 {% extends "base.html.twig" %}
 {% block contenu %}
 
-	<section class="bg-light py-5 text-center">
-		<div class="container">
-			<h1 class="fw-bold mb-3">Trouve ton stage idéal</h1>
-			<p class="text-muted mb-4">Des centaines d'offres dans les meilleures entreprises</p>
-			<form class="row justify-content-center g-2">
-				<div class="col-auto">
-					<input type="text" placeholder="Poste" class="form-control">
-				</div>
-				<div class="col-auto">
-					<input type="text" placeholder="Ville" class="form-control">
-				</div>
-				<div class="col-auto">
-					<button type="submit" class="btn btn-primary px-4">Rechercher</button>
-				</div>
-			</form>
-		</div>
-	</section>
+<section class="bg-light py-5 text-center">
+  <div class="container">
+    <h1 class="fw-bold mb-3">Trouve ton stage idéal</h1>
+    <p class="text-muted mb-4">Des centaines d'offres dans les meilleures entreprises</p>
+    <form class="row justify-content-center g-2">
+      <div class="col-auto">
+        <input type="text" placeholder="Poste" class="form-control">
+      </div>
+      <div class="col-auto">
+        <input type="text" placeholder="Ville" class="form-control">
+      </div>
+      <div class="col-auto">
+        <button type="submit" class="btn btn-primary px-4">Rechercher</button>
+      </div>
+    </form>
+  </div>
+</section>
 
-	<div class="container py-5">
-		<h2 class="fw-bold mb-4 text-center">Offres disponibles</h2>
+<div class="container py-5">
+  <h2 class="fw-bold mb-4 text-center">Offres disponibles</h2>
 
-		<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    
+    {% for offre in offres %}
+      <div class="col" id="offre-{{ offre.idOffre }}">
+        <div class="card h-100 position-relative">
 
-			{% for offre in offres %}
-				<div class="col">
-					<div class="card h-100 shadow-sm">
-						<div class="card-body">
-							<h5 class="card-title fw-bold">{{ offre.titre }}</h5>
-							<h6 class="card-subtitle mb-3 text-muted">
-								{% if offre.entreprise %}
-									{{ offre.entreprise.nom }}
-									•
-								{% endif %}
-								{{ offre.entreprise.localite }}
-								•
-								{{ offre.dateOffre|date('d/m/Y') }}
-								•
-								{{ offre.remuneration }}
-							</h6>
-							<p class="card-text">{{ offre.description }}</p>
-							<a href="/offre/{{ offre.idOffre }}" class="btn btn-outline-primary btn-sm">Voir l'offre</a>
-						</div>
-					</div>
-				</div>
-			{% else %}
-				<div class="col-12">
-					<p class="text-center text-muted">Aucune offre disponible.</p>
-				</div>
-			{% endfor %}
+          {% if user and user.role == 'etudiant' %}
+            <div class="position-absolute top-0 end-0 m-3" style="z-index: 10;">
+                
+                {# On regarde si l'ID de cette offre est dans le tableau mes likes #}
+                {% if offre.idOffre in mes_likes %}
+                    <a href="/wishlist/delete/{{ offre.idOffre }}" style="text-decoration: none; font-size: 1.5rem;">❤️</a>
+                {% else %}
+                    <a href="/wishlist/add/{{ offre.idOffre }}" style="text-decoration: none; font-size: 1.5rem;" 
+                       onmouseover="this.innerHTML='❤️';" onmouseout="this.innerHTML='🤍';">🤍</a>
+                {% endif %}
+                
+            </div>
+          {% endif %} 
 
-		</div>
+          <div class="card-body">
+            <h5 class="card-title fw-bold">{{ offre.titre }}</h5>
+            <h6 class="card-subtitle mb-3 text-muted">
+                {% if offre.entreprise %}{{ offre.entreprise.nom }} • {% endif %}{{ offre.remuneration }}
+            </h6>
+            <p class="card-text">{{ offre.description }}</p>
+            <a href="/offre/{{ offre.idOffre }}" class="btn btn-outline-primary btn-sm">Voir l'offre</a>
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <div class="col-12">
+        <p class="text-center text-muted">Aucune offre disponible.</p>
+      </div>
+    {% endfor %}
+    
+  </div>
 
-	</div>
+  {% if pages > 1 %}
+  <div class="container d-flex justify-content-center pb-5 mt-4">
+    <nav>
+      <ul class="pagination">
+        <li class="page-item {% if page == 1 %}disabled{% endif %}">
+          <a class="page-link" href="?page={{ page - 1 }}">&laquo;</a>
+        </li>
+        {% for p in 1..pages %}
+        <li class="page-item {% if p == page %}active{% endif %}">
+          <a class="page-link" href="?page={{ p }}">{{ p }}</a>
+        </li>
+        {% endfor %}
+        <li class="page-item {% if page == pages %}disabled{% endif %}">
+          <a class="page-link" href="?page={{ page + 1 }}">&raquo;</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  {% endif %}
 
-	{% if pages > 1 %}
-		<div class="container d-flex justify-content-center pb-5 mt-4">
-			<nav>
-				<ul class="pagination">
-					<li class="page-item {% if page == 1 %}disabled{% endif %}">
-						<a class="page-link" href="?page={{ page - 1 }}">&laquo;</a>
-					</li>
-					{% for p in 1..pages %}
-						<li class="page-item {% if p == page %}active{% endif %}">
-							<a class="page-link" href="?page={{ p }}">{{ p }}</a>
-						</li>
-					{% endfor %}
-					<li class="page-item {% if page == pages %}disabled{% endif %}">
-						<a class="page-link" href="?page={{ page + 1 }}">&raquo;</a>
-					</li>
-				</ul>
-			</nav>
-		</div>
-	{% endif %}
-
-</div>{% endblock %}
+</div>
+{% endblock %}

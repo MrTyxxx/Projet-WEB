@@ -22,7 +22,6 @@ class Campus
     #[Column(name: 'code_postal', type: 'string', nullable: false)]
     private string $code_postal;
 
-
     #[OneToMany(targetEntity: Utilisateur::class, mappedBy: 'campus')]
     private Collection $utilisateurs;
 
@@ -42,7 +41,7 @@ class Campus
     { 
         return $this->ville; 
     }
-    
+
     public function setVille(string $ville): void 
     { 
         $this->ville = $ville; 
@@ -52,15 +51,11 @@ class Campus
     { 
         return $this->code_postal; 
     }
-    
+
     public function setCodePostal(string $code_postal): void 
     { 
         $this->code_postal = $code_postal; 
     }
-<<<<<<< HEAD
-}
-
-=======
 
     public function getUtilsateurs(): Collection { 
         return $this->utilisateurs;
@@ -74,4 +69,3 @@ class Campus
         return $this->utilisateurs->filter(fn($u) => $u->getRole() === 'pilote');
     }
 }
->>>>>>> dd3c2874190354e13910c14aade295445e529d51
