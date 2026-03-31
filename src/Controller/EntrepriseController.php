@@ -47,14 +47,22 @@ public function pageEntreprises(Request $request, Response $response): Response
     }
 
     
-    public function showEntreprise(Request $request, Response $response, array $args): Response
-    {
-        $view = Twig::fromRequest($request);
-        return $view->render($response, 'Entreprise1.html.twig', [
-            'id'   => $args['id'],
-            'user' => $request->getAttribute('user'),
-        ]);
+public function showEntreprise(Request $request, Response $response, array $args): Response
+{
+    $id = $args['id'];
+    $entreprise = $this->em->getRepository(Entreprise::class)->find($id);
+    // Si l'entreprise existe pas → 404
+    if (!$entreprise) {
+        $response->getBody()->write("Entreprise introuvable");
+        return $response->withStatus(404);
     }
+
+    // On rend la vue
+    return Twig::fromRequest($request)->render($response, 'Entreprise1.html.twig', [
+        'entreprise' => $entreprise,   // 👈 IMPORTANT
+        'user'       => $request->getAttribute('user'),
+    ]);
+}
 
     public function gestionEntreprises(Request $request, Response $response): Response
     {

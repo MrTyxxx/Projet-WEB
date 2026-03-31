@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping\Table;
 #[Entity, Table(name: 'Entreprise')]
 class Entreprise
 {
-    #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
+    #[Id, Column(name: 'id_entreprise', type: 'integer'), GeneratedValue(strategy: 'AUTO')]
     private int $id_entreprise;
 
     #[Column(name: 'nom_entreprise', type: 'string', nullable: false)]
@@ -27,10 +27,10 @@ class Entreprise
     private string $email;
 
     #[Column(name: 'localite', type: 'string', nullable: true)]
-    private ?string $localite;
+    private string $localite;
 
     #[Column(type: 'text', nullable: true)]
-    private ?string $description;
+    private string $description;
 
     #[ManyToMany (targetEntity: Campus::class, mappedBy: 'entreprise')]
     private Collection $campus;
@@ -59,6 +59,9 @@ class Entreprise
 
     public function getEmail(): string { return $this->email; }
     public function setEmail(string $email): void { $this->email = $email; }
+
+    public function getLocalite(): string { return $this->localite; }
+    public function setLocalite(string $localite): void { $this->localite = $localite; }
 
     public function setTelephone(?string $campus): void { $this->campus = $campus; }
 

@@ -16,13 +16,17 @@
       <div class="card-body">
 
         <div class="d-flex justify-content-between align-items-center mb-3">
-          <h5 class="fw-bold">{{ offre.titre }}</h5>
+          <h5 class="fw-bold">{{ offre.titre }} </h5>
+          <span class="fw-bold text-primary">Date: {{ offre.dateOffre|date('d/m/Y') }}</span>
           <span class="fw-bold text-primary">Rémunération: {{ offre.remuneration }}</span>
         </div>
 
       <p class=" mb-4">Rejoignez une équipe spécialisée dans la cybersécurité et participez au développement d’outils logiciels destinés à renforcer la protection des systèmes informatiques. Vous interviendrez sur des projets concrets : conception de nouvelles fonctionnalités, automatisation de processus, amélioration de la performance et contribution à l’analyse des menaces. Un stage idéal pour monter en compétences dans un domaine technique et stratégique.</p>
 
-      <h5 class="mb-3">{{ offre.entreprise.nom }}</h5>
+      <div class="d-flex justify-content-between align-items-center mb-3" >
+        <h5>{{ offre.entreprise.nom }}</h5>
+        <span class="badge text-bg-primary align-middle medium">{{ offre.entreprise.secteur }}</span>
+      </div>
       <p class="mb-4">Ocean CyberSecurity est une entreprise dédiée à la protection des infrastructures numériques. Elle conçoit des solutions avancées de cybersécurité, analyse les menaces émergentes et accompagne les organisations dans la sécurisation de leurs données. Grâce à une équipe d’experts passionnés, l’entreprise combine innovation, rigueur et technologie pour offrir un haut niveau de protection à ses clients.</p>
       <h5 class="mb-3">Compétences requises: </h5>
       

@@ -2,20 +2,20 @@
 
 {% block contenu %}
 
-<section class="bg-light py-5 text-center px-3">
-  <div class="container col-lg-8">
-    <h1 class="fw-bold fs-2 text-dark mb-3">Les entreprises partenaires</h1>
-    <p class="text-secondary mb-4">Explorez les entreprises qui recrutent et trouvez celle qui vous correspond</p>
+<section class="bg-light py-5 text-center">
+  <div class="container">
+    <h1 class="fw-bold mb-3">Les entreprises partenaires</h1>
+    <p class="text-muted mb-4">Explorez les entreprises qui recrutent et trouvez celle qui vous correspond</p>
     
     <form class="row g-2 justify-content-center">
-      <div class="col-md-5">
+      <div class="col-auto">
         <input type="text" placeholder="Nom d'entreprise" class="form-control">
       </div>
-      <div class="col-md-4">
+      <div class="col-auto">
         <input type="text" placeholder="Secteur" class="form-control">
       </div>
-      <div class="col-md-3 d-grid">
-        <button type="submit" class="btn btn-primary fw-semibold">Rechercher</button>
+      <div class="col-auto">
+        <button type="submit" class="btn btn-primary px-4">Rechercher</button>
       </div>
     </form>
   </div>
@@ -39,16 +39,17 @@
         <div class="flex-grow-1 text-center text-md-start">
           <h5 class="fw-bold mb-1"> {{ entreprise.nom }} <span class="badge text-bg-primary ms-2 align-middle small">{{ entreprise.secteur }}</span></h5>
           <p class="text-muted small mb-2">
-            <i class="bi bi-geo-alt-fill text-secondary"></i> {{ entreprise.localite}} &bull; 
+            <i class="bi bi-geo-alt-fill text-secondary"></i> {{ entreprise.localite}} • {{entreprise.Email}} • 
             <span class="badge text-bg-light border"><i class="bi bi-mortarboard-fill text-secondary"></i> Paris-Saclay</span>
           </p>
+          <p class="text-muted small mb-2">{{ entreprise.description }}</p>
           <div class="text-warning small">
             <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i>
             <span class="text-dark fw-bold ms-1">4.1</span> <span class="text-muted">(284 avis)</span>
           </div>
         </div>
         <div class="flex-shrink-0 mt-3 mt-md-0">
-          <a href="#" class="btn btn-outline-primary rounded-pill px-4">Voir plus</a>
+          <a href="/entreprise/{{ entreprise.identreprise }}" class="btn btn-outline-primary rounded-pill px-4">Voir plus</a>
         </div>
       </div>
       </div>
