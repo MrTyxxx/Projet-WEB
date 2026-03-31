@@ -45,62 +45,61 @@
         </tr>
       </thead>
       <tbody>
-        {% for e in entreprises %}
-          <tr>
-            <td>{{ (page - 1) * 10 + loop.index }}</td>
-            <td>{{ e.nom }}</td>
-            <td>{{ e.secteur }}</td>
-            <td>{{ e.campus ? e.campus.ville : 'Non défini' }}</td>
-            <td>{{ e.email }}</td>
-            <td>{{ e.nombreOffres }}</td>
-            <td>
-              {# tu pourras ajouter un vrai écran de modification plus tard #}
-              <a href="/entreprise/{{ e.idEntreprise }}" class="btn btn-sm btn-outline-secondary me-1">Voir</a>
+        {% for entreprise in entreprises %}
+        <tr>
+          <td>{{ (page - 1) * 10 + loop.index }}</td>
+          <td>{{ entreprise.nom }}</td>
+          <td>{{ entreprise.secteur }}</td>
+          <td>{{ entreprise.campus ? entreprise.campus.ville : 'Non défini' }}</td>
+          <td>{{ entreprise.email }}</td>
+          <td>{{ entreprise.nombreOffres }}</td>
+          <td>
+            <a href="/espace/entreprises/{{ entreprise.idEntreprise }}/modifier"
+               class="btn btn-sm btn-outline-secondary me-1">✏️</a>
 
-              <button type="button"
-                      class="btn btn-sm btn-outline-danger"
-                      onclick="confirmerSuppressionEntreprise({{ e.idEntreprise }})">✖</button>
+            <button type="button"
+                    class="btn btn-sm btn-outline-danger"
+                    onclick="confirmerSuppression({{ entreprise.idEntreprise }})">✖</button>
 
-              <form id="form-supprimer-entreprise-{{ e.idEntreprise }}"
-                    action="/espace/entreprises/{{ e.idEntreprise }}/supprimer"
-                    method="POST" style="display:none;"></form>
-            </td>
-          </tr>
+            <form id="form-supprimer-{{ entreprise.idEntreprise }}"
+                  action="/espace/entreprises/{{ entreprise.idEntreprise }}/supprimer"
+                  method="POST" style="display:none;"></form>
+          </td>
+        </tr>
         {% else %}
-          <tr>
-            <td colspan="7" class="text-muted">Aucune entreprise trouvée.</td>
-          </tr>
+        <tr>
+          <td colspan="7" class="text-muted">Aucune entreprise trouvée.</td>
+        </tr>
         {% endfor %}
       </tbody>
     </table>
 
     {% if pages > 1 %}
-      <div class="d-flex justify-content-center mt-4">
-        <nav>
-          <ul class="pagination pagination-sm">
-            <li class="page-item {% if page == 1 %}disabled{% endif %}">
-              <a class="page-link" href="?page={{ page - 1 }}&nom={{ searchNom }}&secteur={{ searchSecteur }}">&laquo;</a>
-            </li>
-            {% for p in 1..pages %}
-              <li class="page-item {% if p == page %}active{% endif %}">
-                <a class="page-link" href="?page={{ p }}&nom={{ searchNom }}&secteur={{ searchSecteur }}">{{ p }}</a>
-              </li>
-            {% endfor %}
-            <li class="page-item {% if page == pages %}disabled{% endif %}">
-              <a class="page-link" href="?page={{ page + 1 }}&nom={{ searchNom }}&secteur={{ searchSecteur }}">&raquo;</a>
-            </li>
-          </ul>
-        </nav>
-      </div>
+    <div class="d-flex justify-content-center mt-4">
+      <nav>
+        <ul class="pagination pagination-sm">
+          <li class="page-item {% if page == 1 %}disabled{% endif %}">
+            <a class="page-link" href="?page={{ page - 1 }}&nom={{ searchNom }}&secteur={{ searchSecteur }}">&laquo;</a>
+          </li>
+          {% for p in 1..pages %}
+          <li class="page-item {% if p == page %}active{% endif %}">
+            <a class="page-link" href="?page={{ p }}&nom={{ searchNom }}&secteur={{ searchSecteur }}">{{ p }}</a>
+          </li>
+          {% endfor %}
+          <li class="page-item {% if page == pages %}disabled{% endif %}">
+            <a class="page-link" href="?page={{ page + 1 }}&nom={{ searchNom }}&secteur={{ searchSecteur }}">&raquo;</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
     {% endif %}
-
   </div>
 </div>
 
 <script>
-function confirmerSuppressionEntreprise(id) {
+function confirmerSuppression(id) {
     if (confirm('Confirmer la suppression de cette entreprise ?')) {
-        document.getElementById('form-supprimer-entreprise-' + id).submit();
+        document.getElementById('form-supprimer-' + id).submit();
     }
 }
 </script>

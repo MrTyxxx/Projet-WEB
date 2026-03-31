@@ -11,31 +11,26 @@ use Slim\Views\Twig;
 class EntrepriseController
 {
     public function __construct(
-        private EntityManagerInterface $em
+        private EntityManagerInterface $entityManager
     ) {}
 
-    // Page publique /page_entreprise (tu peux garder ton code précédent si tu veux)
     public function pageEntreprises(Request $request, Response $response): Response
     {
         $page   = $request->getQueryParams()['page'] ?? 1;
         $depart = ($page - 1) * 6;
 
-        $entreprises = $this->em->getRepository(Entreprise::class)
-                                ->findBy([], ['id_entreprise' => 'ASC'], 6, $depart);
-
-        $pages = max(1, (int)ceil($this->em->getRepository(Entreprise::class)->count([]) / 6));
+        $entreprises = $this->entityManager->getRepository(Entreprise::class)
+            ->findBy([], ['id_entreprise' => 'ASC'], 6, $depart);
 
         return Twig::fromRequest($request)->render($response, 'page_entreprise.html.twig', [
             'entreprises' => $entreprises,
             'page'        => $page,
-            'pages'       => $pages,
         ]);
     }
 
-    // Page détail publique /entreprise/{id}
     public function showEntreprise(Request $request, Response $response, array $args): Response
     {
-        $entreprise = $this->em->getRepository(Entreprise::class)->find($args['id']);
+        $entreprise = $this->entityManager->getRepository(Entreprise::class)->find($args['id']);
 
         if (!$entreprise) {
             $response->getBody()->write("Entreprise introuvable");
@@ -48,117 +43,144 @@ class EntrepriseController
         ]);
     }
 
-    // Tableau admin des entreprises
     public function gestionEntreprises(Request $request, Response $response): Response
     {
         $user   = $request->getAttribute('user');
         $params = $request->getQueryParams();
 
-        $searchNom    = $params['nom']    ?? '';
-        $searchSecteur= $params['secteur']?? '';
-        $page         = max(1, (int)($params['page'] ?? 1));
-        $limit        = 10;
+        $searchNom     = $params['nom'] ?? '';
+        $searchSecteur = $params['secteur'] ?? '';
+        $page          = max(1, (int)($params['page'] ?? 1));
+        $limit         = 10;
 
-        // On récupère toutes les entreprises puis on filtre en PHP (comme pour les offres)
-        $toutes = $this->em->getRepository(Entreprise::class)->findAll();
+        $toutes = $this->entityManager->getRepository(Entreprise::class)->findAll();
 
         if ($searchNom !== '') {
-            $toutes = array_values(array_filter($toutes, function (Entreprise $e) use ($searchNom) {
+            $toutes = array_values(array_filter($toutes, function($e) use ($searchNom) {
                 return str_contains(strtolower($e->getNom()), strtolower($searchNom));
             }));
         }
 
         if ($searchSecteur !== '') {
-            $toutes = array_values(array_filter($toutes, function (Entreprise $e) use ($searchSecteur) {
+            $toutes = array_values(array_filter($toutes, function($e) use ($searchSecteur) {
                 return str_contains(strtolower($e->getSecteur()), strtolower($searchSecteur));
             }));
         }
 
-        $total  = count($toutes);
-        $pages  = max(1, (int)ceil($total / $limit));
-        $page   = min($page, $pages);
+        $total       = count($toutes);
+        $pages       = max(1, (int)ceil($total / $limit));
+        $page        = min($page, $pages);
         $entreprises = array_slice($toutes, ($page - 1) * $limit, $limit);
+        $campuses    = $this->entityManager->getRepository(Campus::class)->findAll();
 
         return Twig::fromRequest($request)->render($response, 'gestion-entreprises.html.twig', [
-            'user'         => $user,
-            'active'       => 'entreprises',
-            'entreprises'  => $entreprises,
-            'searchNom'    => $searchNom,
-            'searchSecteur'=> $searchSecteur,
-            'page'         => $page,
-            'pages'        => $pages,
-        ]);
-    }
-
-    // Supprimer une entreprise
-    public function supprimerEntreprise(Request $request, Response $response, array $args): Response
-    {
-        $entreprise = $this->em->getRepository(Entreprise::class)->find($args['id']);
-
-        if ($entreprise) {
-            $this->em->remove($entreprise);
-            $this->em->flush();
-        }
-
-        return $response->withHeader('Location', '/espace/entreprises')->withStatus(302);
-    }
-
-    // Créer une entreprise (GET = affiche le formulaire, POST = traite)
-    public function creerEntrepriseForm(Request $request, Response $response): Response
-    {
-        $user = $request->getAttribute('user');
-        $campuses = $this->em->getRepository(Campus::class)->findAll();
-
-        return Twig::fromRequest($request)->render($response, 'creer-entreprises.html.twig', [
-            'user'     => $user,
-            'active'   => 'entreprises',
-            'campuses' => $campuses,
+            'user'          => $user,
+            'active'        => 'entreprises',
+            'entreprises'   => $entreprises,
+            'campuses'      => $campuses,
+            'searchNom'     => $searchNom,
+            'searchSecteur' => $searchSecteur,
+            'page'          => $page,
+            'pages'         => $pages,
         ]);
     }
 
     public function creerEntreprise(Request $request, Response $response): Response
     {
-        $user = $request->getAttribute('user');
-        $campuses = $this->em->getRepository(Campus::class)->findAll();
-        $data = $request->getParsedBody();
+        $user     = $request->getAttribute('user');
+        $campuses = $this->entityManager->getRepository(Campus::class)->findAll();
+        $errors   = [];
 
-        $nom    = trim($data['nom_entreprise'] ?? '');
-        $secteur= trim($data['secteur']        ?? '');
-        $email  = trim($data['email_contact']  ?? '');
-        $desc   = trim($data['description']    ?? '');
-        $idCampus = (int)($data['campus']      ?? 0);
+        if ($request->getMethod() === 'POST') {
+            $data = $request->getParsedBody();
 
-        if ($nom === '' || $secteur === '' || $email === '' || $idCampus <= 0) {
-            return Twig::fromRequest($request)->render($response->withStatus(400), 'creer-entreprises.html.twig', [
-                'user'     => $user,
-                'active'   => 'entreprises',
-                'campuses' => $campuses,
-                'error'    => 'Tous les champs obligatoires doivent être remplis.',
-                'old'      => $data,
-            ]);
+            $nom         = trim($data['nom_entreprise'] ?? '');
+            $secteur     = trim($data['secteur'] ?? '');
+            $email       = trim($data['email_contact'] ?? '');
+            $description = trim($data['description'] ?? '');
+            $campusId    = $data['campus'] ?? null;
+
+            $campus = $campusId
+                ? $this->entityManager->getRepository(Campus::class)->find($campusId)
+                : null;
+
+            if ($nom === '' || $secteur === '' || $email === '' || !$campus) {
+                $errors[] = 'Tous les champs obligatoires doivent être remplis.';
+            }
+
+            if (empty($errors)) {
+                $nouvelleEntreprise = new Entreprise(
+                    $nom,
+                    $secteur,
+                    $email,
+                    $campus,
+                    $description !== '' ? $description : null
+                );
+
+                $this->entityManager->persist($nouvelleEntreprise);
+                $this->entityManager->flush();
+
+                return $response->withHeader('Location', '/espace/entreprises')->withStatus(302);
+            }
         }
 
-        $campus = $this->em->getRepository(Campus::class)->find($idCampus);
-        if (!$campus) {
-            return Twig::fromRequest($request)->render($response->withStatus(400), 'creer-entreprises.html.twig', [
-                'user'     => $user,
-                'active'   => 'entreprises',
-                'campuses' => $campuses,
-                'error'    => 'Campus introuvable.',
-                'old'      => $data,
-            ]);
+        return Twig::fromRequest($request)->render($response, 'creer-entreprises.html.twig', [
+            'user'     => $user,
+            'active'   => 'entreprises',
+            'campuses' => $campuses,
+            'errors'   => $errors,
+            'mode'     => 'creer',
+        ]);
+    }
+
+    public function modifierEntreprise(Request $request, Response $response, array $args): Response
+    {
+        $user       = $request->getAttribute('user');
+        $entreprise = $this->entityManager->getRepository(Entreprise::class)->find($args['id']);
+        $campuses   = $this->entityManager->getRepository(Campus::class)->findAll();
+        $errors     = [];
+
+        if (!$entreprise) {
+            return $response->withHeader('Location', '/espace/entreprises')->withStatus(302);
         }
 
-        $entreprise = new Entreprise(
-            $nom,
-            $secteur,
-            $email,
-            $campus,
-            $desc !== '' ? $desc : null
-        );
+        if ($request->getMethod() === 'POST') {
+            $data = $request->getParsedBody();
 
-        $this->em->persist($entreprise);
-        $this->em->flush();
+            $entreprise->setNom(trim($data['nom_entreprise'] ?? ''));
+            $entreprise->setSecteur(trim($data['secteur'] ?? ''));
+            $entreprise->setEmail(trim($data['email_contact'] ?? ''));
+            $entreprise->setDescription(trim($data['description'] ?? ''));
+
+            $campusId = $data['campus'] ?? null;
+            if ($campusId) {
+                $campus = $this->entityManager->getRepository(Campus::class)->find($campusId);
+                $entreprise->setCampus($campus);
+            }
+
+            $this->entityManager->flush();
+
+            return $response->withHeader('Location', '/espace/entreprises')->withStatus(302);
+        }
+
+        return Twig::fromRequest($request)->render($response, 'creer-entreprises.html.twig', [
+            'user'       => $user,
+            'active'     => 'entreprises',
+            'entreprise' => $entreprise,
+            'campuses'   => $campuses,
+            'errors'     => $errors,
+            'mode'       => 'modifier',
+        ]);
+    }
+
+    public function supprimerEntreprise(Request $request, Response $response, array $args): Response
+    {
+        $entreprise = $this->entityManager->getRepository(Entreprise::class)->find($args['id']);
+
+        if ($entreprise) {
+            $this->entityManager->remove($entreprise);
+            $this->entityManager->flush();
+        }
 
         return $response->withHeader('Location', '/espace/entreprises')->withStatus(302);
     }
