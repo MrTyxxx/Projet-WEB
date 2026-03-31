@@ -3,103 +3,106 @@
 
 <div class="container-fluid px-2">
 
-  <div class="d-flex gap-2 mb-3 flex-wrap">
+  <div class="d-flex gap-2 mb-3 flex-wrap align-items-center">
     <button class="btn btn-dark btn-sm">Toutes les Entreprises</button>
-    <input type="text" class="form-control form-control-sm w-auto" placeholder="Recherche par Noms" id="searchNom">
-    <select class="form-select form-select-sm w-auto" id="filterSecteur">
-      <option value="">Secteurs</option>
-      <option value="IT">IT</option>
-      <option value="Finance">Finance</option>
-      <option value="Industrie">Industrie</option>
-      <option value="Santé">Santé</option>
-      <option value="Télécoms">Télécoms</option>
-      <option value="Aérospatiale">Aérospatiale</option>
-    </select>
-    <div style="text-align: right ; width: 100%;">
-      <a href="/espace/entreprises/creer" class="btn btn-dark btn-sm">➕</a>
+
+    <form method="GET" action="" class="d-flex gap-2 flex-wrap align-items-center">
+      <input
+        type="text"
+        class="form-control form-control-sm w-auto"
+        placeholder="Recherche par nom"
+        name="nom"
+        value="{{ searchNom }}"
+      >
+
+      <input
+        type="text"
+        class="form-control form-control-sm w-auto"
+        placeholder="Recherche par secteur"
+        name="secteur"
+        value="{{ searchSecteur }}"
+      >
+
+      <button type="submit" class="btn btn-dark btn-sm">🔍 Rechercher</button>
+    </form>
+
+    <div class="ms-auto">
+      <a href="/espace/entreprises/creer" class="btn btn-dark btn-sm">Ajouter une entreprise ➕</a>
     </div>
   </div>
 
   <div class="border rounded-3 p-3">
-    <table class="table table-bordered table-sm text-center align-middle" id="tableEntreprises">
+    <table class="table table-bordered table-sm text-center align-middle">
       <thead class="table-light">
         <tr>
           <th>N°</th>
-          <th>Nom Entreprise</th>
-          <th>Secteurs</th>
+          <th>Nom</th>
+          <th>Secteur</th>
           <th>Campus</th>
           <th>E-mail</th>
-          <th>Contact</th>
           <th>Nb Offres liées</th>
           <th>Action</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>1</td><td>Capgemini</td><td>IT</td><td>Reims</td><td>contact@capgemini.fr</td><td>06 11 22 33 44</td><td>3</td>
-          <td><a href="#" class="btn btn-sm btn-outline-secondary me-1">✏️</a><a href="#" class="btn btn-sm btn-outline-danger">✖</a></td>
-        </tr>
-        <tr>
-          <td>2</td><td>Thales</td><td>Aérospatiale</td><td>Strasbourg</td><td>contact@thales.fr</td><td>06 22 33 44 55</td><td>2</td>
-          <td><a href="#" class="btn btn-sm btn-outline-secondary me-1">✏️</a><a href="#" class="btn btn-sm btn-outline-danger">✖</a></td>
-        </tr>
-        <tr>
-          <td>3</td><td>Orange</td><td>Télécoms</td><td>Reims</td><td>contact@orange.fr</td><td>06 33 44 55 66</td><td>4</td>
-          <td><a href="#" class="btn btn-sm btn-outline-secondary me-1">✏️</a><a href="#" class="btn btn-sm btn-outline-danger">✖</a></td>
-        </tr>
-        <tr>
-          <td>4</td><td>Société Générale</td><td>Finance</td><td>Strasbourg</td><td>contact@sg.fr</td><td>06 44 55 66 77</td><td>2</td>
-          <td><a href="#" class="btn btn-sm btn-outline-secondary me-1">✏️</a><a href="#" class="btn btn-sm btn-outline-danger">✖</a></td>
-        </tr>
-        <tr>
-          <td>5</td><td>Schneider Electric</td><td>Industrie</td><td>Reims</td><td>contact@schneider.fr</td><td>06 55 66 77 88</td><td>1</td>
-          <td><a href="#" class="btn btn-sm btn-outline-secondary me-1">✏️</a><a href="#" class="btn btn-sm btn-outline-danger">✖</a></td>
-        </tr>
-        <tr>
-          <td>6</td><td>Doctolib</td><td>Santé</td><td>Strasbourg</td><td>contact@doctolib.fr</td><td>06 66 77 88 99</td><td>2</td>
-          <td><a href="#" class="btn btn-sm btn-outline-secondary me-1">✏️</a><a href="#" class="btn btn-sm btn-outline-danger">✖</a></td>
-        </tr>
+        {% for e in entreprises %}
+          <tr>
+            <td>{{ (page - 1) * 10 + loop.index }}</td>
+            <td>{{ e.nom }}</td>
+            <td>{{ e.secteur }}</td>
+            <td>{{ e.campus ? e.campus.ville : 'Non défini' }}</td>
+            <td>{{ e.email }}</td>
+            <td>{{ e.nombreOffres }}</td>
+            <td>
+              {# tu pourras ajouter un vrai écran de modification plus tard #}
+              <a href="/entreprise/{{ e.idEntreprise }}" class="btn btn-sm btn-outline-secondary me-1">Voir</a>
+
+              <button type="button"
+                      class="btn btn-sm btn-outline-danger"
+                      onclick="confirmerSuppressionEntreprise({{ e.idEntreprise }})">✖</button>
+
+              <form id="form-supprimer-entreprise-{{ e.idEntreprise }}"
+                    action="/espace/entreprises/{{ e.idEntreprise }}/supprimer"
+                    method="POST" style="display:none;"></form>
+            </td>
+          </tr>
+        {% else %}
+          <tr>
+            <td colspan="7" class="text-muted">Aucune entreprise trouvée.</td>
+          </tr>
+        {% endfor %}
       </tbody>
     </table>
 
-    <div class="d-flex justify-content-between align-items-center mt-2">
-      <div class="container d-flex justify-content-center pb-5">
-    <nav aria-label="Page gestion etudiants">
-    <nav class="mt-2">
-       <ul class="pagination">
-        <li class="page-item">
-          <a class="page-link" href="#" aria-label="Previous">
-            <span>&laquo;</span>
-          </a>
-       </li>
-       <li class="page-item"><a class="page-link" href="#">1</a></li>
-       <li class="page-item"><a class="page-link" href="#">2</a></li>
-       <li class="page-item"><a class="page-link" href="#">3</a></li>
-       <li class="page-item">
-          <a class="page-link" href="#" aria-label="Next">
-           <span>&raquo;</span>
+    {% if pages > 1 %}
+      <div class="d-flex justify-content-center mt-4">
+        <nav>
+          <ul class="pagination pagination-sm">
+            <li class="page-item {% if page == 1 %}disabled{% endif %}">
+              <a class="page-link" href="?page={{ page - 1 }}&nom={{ searchNom }}&secteur={{ searchSecteur }}">&laquo;</a>
+            </li>
+            {% for p in 1..pages %}
+              <li class="page-item {% if p == page %}active{% endif %}">
+                <a class="page-link" href="?page={{ p }}&nom={{ searchNom }}&secteur={{ searchSecteur }}">{{ p }}</a>
+              </li>
+            {% endfor %}
+            <li class="page-item {% if page == pages %}disabled{% endif %}">
+              <a class="page-link" href="?page={{ page + 1 }}&nom={{ searchNom }}&secteur={{ searchSecteur }}">&raquo;</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    {% endif %}
 
-      </a>
-    </li>
-  </ul>
-</nav>
+  </div>
 </div>
 
 <script>
-  document.getElementById('searchNom').addEventListener('input', filtrer);
-  document.getElementById('filterSecteur').addEventListener('change', filtrer);
-
-  function filtrer() {
-    const nom = document.getElementById('searchNom').value.toLowerCase();
-    const secteur = document.getElementById('filterSecteur').value;
-    document.querySelectorAll('#tableEntreprises tbody tr').forEach(tr => {
-      const nomCell = tr.cells[1].textContent.toLowerCase();
-      const secteurCell = tr.cells[2].textContent.trim();
-      const matchNom = nomCell.includes(nom);
-      const matchSecteur = secteur === '' || secteurCell === secteur;
-      tr.style.display = matchNom && matchSecteur ? '' : 'none';
-    });
-  }
+function confirmerSuppressionEntreprise(id) {
+    if (confirm('Confirmer la suppression de cette entreprise ?')) {
+        document.getElementById('form-supprimer-entreprise-' + id).submit();
+    }
+}
 </script>
 
 {% endblock %}
