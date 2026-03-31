@@ -36,19 +36,32 @@ return function (App $app) {
     $app->group('/espace', function ($group) {
         $group->get('',                    [HomeController::class,        'monEspace']);
         $group->get('/profil',             [UserController::class,        'mesInformations']);
+
         $group->get('/etudiants',          [UserController::class,        'gestionEtudiants']);
         $group->get('/etudiants/creer',    [UserController::class,        'creerCompte']);
         $group->post('/etudiants/creer',   [UserController::class,        'creerCompte']);
+        $group->get('/etudiants/{id}/modifier',  [UserController::class, 'modifierCompte']);
+        $group->post('/etudiants/{id}/modifier', [UserController::class, 'modifierCompte']);
+        $group->post('/etudiants/{id}/supprimer',[UserController::class, 'supprimerCompte']);
+
         $group->get('/pilotes',            [UserController::class,        'gestionPilotes']);
         $group->get('/pilotes/creer',      [UserController::class,        'creerCompte']);
         $group->post('/pilotes/creer',     [UserController::class,        'creerCompte']);
+        $group->get('/pilotes/{id}/modifier',   [UserController::class, 'modifierCompte']);
+        $group->post('/pilotes/{id}/modifier',  [UserController::class, 'modifierCompte']);
+        $group->post('/pilotes/{id}/supprimer', [UserController::class, 'supprimerCompte']);
+
         $group->get('/candidatures',       [CandidatureController::class, 'gestionCandidatures']);
         $group->get('/entreprises',        [EntrepriseController::class,  'gestionEntreprises']);
         $group->get('/entreprises/creer',  [EntrepriseController::class,  'creerEntrepriseForm']);
         $group->post('/entreprises/creer', [EntrepriseController::class,  'creerEntrepriseForm']);
+
         $group->get('/offres',             [OffreController::class,       'gestionOffres']);
         $group->get('/offres/creer',       [OffreController::class,       'creerOffreForm']);
         $group->post('/offres/creer',      [OffreController::class,       'creerOffreForm']);
+        $group->get('/offres/{id}/modifier',   [OffreController::class, 'modifierOffre']);
+        $group->post('/offres/{id}/modifier',  [OffreController::class, 'modifierOffre']);
+        $group->post('/offres/{id}/supprimer', [OffreController::class, 'supprimerOffre']);
     })->add(new LoggedMiddleware($factory));
 
     $app->get('/wishlist', \App\Controller\WishlistController::class . ':wishlist');
