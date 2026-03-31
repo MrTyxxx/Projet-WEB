@@ -2,84 +2,98 @@
 
 {% block contenu %}
 
-<section class="bg-light py-5 text-center">
-  <div class="container">
-    <h1 class="fw-bold mb-3">Les entreprises partenaires</h1>
-    <p class="text-muted mb-4">Explorez les entreprises qui recrutent et trouvez celle qui vous correspond</p>
-    
-    <form class="row g-2 justify-content-center">
-      <div class="col-auto">
-        <input type="text" placeholder="Nom d'entreprise" class="form-control">
-      </div>
-      <div class="col-auto">
-        <input type="text" placeholder="Secteur" class="form-control">
-      </div>
-      <div class="col-auto">
-        <button type="submit" class="btn btn-primary px-4">Rechercher</button>
-      </div>
-    </form>
-  </div>
-</section>
+	<section class="bg-light py-5 text-center">
+		<div class="container">
+			<h1 class="fw-bold mb-3">Les entreprises partenaires</h1>
+			<p class="text-muted mb-4">Explorez les entreprises qui recrutent et trouvez celle qui vous correspond</p>
 
-<div class="container text-center py-5 pb-4">
-  <h2 class="fw-bold fs-4 text-dark mb-2">Entreprises disponibles</h2>
-  <p class="text-secondary">
-    Découvrez les entreprises partenaires et leurs opportunités de stage
-  </p>
-</div>
+			<form class="row g-2 justify-content-center">
+				<div class="col-auto">
+					<input type="text" placeholder="Nom d'entreprise" class="form-control">
+				</div>
+				<div class="col-auto">
+					<input type="text" placeholder="Secteur" class="form-control">
+				</div>
+				<div class="col-auto">
+					<button type="submit" class="btn btn-primary px-4">Rechercher</button>
+				</div>
+			</form>
+		</div>
+	</section>
 
-<div class="container mb-5 col-lg-9">
- {% for entreprise in entreprises %}
-  <div class="d-flex flex-column gap-3">
-    <div class="card shadow-sm border-0">
-      <div class="card-body d-flex flex-column flex-md-row align-items-center gap-4 p-4">
-        <div class="display-5 fw-bold text-primary bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 mb-4" style="width: 8rem; height: 8rem;">
-          {{ entreprise.nom|split(' ')[0]|first ~ entreprise.nom|split(' ')[1]|first }}
-        </div>
-        <div class="flex-grow-1 text-center text-md-start">
-          <h5 class="fw-bold mb-1"> {{ entreprise.nom }} <span class="badge text-bg-primary ms-2 align-middle small">{{ entreprise.secteur }}</span></h5>
-          <p class="text-muted small mb-2">
-            <i class="bi bi-geo-alt-fill text-secondary"></i> {{ entreprise.localite}} • {{entreprise.Email}} • 
-            <span class="badge text-bg-light border"><i class="bi bi-mortarboard-fill text-secondary"></i> Paris-Saclay</span>
-          </p>
-          <p class="text-muted small mb-2">{{ entreprise.description }}</p>
-          <div class="text-warning small">
-            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i>
-            <span class="text-dark fw-bold ms-1">4.1</span> <span class="text-muted">(284 avis)</span>
-          </div>
-        </div>
-        <div class="flex-shrink-0 mt-3 mt-md-0">
-          <a href="/entreprise/{{ entreprise.identreprise }}" class="btn btn-outline-primary rounded-pill px-4">Voir plus</a>
-        </div>
-      </div>
-      </div>
-      {% else %}
-      <p class="text-center text-muted">Aucune entreprise disponible.</p>
-    {% endfor %}
-    </div>
+	<div class="container text-center py-5 pb-4">
+		<h2 class="fw-bold fs-4 text-dark mb-2">Entreprises disponibles</h2>
+		<p class="text-secondary">
+			Découvrez les entreprises partenaires et leurs opportunités de stage
+		</p>
+	</div>
 
-</div>
+	<div class="container mb-5 col-lg-9">
+		{% for entreprise in entreprises %}
+			<div class="d-flex flex-column gap-3">
+				<div class="card shadow-sm border-0">
+					<div class="card-body d-flex flex-column flex-md-row align-items-center gap-4 p-4">
+						<div class="display-5 fw-bold text-primary bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 mb-4" style="width: 8rem; height: 8rem;">
+							{{ entreprise.nom|split(' ')[0]|first ~ entreprise.nom|split(' ')[1]|first }}
+						</div>
+						<div class="flex-grow-1 text-center text-md-start">
+							<h5 class="fw-bold mb-1">
+								{{ entreprise.nom }}
+								<span class="badge text-bg-primary ms-2 align-middle small">{{ entreprise.secteur }}</span>
+							</h5>
+							<p class="text-muted small mb-2">
+								<i class="bi bi-geo-alt-fill text-secondary"></i>
+								{{ entreprise.localite}}
+								•
+								{{entreprise.Email}}
+								•
+								<span class="badge text-bg-light border">
+									<i class="bi bi-mortarboard-fill text-secondary"></i>
+									Paris-Saclay</span>
+							</p>
+							<p class="text-muted small mb-2">{{ entreprise.description }}</p>
+							<div class="text-warning small">
+								<i class="bi bi-star-fill"></i>
+								<i class="bi bi-star-fill"></i>
+								<i class="bi bi-star-fill"></i>
+								<i class="bi bi-star-fill"></i>
+								<i class="bi bi-star"></i>
+								<span class="text-dark fw-bold ms-1">4.1</span>
+								<span class="text-muted">(284 avis)</span>
+							</div>
+						</div>
+						<div class="flex-shrink-0 mt-3 mt-md-0">
+							<a href="/entreprise/{{ entreprise.identreprise }}" class="btn btn-outline-primary rounded-pill px-4">Voir plus</a>
+						</div>
+					</div>
+				</div>
+			{% else %}
+				<p class="text-center text-muted">Aucune entreprise disponible.</p>
+			{% endfor %}
+		</div>
 
-{% if pages > 1 %}
-<div class="container d-flex justify-content-center pb-5 mt-4">
-  <nav>
-    <ul class="pagination">
-      <li class="page-item {% if page == 1 %}disabled{% endif %}">
-        <a class="page-link" href="?page={{ page - 1 }}">&laquo;</a>
-      </li>
+	</div>
 
-      {% for p in 1..pages %}
-      <li class="page-item {% if p == page %}active{% endif %}">
-        <a class="page-link" href="?page={{ p }}">{{ p }}</a>
-      </li>
-      {% endfor %}
+	{% if pages > 1 %}
+		<div class="container d-flex justify-content-center pb-5 mt-4">
+			<nav>
+				<ul class="pagination">
+					<li class="page-item {% if page == 1 %}disabled{% endif %}">
+						<a class="page-link" href="?page={{ page - 1 }}">&laquo;</a>
+					</li>
 
-      <li class="page-item {% if page == pages %}disabled{% endif %}">
-        <a class="page-link" href="?page={{ page + 1 }}">&raquo;</a>
-      </li>
-    </ul>
-  </nav>
-</div>
-{% endif %}
+					{% for p in 1..pages %}
+						<li class="page-item {% if p == page %}active{% endif %}">
+							<a class="page-link" href="?page={{ p }}">{{ p }}</a>
+						</li>
+					{% endfor %}
+
+					<li class="page-item {% if page == pages %}disabled{% endif %}">
+						<a class="page-link" href="?page={{ page + 1 }}">&raquo;</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	{% endif %}
 
 {% endblock %}

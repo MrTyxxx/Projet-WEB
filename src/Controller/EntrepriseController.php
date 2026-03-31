@@ -49,17 +49,21 @@ public function pageEntreprises(Request $request, Response $response): Response
     
 public function showEntreprise(Request $request, Response $response, array $args): Response
 {
+    // Récupère l'ID dans l'URL
     $id = $args['id'];
+
+    // Récupère l'entreprise dans la BDD
     $entreprise = $this->em->getRepository(Entreprise::class)->find($id);
-    // Si l'entreprise existe pas → 404
+
+    // Si elle n'existe pas
     if (!$entreprise) {
         $response->getBody()->write("Entreprise introuvable");
         return $response->withStatus(404);
     }
 
-    // On rend la vue
+    // Envoie l'entreprise au Twig
     return Twig::fromRequest($request)->render($response, 'Entreprise1.html.twig', [
-        'entreprise' => $entreprise,   // 👈 IMPORTANT
+        'entreprise' => $entreprise,
         'user'       => $request->getAttribute('user'),
     ]);
 }
