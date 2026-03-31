@@ -16,53 +16,29 @@ class OffreController {
     }
 
     public function pageOffres(Request $request, Response $response): Response
-    {
-        $page = $request->getQueryParams()['page'] ?? 1;
-        $depart = ($page - 1) * 6;
+{
+    // récupère le chiffre de l'URL
+    $params = $request->getQueryParams();
+    $debut = $params['offset'] ?? 0;
 
-        $offres = $this->em->getRepository(Offrestage::class)
-                           ->findBy([], ['id_offre' => 'ASC'], 6, $depart);
+    // on prend 6 offres en commençant au chiffre du  debut
+    $offres = $this->em->getRepository(Offrestage::class)->findBy([], null, 6, $debut);
 
-        $mesLikes = [];
-        $user = $request->getAttribute('user');
+    $mesLikes = [];
+    $user = $request->getAttribute('user');
 
-        if ($user && $user->getRole() === 'etudiant') {
-            $db = new \PDO('mysql:host=db;dbname=yourjob;charset=utf8', 'root', 'root');
-            $stmt = $db->prepare("SELECT id_offre FROM WISHLIST WHERE id_utilisateur = ?");
-            $stmt->execute([$user->getIdUtilisateur()]);
-            $mesLikes = $stmt->fetchAll(PDO::FETCH_COLUMN);
-        }
-
-        return Twig::fromRequest($request)->render($response, 'page_offres.html.twig', [
-            'offres'    => $offres,
-            'page'      => $page,
-            'user'      => $user,
-            'mes_likes' => $mesLikes
-        ]);
-    }  
-    public function show(Request $request, Response $response, array $args): Response
-    {
-        $id = $args['id'];
-
-        $offre = $this->em->getRepository(Offrestage::class)
-            ->createQueryBuilder('o')
-            ->leftJoin('o.entreprise', 'e')
-            ->addSelect('e')
-            ->where('o.id_offre = :id')
-            ->setParameter('id', $id)
-            ->getQuery()
-            ->getOneOrNullResult();
-
-        if (!$offre) {
-            $response->getBody()->write("Offre introuvable");
-            return $response->withStatus(404);
-        }
-
-        return Twig::fromRequest($request)->render($response, 'offre1.html.twig', [
-            'offre'      => $offre,
-            'entreprise' => $offre->getEntreprise(),
-            'user'       => $request->getAttribute('user'),
-        ]);
+    if ($user && $user->getRole() === 'etudiant') {
+        $db = new \PDO('mysql:host=db;dbname=yourjob;charset=utf8', 'root', 'root');
+        $stmt = $db->prepare("SELECT id_offre FROM WISHLIST WHERE id_utilisateur = ?");
+        $stmt->execute([$user->getIdUtilisateur()]);
+        $mesLikes = $stmt->fetchAll(\PDO::FETCH_COLUMN);
     }
+    
 
+    return Twig::fromRequest($request)->render($response, 'page_offres.html.twig', [
+        'offres'    => $offres,
+        'user'      => $user,
+        'mes_likes' => $mesLikes
+    ]);
+}
 }

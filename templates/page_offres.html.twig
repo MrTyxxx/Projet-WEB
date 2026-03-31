@@ -10,7 +10,7 @@
         <input type="text" placeholder="Poste" class="form-control">
       </div>
       <div class="col-auto">
-        <input type="text" placeholder="Ville" class="form-control">
+        <input type="text" placeholder="Campus" class="form-control">
       </div>
       <div class="col-auto">
         <button type="submit" class="btn btn-primary px-4">Rechercher</button>
@@ -60,25 +60,21 @@
     
   </div>
 
-  {% if pages > 1 %}
-  <div class="container d-flex justify-content-center pb-5 mt-4">
+ <div class="container d-flex justify-content-center py-5">
     <nav>
-      <ul class="pagination">
-        <li class="page-item {% if page == 1 %}disabled{% endif %}">
-          <a class="page-link" href="?page={{ page - 1 }}">&laquo;</a>
-        </li>
-        {% for p in 1..pages %}
-        <li class="page-item {% if p == page %}active{% endif %}">
-          <a class="page-link" href="?page={{ p }}">{{ p }}</a>
-        </li>
-        {% endfor %}
-        <li class="page-item {% if page == pages %}disabled{% endif %}">
-          <a class="page-link" href="?page={{ page + 1 }}">&raquo;</a>
-        </li>
-      </ul>
-    </nav>
-  </div>
-  {% endif %}
+        <ul class="pagination">
+            <li class="page-item">
+                <a class="page-link" href="?offset=0">&laquo;</a>
+            </li>
 
+            <li class="page-item"><a class="page-link" href="?offset=0">1</a></li>
+            <li class="page-item"><a class="page-link" href="?offset=6">2</a></li>
+            <li class="page-item"><a class="page-link" href="?offset=12">3</a></li>
+
+            <li class="page-item">
+                <a class="page-link" href="?offset=6">&raquo;</a>
+            </li>
+        </ul>
+    </nav>
 </div>
 {% endblock %}
