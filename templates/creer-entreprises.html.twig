@@ -2,57 +2,63 @@
 {% block contenu_espace %}
 
 <div class="container-fluid px-4">
-  <h4 class="text-center mb-4 fw-bold">Créer une Entreprise</h4>
+  <h4 class="text-center mb-4 fw-bold">
+    {{ mode == 'modifier' ? "Modifier une Entreprise" : "Créer une Entreprise" }}
+  </h4>
 
   <div class="border rounded-3 p-4">
-    <form method="post" action="/espace/entreprises/creer">
+
+    {% if errors is not empty %}
+      <div class="alert alert-danger">
+        {% for error in errors %}
+          <div>{{ error }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <form method="post" action="{{ mode == 'modifier' ? '/espace/entreprises/' ~ entreprise.idEntreprise ~ '/modifier' : '/espace/entreprises/creer' }}">
       <div class="row g-3">
 
         <div class="col-md-6">
           <label class="form-label small">Nom de l'entreprise</label>
-          <input type="text" name="nom_entreprise" class="form-control" required>
+          <input type="text" name="nom_entreprise" class="form-control"
+                 value="{{ entreprise.nom ?? '' }}" required>
         </div>
 
         <div class="col-md-6">
           <label class="form-label small">Secteur</label>
-          <select name="secteur" class="form-select">
-            <option value="">-- Choisir --</option>
-            <option>IT</option>
-            <option>Aérospatiale</option>
-            <option>Télécoms</option>
-            <option>Finance</option>
-            <option>Industrie</option>
-            <option>Santé</option>
-            <option>Cybersécurité</option>
-          </select>
+          <input type="text" name="secteur" class="form-control"
+                 value="{{ entreprise.secteur ?? '' }}" required>
         </div>
 
         <div class="col-md-6">
           <label class="form-label small">Campus</label>
-          <select name="campus" class="form-select">
+          <select name="campus" class="form-select" required>
             <option value="">-- Choisir --</option>
-            <option>Reims</option>
-            <option>Strasbourg</option>
+            {% for c in campuses %}
+              <option value="{{ c.idCampus }}"
+                {% if entreprise is defined and entreprise.campus and entreprise.campus.idCampus == c.idCampus %}selected{% endif %}>
+                {{ c.ville }}
+              </option>
+            {% endfor %}
           </select>
         </div>
 
         <div class="col-md-6">
           <label class="form-label small">E-mail</label>
-          <input type="email" name="email_contact" class="form-control" required>
-        </div>
-
-        <div class="col-md-6">
-          <label class="form-label small">Téléphone</label>
-          <input type="text" name="tel_contact" class="form-control">
+          <input type="email" name="email_contact" class="form-control"
+                 value="{{ entreprise.email ?? '' }}" required>
         </div>
 
         <div class="col-md-12">
           <label class="form-label small">Description</label>
-          <textarea name="description" class="form-control" rows="4"></textarea>
+          <textarea name="description" class="form-control" rows="4">{{ entreprise.description ?? '' }}</textarea>
         </div>
 
         <div class="col-12 d-flex gap-2 mt-2">
-          <button type="submit" class="btn btn-dark">Créer</button>
+          <button type="submit" class="btn btn-dark">
+            {{ mode == 'modifier' ? 'Modifier' : 'Créer' }}
+          </button>
           <button type="reset" class="btn btn-outline-secondary">Réinitialiser</button>
           <a href="/espace/entreprises" class="btn btn-outline-danger ms-auto">Annuler</a>
         </div>
