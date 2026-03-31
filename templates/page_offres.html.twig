@@ -45,7 +45,7 @@
           <div class="card-body">
             <h5 class="card-title fw-bold">{{ offre.titre }}</h5>
             <h6 class="card-subtitle mb-3 text-muted">
-                {% if offre.entreprise %}{{ offre.entreprise.nom }} • {% endif %}{{ offre.remuneration }}
+                {% if offre.entreprise %}{{ offre.entreprise.nom }} • {% endif %}{{offre.entreprise.campus.ville}} • {{offre.dateOffre|date("d/m/Y")}} • {{ offre.remuneration }}
             </h6>
             <p class="card-text">{{ offre.description }}</p>
             <a href="/offre/{{ offre.idOffre }}" class="btn btn-outline-primary btn-sm">Voir l'offre</a>

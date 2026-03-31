@@ -96,14 +96,18 @@
     </script>
 
     <div class="col-md-9 border-start">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-          <h5 class="fw-bold">{{ entreprise.nom }} </h5>
-          <span class="text-muted">Lieux: {{ entreprise.localite }}</span>
-          <span class="text-muted">Contact: {{ entreprise.Email }}</span>
+      <div class="d-flex justify-content-between align-items-center mb-1">
+          <h4 class="fw-bold">{{ entreprise.nom }} </h4>
+          <span class="badge text-bg-primary ms-2 align-middle">{{ entreprise.secteur }}</span>
         </div>
-      <p class="mb-4">Ocean CyberSecurity est une entreprise dédiée à la protection des infrastructures numériques. Elle conçoit des solutions avancées de cybersécurité, analyse les menaces émergentes et accompagne les organisations dans la sécurisation de leurs données. Grâce à une équipe d’experts passionnés, l’entreprise combine innovation, rigueur et technologie pour offrir un haut niveau de protection à ses clients.</p>
+        <div class="d-flex justify-content-between align-items-center mb-5">
+            <span class="text-muted">Lieux: {{ entreprise.campus.ville }}</span>
+        </div>
+      <p class="mb-5">Ocean CyberSecurity est une entreprise dédiée à la protection des infrastructures numériques. Elle conçoit des solutions avancées de cybersécurité, analyse les menaces émergentes et accompagne les organisations dans la sécurisation de leurs données. Grâce à une équipe d’experts passionnés, l’entreprise combine innovation, rigueur et technologie pour offrir un haut niveau de protection à ses clients.</p>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <span class="text-muted">Contact: {{ entreprise.Email }}</span>
+        </div>
     </div>
-
   </div>
 </div>
 

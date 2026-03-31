@@ -5,7 +5,7 @@
     
     <h2 class="fw-bold">{{ offre.titre }}</h2>
     <h4 class="text-muted">{{ offre.entreprise.nom }}</h4>
-    <p class="text-primary fw-bold">Rémunération : {{ offre.remuneration }}</p>
+    <p class="text-primary fw-bold">Rémunération : {{ offre.remuneration }} • Date : {{ offre.dateOffre|date("d/m/Y") }}</p>
 
     <hr>
 
