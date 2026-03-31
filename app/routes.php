@@ -24,7 +24,7 @@ return function (App $app) {
     // Routes publiques
     $app->get('/',                [HomeController::class,  'index']);
     $app->get('/page_offres',     [OffreController::class,  'pageOffres']);
-    $app->get('/page_entreprise', [HomeController::class,  'pageEntreprise']);
+    $app->get('/page_entreprise', [EntrepriseController::class, 'pageEntreprises']);
     $app->get('/Mentions',        [HomeController::class,  'mentions']);
     $app->get('/Contact',         [HomeController::class,  'contact']);
     $app->get('/offre/{id}',      [OffreController::class, 'show']);
@@ -51,5 +51,7 @@ return function (App $app) {
         $group->post('/offres/creer',      [OffreController::class,       'creerOffreForm']);
     })->add(new LoggedMiddleware($factory));
 
-    $app->get('/wishlist', [WishlistController::class, 'wishlist']);
+    $app->get('/wishlist', \App\Controller\WishlistController::class . ':wishlist');
+    $app->get('/wishlist/add/{id}', \App\Controller\WishlistController::class . ':add');
+    $app->get('/wishlist/delete/{id}', \App\Controller\WishlistController::class . ':delete'); 
 };

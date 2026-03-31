@@ -1,51 +1,51 @@
-{# templates/wishlist.html.twig #}
-{% extends "monespace.html.twig" %}  {# mets ici le nom exact du fichier avec la sidebar #}
+{% extends "base.html.twig" %}
+{% block contenu %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card p-3 border-0 shadow-sm">
+                <button class="btn btn-primary w-100 mb-4">Tableau de bord</button>
+                <p class="small text-muted mb-0">Ravi de vous revoir ! 👋</p>
+                <p class="fw-bold">{{ user.email }}</p>
+                <hr>
+                <div class="list-group list-group-flush">
+                    <a href="#" class="list-group-item list-group-item-action border-0">■ Mes informations</a>
+                    <a href="/wishlist" class="list-group-item list-group-item-action border-0 fw-bold text-danger">■ Offres enregistrées</a>
+                    <a href="#" class="list-group-item list-group-item-action border-0">■ Mes candidatures</a>
+                </div>
+                <a href="/logout" class="btn btn-dark mt-4">Déconnexion</a>
+            </div>
+        </div>
 
-{% block contenu_espace %}
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="h4 mb-0">Mes Offres Enregistrées</h1>
+        <div class="col-md-9">
+            <h3 class="mb-4">Mes Offres Enregistrées</h3>
 
-    <div class="btn-group">
-      <button type="button"
-              class="btn btn-outline-secondary btn-sm dropdown-toggle"
-              data-bs-toggle="dropdown">
-        Trier par
-      </button>
-      <ul class="dropdown-menu dropdown-menu-end">
-        <li><a class="dropdown-item" href="#">Date d’ajout</a></li>
-        <li><a class="dropdown-item" href="#">Rémunération</a></li>
-        <li><a class="dropdown-item" href="#">Ville</a></li>
-      </ul>
+            {% for offre in offres %}
+                <div class="card mb-3 shadow-sm border-0 p-4" style="border-radius: 12px;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            {# MODIF : J'ai mis 'titre_offre' comme sur ta capture #}
+                            <h5 class="fw-bold mb-1">{{ offre.titre_offre }}</h5> 
+                            
+                            {# MODIF : 'remuneration' et j'ai enlevé ville car elle n'est pas dans ta table #}
+                            <p class="text-muted mb-1">{{ offre.remuneration }}</p>
+                            
+                            {# MODIF : 'description' (tronquée pour pas que ce soit trop long) #}
+                            <p class="small text-muted text-truncate" style="max-width: 400px;">{{ offre.description }}</p>
+                        </div>
+                        <div class="text-end">
+                            <span class="text-warning small d-block mb-2">Derniers jours</span>
+                            <a href="/offre/{{ offre.id_offre }}" class="btn btn-dark px-4">Postuler</a>
+                            <a href="/wishlist/delete/{{ offre.id_offre }}" class="text-danger small">Supprimer</a>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="alert alert-light text-center border py-5">
+                    <p class="mb-0 text-muted">Aucune offre enregistrée. 🤍</p>
+                </div>
+            {% endfor %}
+        </div>
     </div>
-  </div>
-
-  {% for i in 1..4 %}
-    <article class="bg-white mb-3 p-3 p-md-4 rounded-3 border">
-      <div class="d-flex flex-column flex-md-row justify-content-between">
-        <div>
-          <h2 class="h5 mb-1">Titre du Stage + durée du stage</h2>
-          <p class="mb-1 small text-muted">Nom de l'entreprise</p>
-          <p class="mb-2 small text-muted">
-            Reims · 4 mois · 700 €/mois
-          </p>
-        </div>
-
-        <div class="text-md-end mt-3 mt-md-0 d-flex flex-column align-items-md-end">
-          <p class="small text-warning mb-2">Derniers jours</p>
-          <button class="btn btn-dark btn-sm px-4">Postuler</button>
-        </div>
-      </div>
-    </article>
-  {% endfor %}
-
-  <nav class="mt-4 d-flex justify-content-center">
-    <ul class="pagination pagination-sm mb-0">
-      <li class="page-item active"><span class="page-link">1</span></li>
-      <li class="page-item disabled"><span class="page-link">2</span></li>
-      <li class="page-item disabled"><span class="page-link">3</span></li>
-      <li class="page-item disabled"><span class="page-link">4</span></li>
-      <li class="page-item disabled"><span class="page-link">…</span></li>
-      <li class="page-item disabled"><span class="page-link">N</span></li>
-    </ul>
-  </nav>
+</div>
 {% endblock %}

@@ -1,20 +1,72 @@
 <?php
 namespace App\Controller;
 
+
+use App\Domain\Entreprise;
+use Doctrine\ORM\EntityManager; 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
 
 class EntrepriseController
 {
-    public function showEntreprise(Request $request, Response $response, array $args): Response
+
+private EntityManager $em;
+
+    public function __construct(EntityManager $em)
     {
-        $view = Twig::fromRequest($request);
-        return $view->render($response, 'Entreprise1.html.twig', [
-            'id'   => $args['id'],
-            'user' => $request->getAttribute('user'),
+        $this->em = $em;
+    }
+
+
+
+public function pageEntreprises(Request $request, Response $response): Response
+    {
+        // Récupération paramètres pagination
+        $params = $request->getQueryParams();
+        $page = max(1, (int)($params['page'] ?? 1));
+        $limit = 6; // 👈 nombre d'entreprises par page
+        $offset = ($page - 1) * $limit;
+
+        // Total des entreprises
+        $total = $this->em->getRepository(Entreprise::class)->count([]);
+
+        // Entreprises pour cette page
+        $entreprises = $this->em
+            ->getRepository(Entreprise::class)
+            ->findBy([], ['id_entreprise' => 'ASC'], $limit, $offset);
+
+        // Nombre de pages
+        $pages = (int) ceil($total / $limit);
+
+        return Twig::fromRequest($request)->render($response, 'page_entreprise.html.twig', [
+            'entreprises' => $entreprises,
+            'page'        => $page,
+            'pages'       => $pages
         ]);
     }
+
+    
+public function showEntreprise(Request $request, Response $response, array $args): Response
+{
+    // Récupère l'ID dans l'URL
+    $id = $args['id'];
+
+    // Récupère l'entreprise dans la BDD
+    $entreprise = $this->em->getRepository(Entreprise::class)->find($id);
+
+    // Si elle n'existe pas
+    if (!$entreprise) {
+        $response->getBody()->write("Entreprise introuvable");
+        return $response->withStatus(404);
+    }
+
+    // Envoie l'entreprise au Twig
+    return Twig::fromRequest($request)->render($response, 'Entreprise1.html.twig', [
+        'entreprise' => $entreprise,
+        'user'       => $request->getAttribute('user'),
+    ]);
+}
 
     public function gestionEntreprises(Request $request, Response $response): Response
     {
