@@ -43,7 +43,6 @@ class Utilisateur {
     #[JoinColumn(name: 'id_campus', referencedColumnName: 'id_campus', nullable: true)]
     private ?Campus $campus;
 
-
     public function __construct(string $nom, string $prenom, string $email,string $telephone, string $motdepasse, string $role,?Campus $campus = null){
         $this->nom = $nom;
         $this->prenom = $prenom;
@@ -78,7 +77,7 @@ class Utilisateur {
     public function setTelephone(string  $telephone): void { $this->telephone = $telephone; }
 
     public function getCampus(): ?Campus { return $this->campus; }
-public function setCampus(?Campus $campus): void { $this->campus = $campus; }
+    public function setCampus(?Campus $campus): void { $this->campus = $campus; }
 
     public function verifierMotdePasse(string $motdepasse): bool {
         return password_verify($motdepasse, $this->motdepasse);

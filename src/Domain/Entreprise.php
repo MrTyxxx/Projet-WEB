@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
@@ -26,27 +28,24 @@ class Entreprise
     #[Column(name: 'email_contact', type: 'string', nullable: false)]
     private string $email;
 
-    #[Column(name: 'localite', type: 'string', nullable: true)]
-    private ?string $localite;
-
     #[Column(type: 'text', nullable: true)]
     private ?string $description;
 
-    #[ManyToMany (targetEntity: Campus::class, mappedBy: 'entreprise')]
-    private Collection $campus;
+    #[ManyToOne(targetEntity: Campus::class)]
+    #[JoinColumn(name: 'id_campus', referencedColumnName: 'id_campus', nullable: false)]
+    private Campus $campus;
 
     #[OneToMany(targetEntity: Offrestage::class, mappedBy: 'entreprise')]
     private Collection $offres;
 
-    public function __construct(string $nom, string $secteur, string $email, ?string $telephone = null, ?string $description = null)
+    public function __construct(string $nom, string $secteur, string $email, Campus $campus, ?string $description = null)
     {
         $this->nom = $nom;
-        $this->secteur  = $secteur;
-        $this->email  = $email;
-        $this->localite  = $localite;
+        $this->secteur = $secteur;
+        $this->email = $email;
+        $this->campus = $campus;
         $this->description = $description;
-        $this->offres  = new ArrayCollection();
-        $this->campus = new ArrayCollection();
+        $this->offres = new ArrayCollection();
     }
 
     public function getIdEntreprise(): int { return $this->id_entreprise; }
@@ -60,14 +59,12 @@ class Entreprise
     public function getEmail(): string { return $this->email; }
     public function setEmail(string $email): void { $this->email = $email; }
 
-    public function getLocalite(): ?string { return $this->localite; }
-    public function setTelephone(?string $localite): void { $this->localite = $localite; }
-
     public function getDescription(): ?string { return $this->description; }
     public function setDescription(?string $description): void { $this->description = $description; }
 
     public function getOffres(): Collection { return $this->offres; }
     public function getNombreOffres(): int { return $this->offres->count(); }
 
-    public function getCampus(): Collection { return $this->campus; }
+    public function getCampus(): Campus { return $this->campus; }
+    public function setCampus(Campus $campus): void { $this->campus = $campus; }
 }

@@ -10,6 +10,7 @@ use App\Controller\OffreController;
 use App\Controller\UserController;
 use App\Controller\WishlistController;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
 

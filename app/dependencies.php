@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Doctrine\ORM\EntityManagerInterface;
+use Psr\Http\Message\ResponseFactoryInterface;
 use Slim\Psr7\Factory\ResponseFactory;
 use App\Application\Settings\SettingsInterface;
 use DI\ContainerBuilder;
@@ -32,12 +34,11 @@ return function (ContainerBuilder $containerBuilder) {
 
             return $logger;
         },
+
         EntityManager::class => function (ContainerInterface $c) {
             $settings = $c->get(SettingsInterface::class);
             $doctrine = $settings->get('doctrine');
 
-            // Use the ArrayAdapter or the FilesystemAdapter depending on the value of the 'dev_mode' setting
-            // You can substitute the FilesystemAdapter for any other cache you prefer from the symfony/cache library
             $cache = $doctrine['dev_mode'] ?
                 new ArrayAdapter() :
                 new FilesystemAdapter(directory: $doctrine['cache_dir']);
@@ -54,9 +55,12 @@ return function (ContainerBuilder $containerBuilder) {
             return new EntityManager($connection, $config);
         },
 
-        ResponseFactoryInterface::class => function () {
-    return new ResponseFactory();
-},
+        EntityManagerInterface::class => function (ContainerInterface $c) {
+            return $c->get(EntityManager::class);
+        },
 
+        ResponseFactoryInterface::class => function () {
+            return new ResponseFactory();
+        },
     ]);
 };

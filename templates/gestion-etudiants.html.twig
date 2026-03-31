@@ -3,122 +3,97 @@
 
 <div class="container-fluid px-2">
 
-  <!-- Filtres -->
-  <div class="d-flex gap-2 mb-3 flex-wrap">
+  <div class="d-flex gap-2 mb-3 flex-wrap align-items-center">
     <button class="btn btn-dark btn-sm">Tous les Étudiants</button>
-    <input type="text" class="form-control form-control-sm w-auto" placeholder="Recherche par Noms" id="searchNom">
-    <select class="form-select form-select-sm w-auto" id="filterClasse">
-      <option value="">Classes</option>
-      <option value="A1">A1</option>
-      <option value="A2">A2</option>
-      <option value="A3">A3</option>
-      <option value="A4">A4</option>
-      <option value="A5">A5</option>
-    </select>
-    <div style="text-align: right ; width: 100%;">
-      <a href="/espace/etudiants/creer" class="btn btn-dark btn-sm">➕</a>
 
+    <form method="GET" action="" class="d-flex gap-2 flex-wrap align-items-center">
+      <input 
+        type="text" 
+        class="form-control form-control-sm w-auto" 
+        placeholder="Recherche par Nom" 
+        name="nom"
+        value="{{ searchNom }}"
+      >
 
-  </div>
-  
+      {% if user.role == 'admin' %}
+        <select class="form-select form-select-sm w-auto" name="campus">
+          <option value="">Tous les Campus</option>
+          {% for c in campuses %}
+            <option value="{{ c.ville }}" {{ searchCampus == c.ville ? 'selected' : '' }}>
+              {{ c.ville }}
+            </option>
+          {% endfor %}
+        </select>
+      {% endif %}
+
+      <button type="submit" class="btn btn-dark btn-sm">🔍 Rechercher</button>
+    </form>
+
+    <div class="ms-auto">
+      <a href="/espace/etudiants/creer" class="btn btn-dark btn-sm">Ajouter un étudiant ➕</a>
     </div>
+  </div>
 
-  <!-- Tableau -->
   <div class="border rounded-3 p-3">
-    <table class="table table-bordered table-sm text-center align-middle" id="tableEtudiants">
+    <table class="table table-bordered table-sm text-center align-middle">
       <thead class="table-light">
         <tr>
           <th>N°</th>
-          <th>Étudiants</th>
-          <th>Classes</th>
-          <th>Campus</th>
+          <th>Étudiant</th>
+          {% if user.role == 'admin' %}
+            <th>Campus</th>
+          {% endif %}
           <th>Contact</th>
           <th>Email</th>
           <th>Action</th>
         </tr>
       </thead>
       <tbody>
+        {% for etudiant in etudiants %}
         <tr>
-          <td>1</td><td>Martin Lucas</td><td>A1</td><td>Reims</td><td>06 11 22 33 44</td><td>lucas.martin@email.com</td>
-          <td><a href="#" class="btn btn-sm btn-outline-secondary me-1">✏️</a><a href="#" class="btn btn-sm btn-outline-danger">✖</a></td>
+          <td>{{ loop.index }}</td>
+          <td>{{ etudiant.nom }} {{ etudiant.prenom }}</td>
+          {% if user.role == 'admin' %}
+            <td>{{ etudiant.campus ? etudiant.campus.ville : 'Non défini' }}</td>
+          {% endif %}
+          <td>{{ etudiant.telephone }}</td>
+          <td>{{ etudiant.email }}</td>
+          <td>
+            <a href="#" class="btn btn-sm btn-outline-secondary me-1">✏️</a>
+            <a href="#" class="btn btn-sm btn-outline-danger">✖</a>
+          </td>
         </tr>
+        {% else %}
         <tr>
-          <td>2</td><td>Dubois Emma</td><td>A2</td><td>Strasbourg</td><td>06 22 33 44 55</td><td>emma.dubois@email.com</td>
-          <td><a href="#" class="btn btn-sm btn-outline-secondary me-1">✏️</a><a href="#" class="btn btn-sm btn-outline-danger">✖</a></td>
+          <td colspan="6" class="text-muted">Aucun étudiant trouvé.</td>
         </tr>
-        <tr>
-          <td>3</td><td>Bernard Noah</td><td>A3</td><td>Reims</td><td>06 33 44 55 66</td><td>noah.bernard@email.com</td>
-          <td><a href="#" class="btn btn-sm btn-outline-secondary me-1">✏️</a><a href="#" class="btn btn-sm btn-outline-danger">✖</a></td>
-        </tr>
-        <tr>
-          <td>4</td><td>Petit Léa</td><td>A1</td><td>Strasbourg</td><td>06 44 55 66 77</td><td>lea.petit@email.com</td>
-          <td><a href="#" class="btn btn-sm btn-outline-secondary me-1">✏️</a><a href="#" class="btn btn-sm btn-outline-danger">✖</a></td>
-        </tr>
-        <tr>
-          <td>5</td><td>Moreau Jules</td><td>A4</td><td>Reims</td><td>06 55 66 77 88</td><td>jules.moreau@email.com</td>
-          <td><a href="#" class="btn btn-sm btn-outline-secondary me-1">✏️</a><a href="#" class="btn btn-sm btn-outline-danger">✖</a></td>
-        </tr>
-        <tr>
-          <td>6</td><td>Simon Jade</td><td>A2</td><td>Strasbourg</td><td>06 66 77 88 99</td><td>jade.simon@email.com</td>
-          <td><a href="#" class="btn btn-sm btn-outline-secondary me-1">✏️</a><a href="#" class="btn btn-sm btn-outline-danger">✖</a></td>
-        </tr>
-        <tr>
-          <td>7</td><td>Laurent Tom</td><td>A5</td><td>Reims</td><td>06 77 88 99 00</td><td>tom.laurent@email.com</td>
-          <td><a href="#" class="btn btn-sm btn-outline-secondary me-1">✏️</a><a href="#" class="btn btn-sm btn-outline-danger">✖</a></td>
-        </tr>
-        <tr>
-          <td>8</td><td>Garcia Inès</td><td>A3</td><td>Strasbourg</td><td>06 88 99 00 11</td><td>ines.garcia@email.com</td>
-          <td><a href="#" class="btn btn-sm btn-outline-secondary me-1">✏️</a><a href="#" class="btn btn-sm btn-outline-danger">✖</a></td>
-        </tr>
+        {% endfor %}
       </tbody>
     </table>
+    {% if pages > 1 %}
+    <div class="d-flex justify-content-center mt-4">
+      <nav>
+        <ul class="pagination pagination-sm">
 
-    <!-- Bouton ajouter + pagination -->
-    <div class="d-flex justify-content-between align-items-center mt-2">
-      <div class="container d-flex justify-content-center pb-5">
-    <nav aria-label="Page gestion etudiants">
-    <nav class="mt-2">
-       <ul class="pagination">
-        <li class="page-item">
-          <a class="page-link" href="#" aria-label="Previous">
-            <span>&laquo;</span>
-          </a>
-       </li>
-       <li class="page-item"><a class="page-link" href="#">1</a></li>
-       <li class="page-item"><a class="page-link" href="#">2</a></li>
-       <li class="page-item"><a class="page-link" href="#">3</a></li>
-       <li class="page-item">
-          <a class="page-link" href="#" aria-label="Next">
-           <span>&raquo;</span>
+          <li class="page-item {% if page == 1 %}disabled{% endif %}">
+            <a class="page-link" href="?page={{ page - 1 }}&nom={{ searchNom }}&campus={{ searchCampus }}">&laquo;</a>
+          </li>
 
-      </a>
-    </li>
-  </ul>
-</nav>
-</div>
-    
-      
+          {% for p in 1..pages %}
+          <li class="page-item {% if p == page %}active{% endif %}">
+            <a class="page-link" href="?page={{ p }}&nom={{ searchNom }}&campus={{ searchCampus }}">{{ p }}</a>
+          </li>
+          {% endfor %}
+
+          <li class="page-item {% if page == pages %}disabled{% endif %}">
+            <a class="page-link" href="?page={{ page + 1 }}&nom={{ searchNom }}&campus={{ searchCampus }}">&raquo;</a>
+          </li>
+
+        </ul>
+      </nav>
     </div>
+    {% endif %}
   </div>
-
 </div>
-
-<!-- Filtre JS -->
-<script>
-  document.getElementById('searchNom').addEventListener('input', filtrer);
-  document.getElementById('filterClasse').addEventListener('change', filtrer);
-
-  function filtrer() {
-    const nom = document.getElementById('searchNom').value.toLowerCase();
-    const classe = document.getElementById('filterClasse').value;
-    document.querySelectorAll('#tableEtudiants tbody tr').forEach(tr => {
-      const nomCell = tr.cells[1].textContent.toLowerCase();
-      const classeCell = tr.cells[2].textContent;
-      const matchNom = nomCell.includes(nom);
-      const matchClasse = classe === '' || classeCell === classe;
-      tr.style.display = matchNom && matchClasse ? '' : 'none';
-    });
-  }
-</script>
 
 {% endblock %}
