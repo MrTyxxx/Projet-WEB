@@ -7,51 +7,41 @@ use Slim\Views\Twig;
 
 class HomeController
 {
-    public function index(Request $request, Response $response): Response
+    private function render(Request $request, Response $response, string $template): Response
     {
         $view = Twig::fromRequest($request);
-        return $view->render($response, 'acceuil.html.twig', [
+        return $view->render($response, $template, [
             'user' => $request->getAttribute('user'),
         ]);
+    }
+
+    public function index(Request $request, Response $response): Response
+    {
+        return $this->render($request, $response, 'acceuil.html.twig');
     }
 
     public function pageOffres(Request $request, Response $response): Response
     {
-        $view = Twig::fromRequest($request);
-        return $view->render($response, 'page_offres.html.twig', [
-             'user' => $request->getAttribute('user'),
-        ]);
+        return $this->render($request, $response, 'page_offres.html.twig');
     }
 
     public function pageEntreprise(Request $request, Response $response): Response
     {
-        $view = Twig::fromRequest($request);
-        return $view->render($response, 'page_entreprise.html.twig', [
-             'user' => $request->getAttribute('user'),
-        ]);
+        return $this->render($request, $response, 'page_entreprise.html.twig');
     }
 
     public function mentions(Request $request, Response $response): Response
     {
-        $view = Twig::fromRequest($request);
-        return $view->render($response, 'Mentions.html.twig', [
-            'user' => $request->getAttribute('user'),
-        ]);
+        return $this->render($request, $response, 'Mentions.html.twig');
     }
 
     public function contact(Request $request, Response $response): Response
     {
-        $view = Twig::fromRequest($request);
-        return $view->render($response, 'Contact.html.twig', [
-             'user' => $request->getAttribute('user'),
-        ]);
+        return $this->render($request, $response, 'Contact.html.twig');
     }
 
     public function monEspace(Request $request, Response $response): Response
     {
-        $view = Twig::fromRequest($request);
-        return $view->render($response, 'monespace.html.twig', [
-             'user' => $request->getAttribute('user'),
-        ]);
+        return $this->render($request, $response, 'monespace.html.twig');
     }
 }

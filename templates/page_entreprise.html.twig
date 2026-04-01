@@ -7,17 +7,19 @@
 			<h1 class="fw-bold mb-3">Les entreprises partenaires</h1>
 			<p class="text-muted mb-4">Explorez les entreprises qui recrutent et trouvez celle qui vous correspond</p>
 
-			<form class="row g-2 justify-content-center">
-				<div class="col-auto">
-					<input type="text" placeholder="Nom d'entreprise" class="form-control">
-				</div>
-				<div class="col-auto">
-					<input type="text" placeholder="Secteur" class="form-control">
-				</div>
-				<div class="col-auto">
-					<button type="submit" class="btn btn-primary px-4">Rechercher</button>
-				</div>
-			</form>
+			<form method="GET" action="" class="row g-2 justify-content-center">
+    <div class="col-auto">
+        <input type="text" name="nom" placeholder="Nom d'entreprise" 
+               class="form-control" value="{{ searchNom }}">
+    </div>
+    <div class="col-auto">
+        <input type="text" name="secteur" placeholder="Secteur" 
+               class="form-control" value="{{ searchSecteur }}">
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary px-4">Rechercher</button>
+    </div>
+</form>
 		</div>
 	</section>
 
