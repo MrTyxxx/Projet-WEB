@@ -41,6 +41,7 @@
           <th>Campus</th>
           <th>E-mail</th>
           <th>Nb Offres liées</th>
+          <th>Note</th>
           <th>Action</th>
         </tr>
       </thead>
@@ -53,6 +54,13 @@
           <td>{{ entreprise.campus ? entreprise.campus.ville : 'Non défini' }}</td>
           <td>{{ entreprise.email }}</td>
           <td>{{ entreprise.nombreOffres }}</td>
+          <td>
+            {% if evaluationExistante[entreprise.idEntreprise] is not null %}
+              {{ evaluationExistante[entreprise.idEntreprise].note }}/5
+            {% else %}
+              <a href="/entreprise/{{ entreprise.idEntreprise }}" class="btn btn-primary" >Noter</a>
+            {% endif %}
+          </td>
           <td>
             <a href="/espace/entreprises/{{ entreprise.idEntreprise }}/modifier"
                class="btn btn-sm btn-outline-secondary me-1">✏️</a>

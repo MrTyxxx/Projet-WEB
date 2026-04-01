@@ -1,0 +1,43 @@
+{% extends "base.html.twig" %}
+{% block content %}
+
+
+
+div class="container py-5" style="max-width: 700px;">
+
+    <h1 class="text-center mb-4">Postuler à l'offre {{ offreId }}</h1>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <form action="/offre/{{ offreId }}/postuler" method="POST" enctype="multipart/form-data">
+
+                <div class="mb-3">
+                    <label for="nom" class="form-label">Nom complet</label>
+                    <input type="text" name="nom" id="nom" class="form-control" placeholder="Votre nom" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">Adresse email</label>
+                    <input type="email" name="email" id="email" class="form-control" placeholder="exemple@mail.com" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="cv" class="form-label">Votre CV (PDF)</label>
+                    <input type="file" name="cv" id="cv" class="form-control" accept="application/pdf" required>
+                    <small class="text-muted">Format accepté : PDF uniquement</small>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        Envoyer ma candidature
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+
+{% endblock %}

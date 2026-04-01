@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Domain\Campus;
+use App\Domain\Evaluation;
 use App\Domain\Entreprise;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -72,6 +73,14 @@ class EntrepriseController
         $page        = min($page, $pages);
         $entreprises = array_slice($toutes, ($page - 1) * $limit, $limit);
         $campuses    = $this->entityManager->getRepository(Campus::class)->findAll();
+        $evalRepo = $this->entityManager->getRepository(Evaluation::class);
+        $evaluationExistante = [];
+
+        foreach ($entreprises as $e) {
+            $evaluationExistante[$e->getIdEntreprise()] = $evalRepo->findOneBy(['utilisateur' => $user, 'entreprise' => $e
+            ]);
+        }
+
 
         return Twig::fromRequest($request)->render($response, 'gestion-entreprises.html.twig', [
             'user'          => $user,
@@ -82,6 +91,7 @@ class EntrepriseController
             'searchSecteur' => $searchSecteur,
             'page'          => $page,
             'pages'         => $pages,
+            'evaluationExistante'  => $evaluationExistante
         ]);
     }
 

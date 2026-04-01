@@ -5,6 +5,7 @@ use App\Application\Middleware\LoggedMiddleware;
 use App\Controller\AuthController;
 use App\Controller\CandidatureController;
 use App\Controller\EntrepriseController;
+use App\Controller\EvaluationController;
 use App\Controller\HomeController;
 use App\Controller\OffreController;
 use App\Controller\UserController;
@@ -29,6 +30,7 @@ return function (App $app) {
     $app->get('/Contact',         [HomeController::class,  'contact']);
     $app->get('/offre/{id}',      [OffreController::class, 'show']);
     $app->get('/entreprise/{id}', [EntrepriseController::class, 'showEntreprise']);
+    $app->post('/entreprise/{id}/noter', [EvaluationController::class, 'noterEntreprise']);
     $app->get('/Connexion',       [AuthController::class,  'showLogin']);
     $app->post('/Connexion',      [AuthController::class,  'login']);
     $app->get('/logout',          [AuthController::class,  'logout']);
@@ -68,5 +70,9 @@ return function (App $app) {
 
     $app->get('/wishlist', \App\Controller\WishlistController::class . ':wishlist');
     $app->get('/wishlist/add/{id}', \App\Controller\WishlistController::class . ':add');
-    $app->get('/wishlist/delete/{id}', \App\Controller\WishlistController::class . ':delete'); 
+    $app->get('/wishlist/delete/{id}', \App\Controller\WishlistController::class . ':delete');
+    
+    
+
+    $app->get('/offre/{id}/postuler',      [CandidatureController::class, 'formulaire']);
 };
