@@ -55,6 +55,7 @@ return function (App $app) {
         $group->get('/entreprises/creer',          [EntrepriseController::class, 'creerEntreprise']);
         $group->post('/entreprises/creer',         [EntrepriseController::class, 'creerEntreprise']);
         $group->get('/entreprises/{id}/modifier',  [EntrepriseController::class, 'modifierEntreprise']);
+        $group->post('/entreprises/{id}/modifier',  [EntrepriseController::class, 'modifierEntreprise']);
         $group->post('/entreprises/{id}/supprimer',[EntrepriseController::class, 'supprimerEntreprise']);
 
         $group->get('/offres',             [OffreController::class,       'gestionOffres']);
