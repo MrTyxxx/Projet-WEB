@@ -17,31 +17,47 @@ class OffreController {
     ) {}
 
     public function pageOffres(Request $request, Response $response): Response
-    {
-        $page   = $request->getQueryParams()['page'] ?? 1;
-        $depart = ($page - 1) * 6;
+{
+    //  Récupérer ce que l'utilisateur a tapé (le nom dans le HTML)
+    $params = $request->getQueryParams();
+    $titreCherche = strtolower($params['titre'] ?? ''); 
 
-        $offres = $this->em->getRepository(Offrestage::class)
-                           ->findBy([], ['id_offre' => 'ASC'], 6, $depart);
+    // récupère  les offres de la base de données
+    $toutesLesOffres = $this->em->getRepository(Offrestage::class)->findAll();
 
-        $mesLikes = [];
-        $user = $request->getAttribute('user');
+    // une liste vide pour stocker les résultats qui correspondent
+    $offresChoisies = [];
 
-        if ($user && $user->getRole() === 'etudiant') {
-            $db   = new \PDO('mysql:host=db;dbname=yourjob;charset=utf8', 'root', 'root');
-            $stmt = $db->prepare("SELECT id_offre FROM WISHLIST WHERE id_utilisateur = ?");
-            $stmt->execute([$user->getIdUtilisateur()]);
-            $mesLikes = $stmt->fetchAll(PDO::FETCH_COLUMN);
+    // une boucle pour regarder chaque offre une par une
+    foreach ($toutesLesOffres as $offre) {
+        //  récupère le titre de l'offre 
+        $titreDeLoffre = strtolower($offre->getTitre());
+
+        // SI le titre cherché est vide (on affiche tout) 
+        // OU SI le titre de l'offre contient le mot tapé
+        if (empty($titreCherche) || str_contains($titreDeLoffre, $titreCherche)) {
+            $offresChoisies[] = $offre;
         }
-
-        return Twig::fromRequest($request)->render($response, 'page_offres.html.twig', [
-            'offres'    => $offres,
-            'page'      => $page,
-            'user'      => $user,
-            'mes_likes' => $mesLikes,
-        ]);
     }
 
+    $mesLikes = [];
+    $user = $request->getAttribute('user');
+    if ($user && $user->getRole() === 'etudiant') {
+        $db   = new \PDO('mysql:host=db;dbname=yourjob;charset=utf8', 'root', 'root');
+        $stmt = $db->prepare("SELECT id_offre FROM WISHLIST WHERE id_utilisateur = ?");
+        $stmt->execute([$user->getIdUtilisateur()]);
+        $mesLikes = $stmt->fetchAll(PDO::FETCH_COLUMN);
+    }
+
+    //envoie la liste filtrée à Twig
+    return Twig::fromRequest($request)->render($response, 'page_offres.html.twig', [
+        'offres'       => $offresChoisies,
+        'user'         => $user,
+        'mes_likes'    => $mesLikes,
+        'searchTitre'  => $params['titre'] ?? '',
+        'searchCampus' => $params['campus'] ?? ''
+    ]);
+}
     public function show(Request $request, Response $response, array $args): Response
     {
         $offre = $this->em->getRepository(Offrestage::class)
