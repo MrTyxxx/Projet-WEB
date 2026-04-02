@@ -11,48 +11,38 @@ use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\JoinColumn;
+use DateTimeImmutable;
 use DateTimeInterface;
 
 
-#[Entity]
-#[Table(name: 'Candidature')]
+#[Entity, Table(name: 'Candidature')]
 class Candidature
 {
-    #[Id]
-    #[GeneratedValue(strategy: 'AUTO')]
-    #[Column(name: 'id_candidature', type: 'integer')]
+    #[Id, Column(name: 'id_candidature', type: 'integer'), GeneratedValue(strategy: 'AUTO')]
     private int $id_candidature;
 
-    // relation vers la table UTILISATEUR (id_utilisateur)
     #[ManyToOne(targetEntity: Utilisateur::class, inversedBy: 'candidatures')]
     #[JoinColumn(name: 'id_utilisateur', referencedColumnName: 'id_utilisateur', nullable: false)]
     private Utilisateur $utilisateur;
 
-    // relation vers la table OFFRE_STAGE (id_offre)
     #[ManyToOne(targetEntity: Offrestage::class, inversedBy: 'candidatures')]
     #[JoinColumn(name: 'id_offre', referencedColumnName: 'id_offre', nullable: false)]
     private OffreStage $offre;
 
-    #[Column(name: 'chemin_cv', type: 'string', length: 255, nullable: false)]
-    private string $cheminCv;
-
-    #[Column(name: 'date_postulation', type: 'date', nullable: false)]
-    private DateTimeInterface $datePostulation;
-
+    #[Column(name: 'date_postulation', type: 'date_immutable', nullable: false)]
+    private DateTimeImmutable $datePostulation;
+    
     #[Column(name: 'statut', type: 'string', length: 50, nullable: false)]
     private string $statut;
 
     public function __construct(
         Utilisateur $utilisateur,
         OffreStage $offre,
-        string $cheminCv,
-        DateTimeInterface $datePostulation,
         string $statut = 'en_attente'
     ) {
         $this->utilisateur     = $utilisateur;
         $this->offre           = $offre;
-        $this->cheminCv        = $cheminCv;
-        $this->datePostulation = $datePostulation;
+        $this->datePostulation = new DateTimeImmutable();
         $this->statut          = $statut;
     }
 
@@ -79,16 +69,6 @@ class Candidature
     public function setOffre(OffreStage $offre): void
     {
         $this->offre = $offre;
-    }
-
-    public function getCheminCv(): string
-    {
-        return $this->cheminCv;
-    }
-
-    public function setCheminCv(string $cheminCv): void
-    {
-        $this->cheminCv = $cheminCv;
     }
 
     public function getDatePostulation(): DateTimeInterface

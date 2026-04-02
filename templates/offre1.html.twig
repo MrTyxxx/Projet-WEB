@@ -9,20 +9,52 @@
 
     <hr>
 
-    <p>Rejoignez une équipe spécialisée dans la cybersécurité et participez au développement d’outils logiciels destinés à renforcer la protection des systèmes informatiques. Vous interviendrez sur des projets concrets : conception de nouvelles fonctionnalités, automatisation de processus, amélioration de la performance et contribution à l’analyse des menaces.</p>
+    <p>Rejoignez une équipe spécialisée dans la cybersécurité et participez au développement d'outils logiciels destinés à renforcer la protection des systèmes informatiques.</p>
     
-    <p><strong>À propos de l'entreprise :</strong> Ocean CyberSecurity est une entreprise dédiée à la protection des infrastructures numériques. Elle conçoit des solutions avancées de cybersécurité et accompagne les organisations dans la sécurisation de leurs données.</p>
+    <p><strong>À propos de l'entreprise :</strong> Ocean CyberSecurity est une entreprise dédiée à la protection des infrastructures numériques.</p>
 
     <hr>
 
-    <div class="d-flex gap-2 mt-4">
+    <div class="mt-4">
         {% if user and user.role == 'etudiant' %}
-        <a href="#" class="btn btn-primary">Je postule</a>
+        
+        <div class="d-flex gap-2">
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#formPostuler">
+                Je postule
+            </button>
+            
             {% if offre.idOffre in mes_likes %}
                 <button class="btn btn-danger disabled">❤️ Déjà enregistré</button>
             {% else %}
                 <a href="/wishlist/add/{{ offre.idOffre }}" class="btn btn-outline-danger">🤍 Enregistrer</a>
             {% endif %}
+        </div>
+
+    <!-- candidater cacher -->
+        <div class="collapse mt-4" id="formPostuler">
+            <div class="card">
+                <div class="card-body">
+                    <form action="/offre/{{ offre.idOffre }}/postuler" method="POST">
+                        
+                        <div class="mb-3">
+                            <label for="cv" class="form-label">Votre CV (PDF)</label>
+                            <input type="file" name="cv" id="cv" class="form-control" accept="application/pdf" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="motivation" class="form-label">Motivation (optionnel)</label>
+                            <textarea name="motivation" id="motivation" class="form-control" rows="3" placeholder="Quelques mots sur votre motivation..."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-success">
+                            Envoyer ma candidature
+                        </button>
+                        
+                    </form>
+                </div>
+            </div>
+        </div>
+
         {% endif %}
     </div>
 

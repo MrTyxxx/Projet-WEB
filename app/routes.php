@@ -30,6 +30,7 @@ return function (App $app) {
     $app->get('/Mentions',        [HomeController::class,  'mentions']);
     $app->get('/Contact',         [HomeController::class,  'contact']);
     $app->get('/offre/{id}',      [OffreController::class, 'show']);
+    $app->post('/offre/{id}/postuler', [CandidatureController::class, 'postuler']);
     $app->get('/entreprise/{id}', [EntrepriseController::class, 'showEntreprise']);
     $app->post('/entreprise/{id}/noter', [EvaluationController::class, 'noterEntreprise']);
     $app->get('/Connexion',       [AuthController::class,  'showLogin']);
