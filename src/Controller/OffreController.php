@@ -99,7 +99,55 @@ class OffreController {
         'user'       => $request->getAttribute('user'),
     ]);
 }
+      public function gestionOffres(Request $request, Response $response): Response
+    {
+        $user   = $request->getAttribute('user');
+        $params = $request->getQueryParams();
 
+        $searchTitre  = $params['titre']  ?? '';
+        $searchCampus = $params['campus'] ?? '';
+        $page         = max(1, (int)($params['page'] ?? 1));
+        $limit        = 10;
+
+        $criteria = [];
+
+        if ($user->getRole() === 'pilote') {
+            $criteria['campus'] = $user->getCampus();
+        }
+
+        if ($user->getRole() === 'admin' && $searchCampus !== '') {
+            $campus = $this->em->getRepository(Campus::class)
+                               ->findOneBy(['ville' => $searchCampus]);
+            if ($campus) {
+                $criteria['campus'] = $campus;
+            }
+        }
+
+        $toutes = $this->em->getRepository(Offrestage::class)->findBy($criteria);
+
+        if ($searchTitre !== '') {
+            $toutes = array_values(array_filter($toutes, function($o) use ($searchTitre) {
+                return str_contains(strtolower($o->getTitre()), strtolower($searchTitre));
+            }));
+        }
+
+        $total    = count($toutes);
+        $pages    = max(1, (int)ceil($total / $limit));
+        $page     = min($page, $pages);
+        $offres   = array_slice($toutes, ($page - 1) * $limit, $limit);
+        $campuses = $this->em->getRepository(Campus::class)->findAll();
+
+        return Twig::fromRequest($request)->render($response, 'gestion-offres.html.twig', [
+            'user'         => $user,
+            'active'       => 'offres',
+            'offres'       => $offres,
+            'campuses'     => $campuses,
+            'searchTitre'  => $searchTitre,
+            'searchCampus' => $searchCampus,
+            'page'         => $page,
+            'pages'        => $pages,
+        ]);
+    }
     public function supprimerOffre(Request $request, Response $response, array $args): Response
     {
         $offre = $this->em->getRepository(Offrestage::class)->find($args['id']);
@@ -188,4 +236,5 @@ class OffreController {
             'mode'        => 'creer',
         ]);
     }
+
 }
