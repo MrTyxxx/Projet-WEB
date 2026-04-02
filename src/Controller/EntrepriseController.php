@@ -66,58 +66,64 @@ public function pageEntreprises(Request $request, Response $response): Response
             'user'       => $request->getAttribute('user'),
         ]);
     }
-
     public function gestionEntreprises(Request $request, Response $response): Response
-    {
-        $user   = $request->getAttribute('user');
-        $params = $request->getQueryParams();
+{
+    $user   = $request->getAttribute('user');
+    $params = $request->getQueryParams();
 
-        $searchNom     = $params['nom'] ?? '';
-        $searchSecteur = $params['secteur'] ?? '';
-        $page          = max(1, (int)($params['page'] ?? 1));
-        $limit         = 10;
+    $searchNom     = $params['nom'] ?? '';
+    $searchSecteur = $params['secteur'] ?? '';
+    $page          = max(1, (int)($params['page'] ?? 1));
+    $limit         = 10;
 
-        $toutes = $this->entityManager->getRepository(Entreprise::class)->findAll();
+    $repo = $this->entityManager->getRepository(Entreprise::class);
 
-        if ($searchNom !== '') {
-            $toutes = array_values(array_filter($toutes, function($e) use ($searchNom) {
-                return str_contains(strtolower($e->getNom()), strtolower($searchNom));
-            }));
-        }
+    if ($user->getRole() === 'pilote') {
+        $toutes = $repo->findBy(['campus' => $user->getCampus()]);
+    } else {
+        $toutes = $repo->findAll();
+    }
 
-        if ($searchSecteur !== '') {
-            $toutes = array_values(array_filter($toutes, function($e) use ($searchSecteur) {
-                return str_contains(strtolower($e->getSecteur()), strtolower($searchSecteur));
-            }));
-        }
+    if ($searchNom !== '') {
+        $toutes = array_values(array_filter($toutes, function($e) use ($searchNom) {
+            return str_contains(strtolower($e->getNom()), strtolower($searchNom));
+        }));
+    }
 
-        $total       = count($toutes);
-        $pages       = max(1, (int)ceil($total / $limit));
-        $page        = min($page, $pages);
-        $entreprises = array_slice($toutes, ($page - 1) * $limit, $limit);
-        $campuses    = $this->entityManager->getRepository(Campus::class)->findAll();
-        $evalRepo = $this->entityManager->getRepository(Evaluation::class);
-        $evaluationExistante = [];
+    if ($searchSecteur !== '') {
+        $toutes = array_values(array_filter($toutes, function($e) use ($searchSecteur) {
+            return str_contains(strtolower($e->getSecteur()), strtolower($searchSecteur));
+        }));
+    }
 
-        foreach ($entreprises as $e) {
-            $evaluationExistante[$e->getIdEntreprise()] = $evalRepo->findOneBy(['utilisateur' => $user, 'entreprise' => $e
-            ]);
-        }
+    $total       = count($toutes);
+    $pages       = max(1, (int)ceil($total / $limit));
+    $page        = min($page, $pages);
+    $entreprises = array_slice($toutes, ($page - 1) * $limit, $limit);
 
+    $campuses = $this->entityManager->getRepository(Campus::class)->findAll();
+    $evalRepo = $this->entityManager->getRepository(Evaluation::class);
+    $evaluationExistante = [];
 
-        return Twig::fromRequest($request)->render($response, 'gestion-entreprises.html.twig', [
-            'user'          => $user,
-            'active'        => 'entreprises',
-            'entreprises'   => $entreprises,
-            'campuses'      => $campuses,
-            'searchNom'     => $searchNom,
-            'searchSecteur' => $searchSecteur,
-            'page'          => $page,
-            'pages'         => $pages,
-            'evaluationExistante'  => $evaluationExistante
+    foreach ($entreprises as $e) {
+        $evaluationExistante[$e->getIdEntreprise()] = $evalRepo->findOneBy([
+            'utilisateur' => $user, 
+            'entreprise'  => $e
         ]);
     }
 
+    return Twig::fromRequest($request)->render($response, 'gestion-entreprises.html.twig', [
+        'user'                => $user,
+        'active'              => 'entreprises',
+        'entreprises'         => $entreprises,
+        'campuses'            => $campuses,
+        'searchNom'           => $searchNom,
+        'searchSecteur'       => $searchSecteur,
+        'page'                => $page,
+        'pages'               => $pages,
+        'evaluationExistante' => $evaluationExistante
+    ]);
+}
     public function creerEntreprise(Request $request, Response $response): Response
     {
         $user     = $request->getAttribute('user');

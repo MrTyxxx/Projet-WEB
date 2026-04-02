@@ -126,46 +126,52 @@ class UserController
 }
 
     public function creerCompte(Request $request, Response $response): Response
-    {
-        $user     = $request->getAttribute('user');
-        $uri      = $request->getUri()->getPath();
-        $type     = str_contains($uri, 'pilotes') ? 'pilote' : 'etudiant';
-        $campuses = $this->entityManager->getRepository(Campus::class)->findAll();
-        $errors   = [];
+{
+    $user     = $request->getAttribute('user');
+    $uri      = $request->getUri()->getPath();
+    $type     = str_contains($uri, 'pilotes') ? 'pilote' : 'etudiant';
+    $campuses = $this->entityManager->getRepository(Campus::class)->findAll();
+    $errors   = [];
 
-        if ($request->getMethod() === 'POST') {
-            $data = $request->getParsedBody();
+    if ($request->getMethod() === 'POST') {
+        $data = $request->getParsedBody();
 
-            $nom        = strtoupper(trim($data['nom']        ?? ''));
-            $prenom     = trim($data['prenom']                ?? '');
-            $email      = trim($data['email']                 ?? '');
-            $telephone  = trim($data['telephone']             ?? '');
-            $motdepasse = trim($data['motdepasse']            ?? '');
-            $campusId   = $data['campus']                     ?? null;
+        $nom        = strtoupper(trim($data['nom']        ?? ''));
+        $prenom     = trim($data['prenom']                ?? '');
+        $email      = trim($data['email']                 ?? '');
+        $telephone  = trim($data['telephone']             ?? '');
+        $motdepasse = trim($data['motdepasse']            ?? '');
 
+        
+        if ($user->getRole() === 'pilote') {
+            // Un pilote ne peut créer des comptes que pour son propre campus
+            $campus = $user->getCampus();
+        } else {
+            // Un admin peut choisir n'importe quel campus via le formulaire
+            $campusId = $data['campus'] ?? null;
             $campus = $campusId
                 ? $this->entityManager->getRepository(Campus::class)->find($campusId)
                 : null;
-
-            $nouveau = new Utilisateur($nom, $prenom, $email, $telephone, $motdepasse, $type, $campus);
-            $this->entityManager->persist($nouveau);
-            $this->entityManager->flush();
-
-            $redirect = $type === 'pilote' ? '/espace/pilotes' : '/espace/etudiants';
-            return $response->withHeader('Location', $redirect)->withStatus(302);
         }
 
-        $view = Twig::fromRequest($request);
-        return $view->render($response, 'creer-compte.html.twig', [
-            'user'     => $user,
-            'active'   => $type === 'pilote' ? 'pilotes' : 'etudiants',
-            'type'     => $type,
-            'campuses' => $campuses,
-            'errors'   => $errors,
-            'mode'     => 'creer',
-        ]);
+        $nouveau = new Utilisateur($nom, $prenom, $email, $telephone, $motdepasse, $type, $campus);
+        $this->entityManager->persist($nouveau);
+        $this->entityManager->flush();
+
+        $redirect = $type === 'pilote' ? '/espace/pilotes' : '/espace/etudiants';
+        return $response->withHeader('Location', $redirect)->withStatus(302);
     }
 
+    $view = Twig::fromRequest($request);
+    return $view->render($response, 'creer-compte.html.twig', [
+        'user'     => $user,
+        'active'   => $type === 'pilote' ? 'pilotes' : 'etudiants',
+        'type'     => $type,
+        'campuses' => $campuses,
+        'errors'   => $errors,
+        'mode'     => 'creer',
+    ]);
+}
     public function modifierCompte(Request $request, Response $response, array $args): Response
     {
         $user     = $request->getAttribute('user');

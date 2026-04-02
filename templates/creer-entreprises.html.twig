@@ -32,17 +32,23 @@
         </div>
 
         <div class="col-md-6">
-          <label class="form-label small">Campus</label>
-          <select name="campus" class="form-select" required>
-            <option value="">-- Choisir --</option>
-            {% for c in campuses %}
-              <option value="{{ c.idCampus }}"
-                {% if entreprise is defined and entreprise.campus and entreprise.campus.idCampus == c.idCampus %}selected{% endif %}>
-                {{ c.ville }}
-              </option>
-            {% endfor %}
-          </select>
-        </div>
+  <label class="form-label small">Campus</label>
+  {% if user.role == 'admin' %}
+    <select name="campus" class="form-select" required>
+      <option value="">-- Choisir --</option>
+      {% for c in campuses %}
+        <option value="{{ c.idCampus }}"
+          {% if entreprise is defined and entreprise.campus and entreprise.campus.idCampus == c.idCampus %}selected{% endif %}>
+          {{ c.ville }}
+        </option>
+      {% endfor %}
+    </select>
+  {% else %}
+    {# Le pilote ne peut pas changer son campus #}
+    <input type="text" class="form-control" value="{{ user.campus.ville }}" readonly disabled>
+    <input type="hidden" name="campus" value="{{ user.campus.idCampus }}">
+  {% endif %}
+</div>
 
         <div class="col-md-6">
           <label class="form-label small">E-mail</label>

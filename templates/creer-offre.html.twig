@@ -31,18 +31,22 @@
         </div>
 
         <div class="col-md-6">
-          <label class="form-label small">Campus</label>
-          <select name="campus" class="form-select" required>
-            <option value="">-- Choisir --</option>
-            {% for c in campuses %}
-              <option value="{{ c.idCampus }}"
-                {{ mode == 'modifier' and offre.campus and offre.campus.idCampus == c.idCampus ? 'selected' : '' }}>
-                {{ c.ville }}
-              </option>
-            {% endfor %}
-          </select>
-        </div>
-
+  <label class="form-label small">Campus</label>
+  {% if user.role == 'admin' %}
+    <select name="campus" class="form-select" required>
+      <option value="">-- Choisir --</option>
+      {% for c in campuses %}
+        <option value="{{ c.idCampus }}"
+          {{ mode == 'modifier' and offre.campus and offre.campus.idCampus == c.idCampus ? 'selected' : '' }}>
+          {{ c.ville }}
+        </option>
+      {% endfor %}
+    </select>
+  {% else %}
+    <input type="text" class="form-control" value="{{ user.campus.ville }}" readonly disabled>
+    <input type="hidden" name="campus" value="{{ user.campus.idCampus }}">
+  {% endif %}
+</div>
         <div class="col-md-6">
           <label class="form-label small">Rémunération</label>
           <input type="text" name="remuneration" class="form-control"
