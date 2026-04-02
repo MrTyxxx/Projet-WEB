@@ -69,10 +69,9 @@ return function (App $app) {
         $group->post('/offres/{id}/supprimer', [OffreController::class, 'supprimerOffre']);
     })->add(new LoggedMiddleware($factory));
 
-    $app->get('/wishlist', \App\Controller\WishlistController::class . ':wishlist');
-    $app->get('/wishlist/add/{id}', \App\Controller\WishlistController::class . ':add');
-    $app->get('/wishlist/delete/{id}', \App\Controller\WishlistController::class . ':delete');
-    
+        $app->get('/wishlist',             [WishlistController::class, 'wishlist']);
+        $app->get('/wishlist/add/{id}',    [WishlistController::class, 'add']);
+        $app->get('/wishlist/delete/{id}', [WishlistController::class, 'delete']);
     
 
     $app->get('/offre/{id}/postuler',      [CandidatureController::class, 'formulaire']);

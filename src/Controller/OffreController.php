@@ -16,120 +16,89 @@ class OffreController {
         private EntityManagerInterface $em
     ) {}
 
-    public function pageOffres(Request $request, Response $response): Response
+   public function pageOffres(Request $request, Response $response): Response
 {
-    //  Récupérer ce que l'utilisateur a tapé (le nom dans le HTML)
-    $params = $request->getQueryParams();
-    $titreCherche = strtolower($params['titre'] ?? ''); 
+    
+    $params        = $request->getQueryParams();
+    $searchTitre   = $params['titre']  ?? '';  
+    $searchCampus  = $params['campus'] ?? ''; 
+    $page          = max(1, (int)($params['page'] ?? 1)); 
+    $limit         = 6; 
 
-    // récupère  les offres de la base de données
-    $toutesLesOffres = $this->em->getRepository(Offrestage::class)->findAll();
+    // Récupère toutes les offres de la base de données
+    $toutes = $this->em->getRepository(Offrestage::class)->findAll();
 
-    // une liste vide pour stocker les résultats qui correspondent
-    $offresChoisies = [];
+    // Filtre par titre si l'utilisateur a tapé quelque chose
+    if ($searchTitre !== '') {
+        $toutes = array_values(array_filter($toutes, function($o) use ($searchTitre) {
+            return str_contains(strtolower($o->getTitre()), strtolower($searchTitre));
+        }));
+    }
 
-    // une boucle pour regarder chaque offre une par une
-    foreach ($toutesLesOffres as $offre) {
-        //  récupère le titre de l'offre 
-        $titreDeLoffre = strtolower($offre->getTitre());
-
-        // SI le titre cherché est vide (on affiche tout) 
-        // OU SI le titre de l'offre contient le mot tapé
-        if (empty($titreCherche) || str_contains($titreDeLoffre, $titreCherche)) {
-            $offresChoisies[] = $offre;
+    // Filtre par campus si l'utilisateur en a sélectionné un
+    // puis on filtre les offres dont le campus correspond
+    if ($searchCampus !== '') {
+        $campus = $this->em->getRepository(Campus::class)->findOneBy(['ville' => $searchCampus]);
+        if ($campus) {
+            $toutes = array_values(array_filter($toutes, function($o) use ($campus) {
+                return $o->getCampus() && $o->getCampus()->getIdCampus() === $campus->getIdCampus();
+            }));
         }
     }
 
+    // Calcule la pagination
+    $total   = count($toutes);                              
+    $pages   = max(1, (int)ceil($total / $limit));          
+    $page    = min($page, $pages);                          
+    $offres  = array_slice($toutes, ($page - 1) * $limit, $limit); 
+
+    // Récupère tous les campus pour le select du formulaire de recherche
+    $campuses = $this->em->getRepository(Campus::class)->findAll();
+
+    // Récupère les offres likées par l'étudiant connecté (pour afficher le cœur rempli)
     $mesLikes = [];
     $user = $request->getAttribute('user');
     if ($user && $user->getRole() === 'etudiant') {
         $db   = new \PDO('mysql:host=db;dbname=yourjob;charset=utf8', 'root', 'root');
         $stmt = $db->prepare("SELECT id_offre FROM WISHLIST WHERE id_utilisateur = ?");
         $stmt->execute([$user->getIdUtilisateur()]);
-        $mesLikes = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        $mesLikes = $stmt->fetchAll(PDO::FETCH_COLUMN); // tableau des id_offre likés
     }
 
-    //envoie la liste filtrée à Twig
-    return Twig::fromRequest($request)->render($response, 'page_offres.html.twig', [
-        'offres'       => $offresChoisies,
-        'user'         => $user,
-        'mes_likes'    => $mesLikes,
-        'searchTitre'  => $params['titre'] ?? '',
-        'searchCampus' => $params['campus'] ?? ''
+    // Envoie toutes les données au template Twig
+     return Twig::fromRequest($request)->render($response, 'page_offres.html.twig', [
+        'offres'        => $offres,        
+        'user'          => $user,          
+        'mes_likes'     => $mesLikes,      
+        'campuses'      => $campuses,      
+        'searchTitre'   => $searchTitre,   
+        'searchCampus'  => $searchCampus,  
+        'page'          => $page,          
+        'pages'         => $pages,         
     ]);
 }
-    public function show(Request $request, Response $response, array $args): Response
-    {
-        $offre = $this->em->getRepository(Offrestage::class)
-            ->createQueryBuilder('o')
-            ->leftJoin('o.entreprise', 'e')
-            ->addSelect('e')
-            ->where('o.id_offre = :id')
-            ->setParameter('id', $args['id'])
-            ->getQuery()
-            ->getOneOrNullResult();
+   public function show(Request $request, Response $response, array $args): Response
+{
+    $offre = $this->em->getRepository(Offrestage::class)
+        ->createQueryBuilder('o')
+        ->leftJoin('o.entreprise', 'e')
+        ->addSelect('e')
+        ->where('o.id_offre = :id')
+        ->setParameter('id', $args['id'])
+        ->getQuery()
+        ->getOneOrNullResult();
 
-        if (!$offre) {
-            $response->getBody()->write("Offre introuvable");
-            return $response->withStatus(404);
-        }
-
-        return Twig::fromRequest($request)->render($response, 'offre1.html.twig', [
-            'offre'      => $offre,
-            'entreprise' => $offre->getEntreprise(),
-            'user'       => $request->getAttribute('user'),
-        ]);
+    if (!$offre) {
+        $response->getBody()->write("Offre introuvable");
+        return $response->withStatus(404);
     }
 
-    public function gestionOffres(Request $request, Response $response): Response
-    {
-        $user   = $request->getAttribute('user');
-        $params = $request->getQueryParams();
-
-        $searchTitre  = $params['titre']  ?? '';
-        $searchCampus = $params['campus'] ?? '';
-        $page         = max(1, (int)($params['page'] ?? 1));
-        $limit        = 10;
-
-        $criteria = [];
-
-        if ($user->getRole() === 'pilote') {
-            $criteria['campus'] = $user->getCampus();
-        }
-
-        if ($user->getRole() === 'admin' && $searchCampus !== '') {
-            $campus = $this->em->getRepository(Campus::class)
-                               ->findOneBy(['ville' => $searchCampus]);
-            if ($campus) {
-                $criteria['campus'] = $campus;
-            }
-        }
-
-        $toutes = $this->em->getRepository(Offrestage::class)->findBy($criteria);
-
-        if ($searchTitre !== '') {
-            $toutes = array_values(array_filter($toutes, function($o) use ($searchTitre) {
-                return str_contains(strtolower($o->getTitre()), strtolower($searchTitre));
-            }));
-        }
-
-        $total    = count($toutes);
-        $pages    = max(1, (int)ceil($total / $limit));
-        $page     = min($page, $pages);
-        $offres   = array_slice($toutes, ($page - 1) * $limit, $limit);
-        $campuses = $this->em->getRepository(Campus::class)->findAll();
-
-        return Twig::fromRequest($request)->render($response, 'gestion-offres.html.twig', [
-            'user'         => $user,
-            'active'       => 'offres',
-            'offres'       => $offres,
-            'campuses'     => $campuses,
-            'searchTitre'  => $searchTitre,
-            'searchCampus' => $searchCampus,
-            'page'         => $page,
-            'pages'        => $pages,
-        ]);
-    }
+    return Twig::fromRequest($request)->render($response, 'offre1.html.twig', [
+        'offre'      => $offre,
+        'entreprise' => $offre->getEntreprise(),
+        'user'       => $request->getAttribute('user'),
+    ]);
+}
 
     public function supprimerOffre(Request $request, Response $response, array $args): Response
     {

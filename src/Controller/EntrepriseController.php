@@ -15,19 +15,42 @@ class EntrepriseController
         private EntityManagerInterface $entityManager
     ) {}
 
-    public function pageEntreprises(Request $request, Response $response): Response
-    {
-        $page   = $request->getQueryParams()['page'] ?? 1;
-        $depart = ($page - 1) * 6;
+public function pageEntreprises(Request $request, Response $response): Response
+{
+    $params        = $request->getQueryParams();
+    $searchNom     = $params['nom']     ?? '';
+    $searchSecteur = $params['secteur'] ?? '';
+    $page          = max(1, (int)($params['page'] ?? 1));
+    $limit         = 6;
 
-        $entreprises = $this->entityManager->getRepository(Entreprise::class)
-            ->findBy([], ['id_entreprise' => 'ASC'], 6, $depart);
+    $toutes = $this->entityManager->getRepository(Entreprise::class)
+                   ->findBy([], ['id_entreprise' => 'ASC']);
 
-        return Twig::fromRequest($request)->render($response, 'page_entreprise.html.twig', [
-            'entreprises' => $entreprises,
-            'page'        => $page,
-        ]);
+    if ($searchNom !== '') {
+        $toutes = array_values(array_filter($toutes, function($e) use ($searchNom) {
+            return str_contains(strtolower($e->getNom()), strtolower($searchNom));
+        }));
     }
+
+    if ($searchSecteur !== '') {
+        $toutes = array_values(array_filter($toutes, function($e) use ($searchSecteur) {
+            return str_contains(strtolower($e->getSecteur()), strtolower($searchSecteur));
+        }));
+    }
+
+    $total       = count($toutes);
+    $pages       = max(1, (int)ceil($total / $limit));
+    $page        = min($page, $pages);
+    $entreprises = array_slice($toutes, ($page - 1) * $limit, $limit);
+
+    return Twig::fromRequest($request)->render($response, 'page_entreprise.html.twig', [
+        'entreprises'   => $entreprises,
+        'page'          => $page,
+        'pages'         => $pages,
+        'searchNom'     => $searchNom,
+        'searchSecteur' => $searchSecteur,
+    ]);
+}
 
     public function showEntreprise(Request $request, Response $response, array $args): Response
     {
