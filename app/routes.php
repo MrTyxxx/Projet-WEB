@@ -38,6 +38,7 @@ return function (App $app) {
     $app->group('/espace', function ($group) {
         $group->get('',                    [HomeController::class,        'monEspace']);
         $group->get('/profil',             [UserController::class,        'mesInformations']);
+        $group->get('/candidatures', [CandidatureController::class, 'gestionCandidatures']);
 
         $group->get('/etudiants',          [UserController::class,        'gestionEtudiants']);
         $group->get('/etudiants/creer',    [UserController::class,        'creerCompte']);

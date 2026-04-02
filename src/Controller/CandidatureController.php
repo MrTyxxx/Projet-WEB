@@ -8,18 +8,26 @@ use Slim\Views\Twig;
 class CandidatureController
 {
     public function gestionCandidatures(Request $request, Response $response): Response
-    {
-        $roles    = $_SESSION['user']['roles'];
-        $template = in_array('ROLE_ETUDIANT', $roles)
-            ? 'mes-candidatures.html.twig'
-            : 'gestion-candidatures.html.twig';
+{
+    $user = $request->getAttribute('user');
 
-        $view = Twig::fromRequest($request);
-        return $view->render($response, $template, [
-            'user'   => $_SESSION['user'],
-            'active' => 'candidatures',
-        ]);
+    if (!$user) {
+        return $response->withHeader('Location', '/Connexion')->withStatus(302);
     }
+
+    if ($user->getRole() === 'etudiant') {
+        // candidatures de l'étudiant connecté
+    }
+
+    if ($user->getRole() === 'pilote' || $user->getRole() === 'admin') {
+        // vue pilote/admin
+    }
+
+    return Twig::fromRequest($request)->render($response, 'mes-candidatures.html.twig', [
+        'user'   => $user,
+        'active' => 'candidatures',
+    ]);
+}
     
     public function formulaire(Request $request, Response $response, array $args): Response
     {
