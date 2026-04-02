@@ -1,50 +1,59 @@
-{% extends "base.html.twig" %}
-{% block contenu %}
-<div class="container py-5">
-    <div class="row">
-        <div class="col-md-3">
-            <div class="card p-3 border-0 shadow-sm">
-                <button class="btn btn-primary w-100 mb-4">Tableau de bord</button>
-                <p class="small text-muted mb-0">Ravi de vous revoir ! 👋</p>
-                <p class="fw-bold">{{ user.email }}</p>
-                <hr>
-                <div class="list-group list-group-flush">
-                    <a href="#" class="list-group-item list-group-item-action border-0">■ Mes informations</a>
-                    <a href="/wishlist" class="list-group-item list-group-item-action border-0 fw-bold text-danger">■ Offres enregistrées</a>
-                    <a href="#" class="list-group-item list-group-item-action border-0">■ Mes candidatures</a>
+{% extends "monespace.html.twig" %}
+{% block contenu_espace %}
+
+<div class="container-fluid px-4">
+
+  <div class="mb-4">
+    <h2 class="fw-bold mb-0">Mes Offres Enregistrées</h2>
+    <p class="text-muted mb-0">Retrouvez ici les offres que vous avez ajoutées à vos favoris.</p>
+  </div>
+
+  <div class="border rounded-3 p-4 bg-light">
+    {% if offres is defined and offres|length > 0 %}
+      <div class="row g-3">
+        {% for offre in offres %}
+          <div class="col-12">
+            <div class="card border-0 shadow-sm">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+                  <div>
+                    <h5 class="fw-bold mb-1">{{ offre.titre }}</h5>
+                    <p class="text-muted mb-2">
+                      {{ offre.entreprise.nom ?? 'Entreprise inconnue' }}
+                      {% if offre.campus is defined and offre.campus %}
+                        - {{ offre.campus.ville ?? offre.campus }}
+                      {% endif %}
+                    </p>
+
+                    <p class="mb-2">
+                      {{ offre.description|default('Aucune description disponible.')|slice(0, 180) }}
+                      {% if offre.description is defined and offre.description|length > 180 %}...{% endif %}
+                    </p>
+
+                    {% if offre.remuneration is defined and offre.remuneration %}
+                      <span class="badge bg-success">{{ offre.remuneration }}</span>
+                    {% endif %}
+                  </div>
+
+                  <div class="d-flex gap-2">
+                    <a href="/offre/{{ offre.id_offre }}" class="btn btn-primary btn-sm">Voir l'offre</a>
+                    <a href="/wishlist/delete/{{ offre.id_offre }}" class="btn btn-outline-danger btn-sm">Retirer</a>
+                  </div>
                 </div>
-                <a href="/logout" class="btn btn-dark mt-4">Déconnexion</a>
+              </div>
             </div>
-        </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="text-center py-5">
+        <h5 class="fw-semibold text-muted mb-2">Aucune offre enregistrée</h5>
+        <p class="text-muted mb-3">Vous n'avez pas encore ajouté d'offre à vos favoris.</p>
+        <a href="/page_offres" class="btn btn-primary btn-sm">Voir les offres</a>
+      </div>
+    {% endif %}
+  </div>
 
-        <div class="col-md-9">
-            <h3 class="mb-4">Mes Offres Enregistrées</h3>
-
-            {% for offre in offres %}
-                <div class="card mb-3 shadow-sm border-0 p-4" style="border-radius: 12px;">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            
-                            <h5 class="fw-bold mb-1">{{ offre.titre_offre }}</h5> 
-                            
-                           
-                            <p class="text-muted mb-1">{{ offre.remuneration }}</p>
-                            
-                            
-                            <p class="small text-muted text-truncate" style="max-width: 400px;">{{ offre.description }}</p>
-                        </div>
-                        <div class="text-end">
-                            <a href="/offre/{{ offre.id_offre }}" class="btn btn-dark px-4">Postuler</a>
-                            <a href="/wishlist/delete/{{ offre.id_offre }}" class="text-danger small">Supprimer</a>
-                        </div>
-                    </div>
-                </div>
-            {% else %}
-                <div class="alert alert-light text-center border py-5">
-                    <p class="mb-0 text-muted">Aucune offre enregistrée. 🤍</p>
-                </div>
-            {% endfor %}
-        </div>
-    </div>
 </div>
+
 {% endblock %}

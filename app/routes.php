@@ -16,6 +16,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
 
 return function (App $app) {
+
     $app->options('/{routes:.*}', function (Request $request, Response $response) {
         return $response;
     });
@@ -72,7 +73,19 @@ return function (App $app) {
         $app->get('/wishlist',             [WishlistController::class, 'wishlist']);
         $app->get('/wishlist/add/{id}',    [WishlistController::class, 'add']);
         $app->get('/wishlist/delete/{id}', [WishlistController::class, 'delete']);
-    
 
     $app->get('/offre/{id}/postuler',      [CandidatureController::class, 'formulaire']);
+
+    $app->get('/routes-check', function (Request $request, Response $response) use ($app) {
+    $routes = [];
+    foreach ($app->getRouteCollector()->getRoutes() as $route) {
+        $routes[] = [
+            'pattern' => $route->getPattern(),
+            'methods' => $route->getMethods(),
+        ];
+    }
+    $response->getBody()->write(json_encode($routes, JSON_PRETTY_PRINT));
+    return $response->withHeader('Content-Type', 'application/json');
+    });
+
 };
