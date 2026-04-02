@@ -30,16 +30,21 @@
 
           {% if user and user.role == 'etudiant' %}
             <div class="position-absolute top-0 end-0 m-3" style="z-index: 10;">
-                
-                {# On regarde si l'ID de cette offre est dans le tableau mes likes #}
-                {% if offre.idOffre in mes_likes %}
-                    <a href="/wishlist/delete/{{ offre.idOffre }}" style="text-decoration: none; font-size: 1.5rem;">❤️</a>
-                {% else %}
-                    <a href="/wishlist/add/{{ offre.idOffre }}" style="text-decoration: none; font-size: 1.5rem;" 
-                       onmouseover="this.innerHTML='❤️';" onmouseout="this.innerHTML='🤍';">🤍</a>
-                {% endif %}
-                
+
+              {% if offre.idOffre in mes_likes %}
+                <a href="/wishlist/delete/{{ offre.idOffre }}"
+                  class="text-danger text-decoration-none fs-4">
+                    <i class="fa-solid fa-heart"></i>
+                </a>
+              {% else %}
+                <a href="/wishlist/add/{{ offre.idOffre }}"
+                  class="text-secondary text-decoration-none fs-4">
+                    <i class="fa-regular fa-heart"></i>
+                </a>
+              {% endif %}
+
             </div>
+            
           {% endif %} 
 
           <div class="card-body">

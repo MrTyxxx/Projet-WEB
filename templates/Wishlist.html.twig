@@ -19,7 +19,7 @@
                   <div>
                     <h5 class="fw-bold mb-1">{{ offre.titre }}</h5>
                     <p class="text-muted mb-2">
-                      {{ offre.entreprise.nom ?? 'Entreprise inconnue' }}
+                      {{ offre.titre_offre ?? 'Entreprise inconnue' }}
                       {% if offre.campus is defined and offre.campus %}
                         - {{ offre.campus.ville ?? offre.campus }}
                       {% endif %}
