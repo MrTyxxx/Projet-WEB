@@ -15,29 +15,37 @@ class WishlistController {
     }
     
     public function wishlist(Request $request, Response $response): Response {
-        $user = $request->getAttribute('user');
-        $idUser = $user->getIdUtilisateur();
+    $user = $request->getAttribute('user');
+    $idUser = $user->getIdUtilisateur();
 
-        // Récupérer les IDs 
-        $stmt = $this->db->prepare("SELECT id_offre FROM Wishlist WHERE id_utilisateur = ?");
-        $stmt->execute([$idUser]);
-        $listeIds = $stmt->fetchAll(PDO::FETCH_COLUMN);
+    // on prends les identifiants des offres likées 
+    $stmt = $this->db->prepare("SELECT id_offre FROM Wishlist WHERE id_utilisateur = ?");
+    $stmt->execute([$idUser]);
+    $listeIds = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
-        $mesOffres = [];
+    $mesOffres = [];
 
-        //  on cherche les détails
-        if (!empty($listeIds)) {
-            // "implode" pour transformer la liste en nombres
-            $ids = implode(',', $listeIds);
-            $stmtOffres = $this->db->query("SELECT * FROM offrestages WHERE id_offre IN ($ids)");
-            $mesOffres = $stmtOffres->fetchAll(PDO::FETCH_ASSOC);
+    // une boucle pour chercher chaque offre
+    foreach ($listeIds as $id) {
+        // On va chercher les détails de l'offre id
+        $stmtOffre = $this->db->prepare("SELECT * FROM offrestages WHERE id_offre = ?");
+        $stmtOffre->execute([$id]);
+        
+        // il n'y a qu'une seule offre pour cet ID
+        $detailsOffre = $stmtOffre->fetch(PDO::FETCH_ASSOC);
+        
+        //  on a trouvé l'offre on l'ajoute à notre tableau final
+        if ($detailsOffre) {
+            $mesOffres[] = $detailsOffre;
         }
-
-        return Twig::fromRequest($request)->render($response, 'Wishlist.html.twig', [
-            'offres' => $mesOffres,
-            'user'   => $user
-        ]);
     }
+
+    // envoie tout à Twig
+    return Twig::fromRequest($request)->render($response, 'Wishlist.html.twig', [
+        'offres' => $mesOffres,
+        'user'   => $user
+    ]);
+}
 
     public function add(Request $request, Response $response, array $args): Response {
         $stmt = $this->db->prepare("INSERT IGNORE INTO Wishlist (id_utilisateur, id_offre, date_ajout) VALUES (?, ?, ?)");
