@@ -16,9 +16,8 @@
     <hr>
 
     <div class="d-flex gap-2 mt-4">
-        <a href="#" class="btn btn-primary">Je postule</a>
-        
         {% if user and user.role == 'etudiant' %}
+        <a href="#" class="btn btn-primary">Je postule</a>
             {% if offre.idOffre in mes_likes %}
                 <button class="btn btn-danger disabled">❤️ Déjà enregistré</button>
             {% else %}

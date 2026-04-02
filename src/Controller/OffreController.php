@@ -60,7 +60,7 @@ class OffreController {
     $user = $request->getAttribute('user');
     if ($user && $user->getRole() === 'etudiant') {
         $db   = new \PDO('mysql:host=db;dbname=yourjob;charset=utf8', 'root', 'root');
-        $stmt = $db->prepare("SELECT id_offre FROM WISHLIST WHERE id_utilisateur = ?");
+        $stmt = $db->prepare("SELECT id_offre FROM Wishlist WHERE id_utilisateur = ?");
         $stmt->execute([$user->getIdUtilisateur()]);
         $mesLikes = $stmt->fetchAll(PDO::FETCH_COLUMN); // tableau des id_offre likés
     }

@@ -38,6 +38,10 @@ class Utilisateur {
 
     #[OneToMany(targetEntity: Candidature::class, mappedBy: 'utilisateur')]
     private Collection $candidatures;
+    
+    #[OneToMany(targetEntity: Wishlist::class, mappedBy: 'utilisateur')]
+    private Collection $wishlists;
+
 
     #[ManyToOne(targetEntity: Campus::class, inversedBy: 'utilisateurs')]
     #[JoinColumn(name: 'id_campus', referencedColumnName: 'id_campus', nullable: true)]
@@ -52,6 +56,7 @@ class Utilisateur {
         $this->role = $role; 
         $this->campus = $campus;
         $this->candidatures = new ArrayCollection();
+        $this->wishlists = new ArrayCollection();
     }
 
     

@@ -46,6 +46,11 @@ class Offrestage
     #[OneToMany(targetEntity: Candidature::class, mappedBy: 'offre')]
     private Collection $candidatures;
 
+    #[OneToMany(targetEntity: Wishlist::class, mappedBy: 'offre')]
+    private Collection $wishlists;
+    
+
+
     public function __construct(
         string $titre, 
         string $description, 
@@ -61,6 +66,7 @@ class Offrestage
         $this->dateOffre = new DateTimeImmutable(); 
         $this->candidatures = new ArrayCollection();
         $this->competences = new ArrayCollection();
+        $this->wishlists = new ArrayCollection();
     }
 
 
