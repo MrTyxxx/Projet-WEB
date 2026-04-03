@@ -50,12 +50,12 @@
 							<h6 class="card-subtitle mb-3 text-muted">
 								{% if offre.entreprise %}
 									{{ offre.entreprise.nom }}
-									•
+									-
 								{% endif %}
 								{{offre.entreprise.campus.ville}}
-								•
+								-
 								{{offre.dateOffre|date("d/m/Y")}}
-								•
+								-
 								{{ offre.remuneration }}
 							</h6>
 							<p class="card-text">{{ offre.description }}</p>
