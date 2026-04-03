@@ -25,17 +25,17 @@ class OffreController {
     $page          = max(1, (int)($params['page'] ?? 1)); 
     $limit         = 6; 
 
-    // Récupère toutes les offres de la base de données
+    // récupère toutes les offres de la base de données
     $toutes = $this->em->getRepository(Offrestage::class)->findAll();
 
-    // Filtre par titre si l'utilisateur a tapé quelque chose
+    // filtre par titre si l'utilisateur a tapé quelque chose
     if ($searchTitre !== '') {
         $toutes = array_values(array_filter($toutes, function($o) use ($searchTitre) {
             return str_contains(strtolower($o->getTitre()), strtolower($searchTitre));
         }));
     }
 
-    // Filtre par campus si l'utilisateur en a sélectionné un
+    // filtre par campus si l'utilisateur en a sélectionné un
     // puis on filtre les offres dont le campus correspond
     if ($searchCampus !== '') {
         $campus = $this->em->getRepository(Campus::class)->findOneBy(['ville' => $searchCampus]);
@@ -46,16 +46,16 @@ class OffreController {
         }
     }
 
-    // Calcule la pagination
+    // calcule la pagination
     $total   = count($toutes);                              
     $pages   = max(1, (int)ceil($total / $limit));          
     $page    = min($page, $pages);                          
     $offres  = array_slice($toutes, ($page - 1) * $limit, $limit); 
 
-    // Récupère tous les campus pour le select du formulaire de recherche
+    // récupère tous les campus pour le select du formulaire de recherche
     $campuses = $this->em->getRepository(Campus::class)->findAll();
 
-    // Récupère les offres likées par l'étudiant connecté (pour afficher le cœur rempli)
+    // récupère les offres likées par l'étudiant connecté (pour afficher le cœur rempli)
     $mesLikes = [];
     $user = $request->getAttribute('user');
     if ($user && $user->getRole() === 'etudiant') {
@@ -65,7 +65,7 @@ class OffreController {
         $mesLikes = $stmt->fetchAll(PDO::FETCH_COLUMN); // tableau des id_offre likés
     }
 
-    // Envoie toutes les données au template Twig
+    // envoie toutes les données au template Twig
      return Twig::fromRequest($request)->render($response, 'page_offres.html.twig', [
         'offres'        => $offres,        
         'user'          => $user,          
