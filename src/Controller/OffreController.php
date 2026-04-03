@@ -150,14 +150,21 @@ class OffreController {
     }
     public function supprimerOffre(Request $request, Response $response, array $args): Response
     {
-        $offre = $this->em->getRepository(Offrestage::class)->find($args['id']);
+    $offre = $this->em->getRepository(Offrestage::class)->find($args['id']);
 
-        if ($offre) {
-            $this->em->remove($offre);
-            $this->em->flush();
+    if ($offre) {
+        $candidatures = $this->em->getRepository(\App\Domain\Candidature::class)
+            ->findBy(['offre' => $offre]);
+
+        foreach ($candidatures as $candidature) {
+            $this->em->remove($candidature);
         }
 
-        return $response->withHeader('Location', '/espace/offres')->withStatus(302);
+        $this->em->remove($offre);
+        $this->em->flush();
+    }
+
+    return $response->withHeader('Location', '/espace/offres')->withStatus(302);
     }
 
     public function modifierOffre(Request $request, Response $response, array $args): Response
