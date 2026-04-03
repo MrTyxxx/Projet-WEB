@@ -1,100 +1,103 @@
 <!doctype html>
 <html lang="fr">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Page d'accueil</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    
-  </head>
-  <body class="d-flex flex-column min-vh-100">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Page d'accueil</title>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-    <header>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container-fluid px-4">
+	</head>
+	<body class="d-flex flex-column min-vh-100">
 
-          <a class="navbar-brand" href="/">
-            <img src="/images/yourjob.png" alt="Logo YourJob" height="52"
-                 class="logo d-inline-block align-middle rounded-3">
-          </a>
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+				<div class="container-fluid px-4">
 
-          <button class="navbar-toggler border-0 shadow-none" type="button"
-                  data-bs-toggle="collapse" data-bs-target="#monMenu"
-                  aria-controls="monMenu" aria-expanded="false" aria-label="Menu">
-            <span class="navbar-toggler-icon"></span>
-          </button>
+					<a class="navbar-brand" href="/">
+						<img src="/images/yourjob.png" alt="Logo YourJob" height="52" class="logo d-inline-block align-middle rounded-3">
+					</a>
 
-          <div class="collapse navbar-collapse" id="monMenu">
+					<button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#monMenu" aria-controls="monMenu" aria-expanded="false" aria-label="Menu">
+						<span class="navbar-toggler-icon"></span>
+					</button>
 
-            <ul class="navbar-nav mx-auto gap-2">
-              <li class="nav-item">
-                <a class="nav-link nav-pill polygraphy" href="/">Accueil</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link nav-pill polygraphy" href="/page_offres">Offres</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link nav-pill polygraphy" href="/page_entreprise">Entreprises</a>
-              </li>
-            </ul>
+					<div class="collapse navbar-collapse" id="monMenu">
 
-            <div class="dropdown">
-              <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-person-fill"></i> Mon Profil
-               </button>
-  
-               <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2">
-                 <li class="px-3 py-2">
-              <div class="fw-bold text-dark">
-                {% if user %}{{ user.email }}{% else %}Mon Compte{% endif %}
-              </div>
-                 </li>
-    
-                <li><hr class="dropdown-divider"></li>
+						<ul class="navbar-nav mx-auto gap-2">
+							<li class="nav-item">
+								<a class="nav-link nav-pill polygraphy" href="/">Accueil</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link nav-pill polygraphy" href="/page_offres">Offres</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link nav-pill polygraphy" href="/page_entreprise">Entreprises</a>
+							</li>
+						</ul>
 
-             {% if user %}
-                <li>
-        <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="/espace">
-          <i class="bi bi-person-circle text-secondary"></i> Mon espace
-        </a>
-      </li>
-      <li>
-        <a class="dropdown-item d-flex align-items-center gap-2 py-2 text-danger fw-semibold" href="/logout">
-          <i class="bi bi-box-arrow-right"></i> Déconnexion
-        </a>
-      </li>
-    {% else %}
-      <li>
-        <a class="dropdown-item d-flex align-items-center gap-2 py-2 fw-semibold" href="/Connexion">
-          <i class="bi bi-box-arrow-in-right text-primary"></i> Connexion
-        </a>
-      </li>
-    {% endif %}
-  </ul>
-</div>
+						<div class="dropdown">
+							<button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+								<i class="bi bi-person-fill"></i>
+								Mon Profil
+							</button>
 
-          </div>
-        </div>
-      </nav>
-    </header>
+							<ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2">
+								<li class="px-3 py-2">
+									<div class="fw-bold text-dark">
+										{% if user %}
+											{{ user.email }}{% else %}Mon Compte
+										{% endif %}
+									</div>
+								</li>
 
-    <main>
-      {% block contenu %}{% endblock %}
-    </main>
+								<li><hr class="dropdown-divider"></li>
 
-    <footer class="mt-auto border-top mt-4 py-3">
-      <ul class="list-inline text-center mb-0">
-        <li class="list-inline-item">
-          <a href="/Mentions" class="text-muted text-decoration-none">Mentions Légales</a>
-        </li>
-        <li class="list-inline-item">
-          <a href="/Contact" class="text-muted text-decoration-none">Support</a>
-        </li>
-      </ul>
-    </footer>
+								{% if user %}
+									<li>
+										<a class="dropdown-item d-flex align-items-center gap-2 py-2" href="/espace">
+											<i class="bi bi-person-circle text-secondary"></i>
+											Mon espace
+										</a>
+									</li>
+									<li>
+										<a class="dropdown-item d-flex align-items-center gap-2 py-2 text-danger fw-semibold" href="/logout">
+											<i class="bi bi-box-arrow-right"></i>
+											Déconnexion
+										</a>
+									</li>
+								{% else %}
+									<li>
+										<a class="dropdown-item d-flex align-items-center gap-2 py-2 fw-semibold" href="/Connexion">
+											<i class="bi bi-box-arrow-in-right text-primary"></i>
+											Connexion
+										</a>
+									</li>
+								{% endif %}
+							</ul>
+						</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-  </body>
+					</div>
+				</div>
+			</nav>
+		</header>
+
+		<main>
+			{% block contenu %}{% endblock %}
+		</main>
+
+		<footer class="mt-auto border-top mt-4 py-3">
+			<ul class="list-inline text-center mb-0">
+				<li class="list-inline-item">
+					<a href="/Mentions" class="text-muted text-decoration-none">Mentions Légales</a>
+				</li>
+				<li class="list-inline-item">
+					<a href="/Contact" class="text-muted text-decoration-none">Support</a>
+				</li>
+			</ul>
+		</footer>
+
+		 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+	</body>
 </html>

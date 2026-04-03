@@ -8,9 +8,9 @@
 				<div class="display-5 fw-bold text-primary bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 mb-4" style="width: 8rem; height: 8rem;">
 					{{ entreprise.nom|split(' ')[0]|first ~ entreprise.nom|split(' ')[1]|first }}
 				</div>
-				
+
 				{% if user and (user.role == 'pilote' or user.role == 'admin') %}
-						<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pop-up-notes">Noter</button>
+					<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pop-up-notes">Noter</button>
 				{% endif %}
 
 			</div>
@@ -55,25 +55,23 @@
 				</div>
 			</div>
 
-			<!-- choisir la note -->
-
+			<!-- NOTER -->
 			 <script>
-			const stars      = document.querySelectorAll('#ratingStars span');
-			const noteValue  = document.getElementById('noteValue');
-			const noteInput  = document.getElementById('noteInput');
-																		
-			let noteCourante = 0;
-																		
-			// Sélection des étoiles
-			stars.forEach(star => {
-			    star.addEventListener('click', () => {
-			       noteCourante = parseInt(star.getAttribute('data-value'));
-			      noteValue.textContent = noteCourante;
-			      noteInput.value = noteCourante;   // IMPORTANT : on remplit le champ du formulaire
-			      stars.forEach((s, i) => s.classList.toggle('selected', i < noteCourante));
-			  });
+				const stars      = document.querySelectorAll('#ratingStars span');
+				const noteValue  = document.getElementById('noteValue');
+				const noteInput  = document.getElementById('noteInput');
+																					
+				let noteCourante = 0;
+																					
+				stars.forEach(star => {
+					star.addEventListener('click', () => {
+						noteCourante = parseInt(star.getAttribute('data-value'));
+						noteValue.textContent = noteCourante;
+						noteInput.value = noteCourante;
+						stars.forEach((s, i) => s.classList.toggle('selected', i < noteCourante));
+					});
 				});
-				</script>
+			</script>
 
 			<div class="col-md-9 border-start">
 				<div class="d-flex justify-content-between align-items-center mb-1">

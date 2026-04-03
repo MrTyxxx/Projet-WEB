@@ -2,21 +2,22 @@
 
 {% block contenu_espace %}
 
-<h1 class="h4 mb-4">Mes candidatures</h1>
+	<h1 class="h4 mb-4">Mes candidatures</h1>
 
-{% if candidatures is empty %}
-    <p class="text-muted">Aucune candidature pour le moment.</p>
-{% else %}
-    {% for c in candidatures %}
-        <article class="bg-white mb-3 p-3 p-md-4 rounded-3 border">
-            <h2 class="h5 mb-1">{{ c.getOffre().getTitre() }}</h2>
-            <p class="mb-1 text-muted">{{ c.getOffre().getEntreprise().getNom() }}</p>
-            <p class="small text-muted">
-                Postulé le {{ c.getDatePostulation()|date("d/m/Y") }}
-            </p>
-            <span class="badge bg-primary">{{ c.getStatut() }}</span>
-        </article>
-    {% endfor %}
-{% endif %}
+	{% if candidatures is empty %}
+		<p class="text-muted">Aucune candidature pour le moment.</p>
+	{% else %}
+		{% for c in candidatures %}
+			<article class="bg-white mb-3 p-3 p-md-4 rounded-3 border">
+				<h2 class="h5 mb-1">{{ c.getOffre().getTitre() }}</h2>
+				<p class="mb-1 text-muted">{{ c.getOffre().getEntreprise().getNom() }}</p>
+				<p class="small text-muted">
+					Postulé le
+					{{ c.getDatePostulation()|date("d/m/Y") }}
+				</p>
+				<span class="badge bg-primary">{{ c.getStatut() }}</span>
+			</article>
+		{% endfor %}
+	{% endif %}
 
 {% endblock %}

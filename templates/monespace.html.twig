@@ -1,79 +1,80 @@
 {% extends "base.html.twig" %}
 {% block contenu %}
 
-<div class="container-fluid py-4">
-  <div class="row">
+	<div class="container-fluid py-4">
+		<div
+			class="row">
 
-    <!-- Sidebar -->
-    <div class="col-md-3 col-lg-2">
-      <div class="d-grid mb-3">
-        <button class="btn btn-primary fw-bold">Tableau de bord</button>
-      </div>
+			<!-- Sidebar -->
+			<div class="col-md-3 col-lg-2">
+				<div class="d-grid mb-3">
+					<button class="btn btn-primary fw-bold">Tableau de bord</button>
+				</div>
 
-      <div class="mb-3 text-muted small px-1">
-        {% if user %}
-          {% if user.role == 'etudiant' %}
-            Ravi de vous revoir !
-          {% else %}
-            Bienvenue !
-          {% endif %}
-          <div class="fw-bold text-dark">{{ user.email }}</div>
-        {% endif %}
-      </div>
+				<div class="mb-3 text-muted small px-1">
+					{% if user %}
+						{% if user.role == 'etudiant' %}
+							Ravi de vous revoir !
+						{% else %}
+							Bienvenue !
+						{% endif %}
+						<div class="fw-bold text-dark">{{ user.email }}</div>
+					{% endif %}
+				</div>
 
-      <ul class="nav flex-column gap-1">
+				<ul class="nav flex-column gap-1">
 
-       {% if user and user.role == 'etudiant' %}
-  <li class="nav-item">
-    <a class="nav-link {% if active == 'profil' %}text-danger fw-bold{% else %}text-dark{% endif %}" href="/espace/profil">■ Mes informations</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link {% if active == 'offres-enregistrees' %}text-danger fw-bold{% else %}text-dark{% endif %}" href="/wishlist">■ Offres enregistrées</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link {% if active == 'candidatures' %}text-danger fw-bold{% else %}text-dark{% endif %}" href="/espace/candidatures">■ Mes candidatures</a>
-  </li>
-{% endif %}
+					{% if user and user.role == 'etudiant' %}
+						<li class="nav-item">
+							<a class="nav-link {% if active == 'profil' %}text-danger fw-bold{% else %}text-dark{% endif %}" href="/espace/profil">■ Mes informations</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link {% if active == 'offres-enregistrees' %}text-danger fw-bold{% else %}text-dark{% endif %}" href="/wishlist">■ Offres enregistrées</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link {% if active == 'candidatures' %}text-danger fw-bold{% else %}text-dark{% endif %}" href="/espace/candidatures">■ Mes candidatures</a>
+						</li>
+					{% endif %}
 
-{% if user and (user.role == 'pilote' or user.role == 'admin') %}
-  <li class="nav-item">
-    <a class="nav-link {% if active == 'profil' %}text-danger fw-bold{% else %}text-dark{% endif %}" href="/espace/profil">■ Mes informations</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link {% if active == 'etudiants' %}text-danger fw-bold{% else %}text-dark{% endif %}" href="/espace/etudiants">■ Gestion des Étudiants</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link {% if active == 'entreprises' %}text-danger fw-bold{% else %}text-dark{% endif %}" href="/espace/entreprises">■ Gestion des Entreprises</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link {% if active == 'offres' %}text-danger fw-bold{% else %}text-dark{% endif %}" href="/espace/offres">■ Gestion des Offres</a>
-  </li>
-  
-{% endif %}
+					{% if user and (user.role == 'pilote' or user.role == 'admin') %}
+						<li class="nav-item">
+							<a class="nav-link {% if active == 'profil' %}text-danger fw-bold{% else %}text-dark{% endif %}" href="/espace/profil">■ Mes informations</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link {% if active == 'etudiants' %}text-danger fw-bold{% else %}text-dark{% endif %}" href="/espace/etudiants">■ Gestion des Étudiants</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link {% if active == 'entreprises' %}text-danger fw-bold{% else %}text-dark{% endif %}" href="/espace/entreprises">■ Gestion des Entreprises</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link {% if active == 'offres' %}text-danger fw-bold{% else %}text-dark{% endif %}" href="/espace/offres">■ Gestion des Offres</a>
+						</li>
 
-{% if user and user.role == 'admin' %}
-  <li class="nav-item">
-    <a class="nav-link {% if active == 'pilotes' %}text-danger fw-bold{% else %}text-dark{% endif %}" href="/espace/pilotes">■ Gestion des Pilotes</a>
-  </li>
-{% endif %}
+					{% endif %}
 
-      </ul>
+					{% if user and user.role == 'admin' %}
+						<li class="nav-item">
+							<a class="nav-link {% if active == 'pilotes' %}text-danger fw-bold{% else %}text-dark{% endif %}" href="/espace/pilotes">■ Gestion des Pilotes</a>
+						</li>
+					{% endif %}
 
-      <div class="mt-4">
-        <a href="/logout" class="btn btn-dark w-100">Déconnexion</a>
-      </div>
-    </div>
+				</ul>
 
-    <!-- Zone d'affichage -->
-    <div class="col-md-9 col-lg-10">
-      <div class="border rounded-3 p-4 min-vh-75">
-        {% block contenu_espace %}
-          <p class="text-muted text-center mt-5">Sélectionnez une section dans le menu.</p>
-        {% endblock %}
-      </div>
-    </div>
+				<div class="mt-4">
+					<a href="/logout" class="btn btn-dark w-100">Déconnexion</a>
+				</div>
+			</div>
 
-  </div>
-</div>
+			<!-- Zone d'affichage -->
+			<div class="col-md-9 col-lg-10">
+				<div class="border rounded-3 p-4 min-vh-75">
+					{% block contenu_espace %}
+						<p class="text-muted text-center mt-5">Sélectionnez une section dans le menu.</p>
+					{% endblock %}
+				</div>
+			</div>
+
+		</div>
+	</div>
 
 {% endblock %}

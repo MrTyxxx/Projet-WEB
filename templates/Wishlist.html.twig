@@ -1,59 +1,61 @@
 {% extends "monespace.html.twig" %}
 {% block contenu_espace %}
 
-<div class="container-fluid px-4">
+	<div class="container-fluid px-4">
 
-  <div class="mb-4">
-    <h2 class="fw-bold mb-0">Mes Offres Enregistrées</h2>
-    <p class="text-muted mb-0">Retrouvez ici les offres que vous avez ajoutées à vos favoris.</p>
-  </div>
+		<div class="mb-4">
+			<h2 class="fw-bold mb-0">Mes Offres Enregistrées</h2>
+			<p class="text-muted mb-0">Retrouvez ici les offres que vous avez ajoutées à vos favoris.</p>
+		</div>
 
-  <div class="border rounded-3 p-4 bg-light">
-    {% if offres is defined and offres|length > 0 %}
-      <div class="row g-3">
-        {% for offre in offres %}
-          <div class="col-12">
-            <div class="card border-0 shadow-sm">
-              <div class="card-body">
-                <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
-                  <div>
-                    <h5 class="fw-bold mb-1">{{ offre.titre }}</h5>
-                    <p class="text-muted mb-2">
-                      {{ offre.titre_offre ?? 'Entreprise inconnue' }}
-                      {% if offre.campus is defined and offre.campus %}
-                        - {{ offre.campus.ville ?? offre.campus }}
-                      {% endif %}
-                    </p>
+		<div class="border rounded-3 p-4 bg-light">
+			{% if offres is defined and offres|length > 0 %}
+				<div class="row g-3">
+					{% for offre in offres %}
+						<div class="col-12">
+							<div class="card border-0 shadow-sm">
+								<div class="card-body">
+									<div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+										<div>
+											<h5 class="fw-bold mb-1">{{ offre.titre }}</h5>
+											<p class="text-muted mb-2">
+												{{ offre.titre_offre ?? 'Entreprise inconnue' }}
+												{% if offre.campus is defined and offre.campus %}
+													-
+													{{ offre.campus.ville ?? offre.campus }}
+												{% endif %}
+											</p>
 
-                    <p class="mb-2">
-                      {{ offre.description|default('Aucune description disponible.')|slice(0, 180) }}
-                      {% if offre.description is defined and offre.description|length > 180 %}...{% endif %}
-                    </p>
+											<p class="mb-2">
+												{{ offre.description|default('Aucune description disponible.')|slice(0, 180) }}
+												{% if offre.description is defined and offre.description|length > 180 %}...
+												{% endif %}
+											</p>
 
-                    {% if offre.remuneration is defined and offre.remuneration %}
-                      <span class="badge bg-success">{{ offre.remuneration }}</span>
-                    {% endif %}
-                  </div>
+											{% if offre.remuneration is defined and offre.remuneration %}
+												<span class="badge bg-success">{{ offre.remuneration }}</span>
+											{% endif %}
+										</div>
 
-                  <div class="d-flex gap-2">
-                    <a href="/offre/{{ offre.id_offre }}" class="btn btn-primary btn-sm">Voir l'offre</a>
-                    <a href="/wishlist/delete/{{ offre.id_offre }}" class="btn btn-outline-danger btn-sm">Retirer</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        {% endfor %}
-      </div>
-    {% else %}
-      <div class="text-center py-5">
-        <h5 class="fw-semibold text-muted mb-2">Aucune offre enregistrée</h5>
-        <p class="text-muted mb-3">Vous n'avez pas encore ajouté d'offre à vos favoris.</p>
-        <a href="/page_offres" class="btn btn-primary btn-sm">Voir les offres</a>
-      </div>
-    {% endif %}
-  </div>
+										<div class="d-flex gap-2">
+											<a href="/offre/{{ offre.id_offre }}" class="btn btn-primary btn-sm">Voir l'offre</a>
+											<a href="/wishlist/delete/{{ offre.id_offre }}" class="btn btn-outline-danger btn-sm">Retirer</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			{% else %}
+				<div class="text-center py-5">
+					<h5 class="fw-semibold text-muted mb-2">Aucune offre enregistrée</h5>
+					<p class="text-muted mb-3">Vous n'avez pas encore ajouté d'offre à vos favoris.</p>
+					<a href="/page_offres" class="btn btn-primary btn-sm">Voir les offres</a>
+				</div>
+			{% endif %}
+		</div>
 
-</div>
+	</div>
 
 {% endblock %}

@@ -1,74 +1,71 @@
 {% extends "monespace.html.twig" %}
 {% block contenu_espace %}
 
-<div class="container-fluid px-4">
-  <div class="d-flex align-items-center mb-4 gap-2">
-    <a href="/espace/offres" class="btn btn-sm btn-outline-secondary">← Retour</a>
-    <h5 class="mb-0">{{ mode == 'modifier' ? 'Modifier' : 'Créer' }} une offre de stage</h5>
-  </div>
+	<div class="container-fluid px-4">
+		<div class="d-flex align-items-center mb-4 gap-2">
+			<a href="/espace/offres" class="btn btn-sm btn-outline-secondary">← Retour</a>
+			<h5 class="mb-0">{{ mode == 'modifier' ? 'Modifier' : 'Créer' }}
+				une offre de stage</h5>
+		</div>
 
-  <div class="border rounded-3 p-4" style="max-width: 700px;">
-    <form method="POST">
-      <div class="row g-3">
+		<div class="border rounded-3 p-4" style="max-width: 700px;">
+			<form method="POST">
+				<div class="row g-3">
 
-        <div class="col-md-12">
-          <label class="form-label small">Titre de l'offre</label>
-          <input type="text" name="titre" class="form-control"
-                 value="{{ mode == 'modifier' ? offre.titre : '' }}" required>
-        </div>
+					<div class="col-md-12">
+						<label class="form-label small">Titre de l'offre</label>
+						<input type="text" name="titre" class="form-control" value="{{ mode == 'modifier' ? offre.titre : '' }}" required>
+					</div>
 
-        <div class="col-md-6">
-          <label class="form-label small">Entreprise</label>
-          <select name="entreprise" class="form-select" required>
-            <option value="">-- Choisir --</option>
-            {% for e in entreprises %}
-              <option value="{{ e.idEntreprise }}"
-                {{ mode == 'modifier' and offre.entreprise.idEntreprise == e.idEntreprise ? 'selected' : '' }}>
-                {{ e.nom }}
-              </option>
-            {% endfor %}
-          </select>
-        </div>
+					<div class="col-md-6">
+						<label class="form-label small">Entreprise</label>
+						<select name="entreprise" class="form-select" required>
+							<option value="">-- Choisir --</option>
+							{% for e in entreprises %}
+								<option value="{{ e.idEntreprise }}" {{ mode == 'modifier' and offre.entreprise.idEntreprise == e.idEntreprise ? 'selected' : '' }}>
+									{{ e.nom }}
+								</option>
+							{% endfor %}
+						</select>
+					</div>
 
-        <div class="col-md-6">
-  <label class="form-label small">Campus</label>
-  {% if user.role == 'admin' %}
-    <select name="campus" class="form-select" required>
-      <option value="">-- Choisir --</option>
-      {% for c in campuses %}
-        <option value="{{ c.idCampus }}"
-          {{ mode == 'modifier' and offre.campus and offre.campus.idCampus == c.idCampus ? 'selected' : '' }}>
-          {{ c.ville }}
-        </option>
-      {% endfor %}
-    </select>
-  {% else %}
-    <input type="text" class="form-control" value="{{ user.campus.ville }}" readonly disabled>
-    <input type="hidden" name="campus" value="{{ user.campus.idCampus }}">
-  {% endif %}
-</div>
-        <div class="col-md-6">
-          <label class="form-label small">Rémunération</label>
-          <input type="text" name="remuneration" class="form-control"
-                 value="{{ mode == 'modifier' ? offre.remuneration : '' }}" required>
-        </div>
+					<div class="col-md-6">
+						<label class="form-label small">Campus</label>
+						{% if user.role == 'admin' %}
+							<select name="campus" class="form-select" required>
+								<option value="">-- Choisir --</option>
+								{% for c in campuses %}
+									<option value="{{ c.idCampus }}" {{ mode == 'modifier' and offre.campus and offre.campus.idCampus == c.idCampus ? 'selected' : '' }}>
+										{{ c.ville }}
+									</option>
+								{% endfor %}
+							</select>
+						{% else %}
+							<input type="text" class="form-control" value="{{ user.campus.ville }}" readonly disabled>
+							<input type="hidden" name="campus" value="{{ user.campus.idCampus }}">
+						{% endif %}
+					</div>
+					<div class="col-md-6">
+						<label class="form-label small">Rémunération</label>
+						<input type="text" name="remuneration" class="form-control" value="{{ mode == 'modifier' ? offre.remuneration : '' }}" required>
+					</div>
 
-        <div class="col-md-12">
-          <label class="form-label small">Description</label>
-          <textarea name="description" class="form-control" rows="4" required>{{ mode == 'modifier' ? offre.description : '' }}</textarea>
-        </div>
+					<div class="col-md-12">
+						<label class="form-label small">Description</label>
+						<textarea name="description" class="form-control" rows="4" required>{{ mode == 'modifier' ? offre.description : '' }}</textarea>
+					</div>
 
-        <div class="col-12 d-flex gap-2 mt-2">
-          <button type="submit" class="btn btn-dark btn-sm">
-            {{ mode == 'modifier' ? 'Enregistrer' : 'Créer' }}
-          </button>
-          <button type="reset" class="btn btn-outline-secondary btn-sm">Réinitialiser</button>
-          <a href="/espace/offres" class="btn btn-outline-danger btn-sm ms-auto">Annuler</a>
-        </div>
+					<div class="col-12 d-flex gap-2 mt-2">
+						<button type="submit" class="btn btn-dark btn-sm">
+							{{ mode == 'modifier' ? 'Enregistrer' : 'Créer' }}
+						</button>
+						<button type="reset" class="btn btn-outline-secondary btn-sm">Réinitialiser</button>
+						<a href="/espace/offres" class="btn btn-outline-danger btn-sm ms-auto">Annuler</a>
+					</div>
 
-      </div>
-    </form>
-  </div>
-</div>
+				</div>
+			</form>
+		</div>
+	</div>
 
 {% endblock %}

@@ -1,115 +1,105 @@
 {% extends "monespace.html.twig" %}
 {% block contenu_espace %}
 
-<div class="container-fluid px-2">
+	<div class="container-fluid px-2">
 
-  <div class="d-flex gap-2 mb-3 flex-wrap align-items-center">
-    <button class="btn btn-dark btn-sm">Tous les Étudiants</button>
+		<div class="d-flex gap-2 mb-3 flex-wrap align-items-center">
+			<button class="btn btn-dark btn-sm">Tous les Étudiants</button>
 
-    <form method="GET" action="" class="d-flex gap-2 flex-wrap align-items-center">
-      <input 
-        type="text" 
-        class="form-control form-control-sm w-auto" 
-        placeholder="Recherche par Nom" 
-        name="nom"
-        value="{{ searchNom }}"
-      >
+			<form method="GET" action="" class="d-flex gap-2 flex-wrap align-items-center">
+				<input type="text" class="form-control form-control-sm w-auto" placeholder="Recherche par Nom" name="nom" value="{{ searchNom }}">
 
-      {% if user.role == 'admin' %}
-        <select class="form-select form-select-sm w-auto" name="campus">
-          <option value="">Tous les Campus</option>
-          {% for c in campuses %}
-            <option value="{{ c.ville }}" {{ searchCampus == c.ville ? 'selected' : '' }}>
-              {{ c.ville }}
-            </option>
-          {% endfor %}
-        </select>
-      {% endif %}
+				{% if user.role == 'admin' %}
+					<select class="form-select form-select-sm w-auto" name="campus">
+						<option value="">Tous les Campus</option>
+						{% for c in campuses %}
+							<option value="{{ c.ville }}" {{ searchCampus == c.ville ? 'selected' : '' }}>
+								{{ c.ville }}
+							</option>
+						{% endfor %}
+					</select>
+				{% endif %}
 
-      <button type="submit" class="btn btn-dark btn-sm">Rechercher</button>
-    </form>
+				<button type="submit" class="btn btn-dark btn-sm">Rechercher</button>
+			</form>
 
-    <div class="ms-auto">
-      <a href="/espace/etudiants/creer" class="btn btn-dark btn-sm">Ajouter un étudiant</a>
-    </div>
-  </div>
+			<div class="ms-auto">
+				<a href="/espace/etudiants/creer" class="btn btn-dark btn-sm">Ajouter un étudiant</a>
+			</div>
+		</div>
 
-  <div class="border rounded-3 p-3">
-    <table class="table table-bordered table-sm text-center align-middle">
-      <thead class="table-light">
-        <tr>
-          <th>N°</th>
-          <th>Étudiant</th>
-          {% if user.role == 'admin' %}
-            <th>Campus</th>
-          {% endif %}
-          <th>Contact</th>
-          <th>Email</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for etudiant in etudiants %}
-        <tr>
-          <td>{{ loop.index }}</td>
-          <td>{{ etudiant.nom }} {{ etudiant.prenom }}</td>
-          {% if user.role == 'admin' %}
-            <td>{{ etudiant.campus ? etudiant.campus.ville : 'Non défini' }}</td>
-          {% endif %}
-          <td>{{ etudiant.telephone }}</td>
-          <td>{{ etudiant.email }}</td>
-         <td>
-          <a href="/espace/etudiants/{{ etudiant.idUtilisateur }}/modifier" 
-        class="btn btn-sm btn-outline-secondary me-1">✏️</a>
+		<div class="border rounded-3 p-3">
+			<table class="table table-bordered table-sm text-center align-middle">
+				<thead class="table-light">
+					<tr>
+						<th>N°</th>
+						<th>Étudiant</th>
+						{% if user.role == 'admin' %}
+							<th>Campus</th>
+						{% endif %}
+						<th>Contact</th>
+						<th>Email</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for etudiant in etudiants %}
+						<tr>
+							<td>{{ loop.index }}</td>
+							<td>{{ etudiant.nom }}
+								{{ etudiant.prenom }}</td>
+							{% if user.role == 'admin' %}
+								<td>{{ etudiant.campus ? etudiant.campus.ville : 'Non défini' }}</td>
+							{% endif %}
+							<td>{{ etudiant.telephone }}</td>
+							<td>{{ etudiant.email }}</td>
+							<td>
+								<a href="/espace/etudiants/{{ etudiant.idUtilisateur }}/modifier" class="btn btn-sm btn-outline-secondary me-1">✏️</a>
 
-           <button type="button" 
-            class="btn btn-sm btn-outline-danger"
-            onclick="confirmerSuppression({{ etudiant.idUtilisateur }})">✖</button>
+								<button type="button" class="btn btn-sm btn-outline-danger" onclick="confirmerSuppression({{ etudiant.idUtilisateur }})">✖</button>
 
-    <form id="form-supprimer-{{ etudiant.idUtilisateur }}" 
-          action="/espace/etudiants/{{ etudiant.idUtilisateur }}/supprimer" 
-          method="POST" style="display:none;"></form>
-        </td>
-        </tr>
-        {% else %}
-        <tr>
-          <td colspan="6" class="text-muted">Aucun étudiant trouvé.</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-    {% if pages > 1 %}
-    <div class="d-flex justify-content-center mt-4">
-      <nav>
-        <ul class="pagination pagination-sm">
+								<form id="form-supprimer-{{ etudiant.idUtilisateur }}" action="/espace/etudiants/{{ etudiant.idUtilisateur }}/supprimer" method="POST" style="display:none;"></form>
+							</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="6" class="text-muted">Aucun étudiant trouvé.</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			{% if pages > 1 %}
+				<div class="d-flex justify-content-center mt-4">
+					<nav>
+						<ul class="pagination pagination-sm">
 
-          <li class="page-item {% if page == 1 %}disabled{% endif %}">
-            <a class="page-link" href="?page={{ page - 1 }}&nom={{ searchNom }}&campus={{ searchCampus }}">&laquo;</a>
-          </li>
+							<li class="page-item {% if page == 1 %}disabled{% endif %}">
+								<a class="page-link" href="?page={{ page - 1 }}&nom={{ searchNom }}&campus={{ searchCampus }}">&laquo;</a>
+							</li>
 
-          {% for p in 1..pages %}
-          <li class="page-item {% if p == page %}active{% endif %}">
-            <a class="page-link" href="?page={{ p }}&nom={{ searchNom }}&campus={{ searchCampus }}">{{ p }}</a>
-          </li>
-          {% endfor %}
+							{% for p in 1..pages %}
+								<li class="page-item {% if p == page %}active{% endif %}">
+									<a class="page-link" href="?page={{ p }}&nom={{ searchNom }}&campus={{ searchCampus }}">{{ p }}</a>
+								</li>
+							{% endfor %}
 
-          <li class="page-item {% if page == pages %}disabled{% endif %}">
-            <a class="page-link" href="?page={{ page + 1 }}&nom={{ searchNom }}&campus={{ searchCampus }}">&raquo;</a>
-          </li>
+							<li class="page-item {% if page == pages %}disabled{% endif %}">
+								<a class="page-link" href="?page={{ page + 1 }}&nom={{ searchNom }}&campus={{ searchCampus }}">&raquo;</a>
+							</li>
 
-        </ul>
-      </nav>
-    </div>
-    {% endif %}
-  </div>
-</div>
+						</ul>
+					</nav>
+				</div>
+			{% endif %}
+		</div>
+	</div>
 
-<script>
-function confirmerSuppression(id) {
-    if (confirm('Confirmer la suppression de cet étudiant ?')) {
-        document.getElementById('form-supprimer-' + id).submit();
-    }
-}
-</script>
+	 <script>
+	function confirmerSuppression(id) {
+	    if (confirm('Confirmer la suppression de cet étudiant ?')) {
+	        document.getElementById('form-supprimer-' + id).submit();
+	    }
+	}
+	</script>
 
 {% endblock %}

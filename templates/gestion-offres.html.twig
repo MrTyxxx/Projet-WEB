@@ -1,110 +1,99 @@
 {% extends "monespace.html.twig" %}
 {% block contenu_espace %}
 
-<div class="container-fluid px-2">
+	<div class="container-fluid px-2">
 
-  <div class="d-flex gap-2 mb-3 flex-wrap align-items-center">
-    <button class="btn btn-dark btn-sm">Toutes les Offres</button>
+		<div class="d-flex gap-2 mb-3 flex-wrap align-items-center">
+			<button class="btn btn-dark btn-sm">Toutes les Offres</button>
 
-    <form method="GET" action="" class="d-flex gap-2 flex-wrap align-items-center">
-      <input
-        type="text"
-        class="form-control form-control-sm w-auto"
-        placeholder="Recherche par titre"
-        name="titre"
-        value="{{ searchTitre }}"
-      >
+			<form method="GET" action="" class="d-flex gap-2 flex-wrap align-items-center">
+				<input type="text" class="form-control form-control-sm w-auto" placeholder="Recherche par titre" name="titre" value="{{ searchTitre }}">
 
-      {% if user.role == 'admin' %}
-        <select class="form-select form-select-sm w-auto" name="campus">
-          <option value="">Tous les Campus</option>
-          {% for c in campuses %}
-            <option value="{{ c.ville }}" {{ searchCampus == c.ville ? 'selected' : '' }}>
-              {{ c.ville }}
-            </option>
-          {% endfor %}
-        </select>
-      {% endif %}
+				{% if user.role == 'admin' %}
+					<select class="form-select form-select-sm w-auto" name="campus">
+						<option value="">Tous les Campus</option>
+						{% for c in campuses %}
+							<option value="{{ c.ville }}" {{ searchCampus == c.ville ? 'selected' : '' }}>
+								{{ c.ville }}
+							</option>
+						{% endfor %}
+					</select>
+				{% endif %}
 
-      <button type="submit" class="btn btn-dark btn-sm">Rechercher</button>
-    </form>
+				<button type="submit" class="btn btn-dark btn-sm">Rechercher</button>
+			</form>
 
-    <div class="ms-auto">
-      <a href="/espace/offres/creer" class="btn btn-dark btn-sm">Ajouter une offre</a>
-    </div>
-  </div>
+			<div class="ms-auto">
+				<a href="/espace/offres/creer" class="btn btn-dark btn-sm">Ajouter une offre</a>
+			</div>
+		</div>
 
-  <div class="border rounded-3 p-3">
-    <table class="table table-bordered table-sm text-center align-middle">
-      <thead class="table-light">
-        <tr>
-          <th>N°</th>
-          <th>Titre</th>
-          <th>Entreprise</th>
-          <th>Rémunération</th>
-          <th>Campus</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for offre in offres %}
-        <tr>
-          <td>{{ (page - 1) * 10 + loop.index }}</td>
-          <td>{{ offre.titre }}</td>
-          <td>{{ offre.entreprise.nom }}</td>
-          <td>{{ offre.remuneration }}</td>
+		<div class="border rounded-3 p-3">
+			<table class="table table-bordered table-sm text-center align-middle">
+				<thead class="table-light">
+					<tr>
+						<th>N°</th>
+						<th>Titre</th>
+						<th>Entreprise</th>
+						<th>Rémunération</th>
+						<th>Campus</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for offre in offres %}
+						<tr>
+							<td>{{ (page - 1) * 10 + loop.index }}</td>
+							<td>{{ offre.titre }}</td>
+							<td>{{ offre.entreprise.nom }}</td>
+							<td>{{ offre.remuneration }}</td>
 
-          <td>{{ offre.campus ? offre.campus.ville : 'Non défini' }}</td>
-          <td>
-            <a href="/espace/offres/{{ offre.idOffre }}/modifier"
-               class="btn btn-sm btn-outline-secondary me-1">✏️</a>
+							<td>{{ offre.campus ? offre.campus.ville : 'Non défini' }}</td>
+							<td>
+								<a href="/espace/offres/{{ offre.idOffre }}/modifier" class="btn btn-sm btn-outline-secondary me-1">✏️</a>
 
-            <button type="button"
-                    class="btn btn-sm btn-outline-danger"
-                    onclick="confirmerSuppression({{ offre.idOffre }})">✖</button>
+								<button type="button" class="btn btn-sm btn-outline-danger" onclick="confirmerSuppression({{ offre.idOffre }})">✖</button>
 
-            <form id="form-supprimer-{{ offre.idOffre }}"
-                  action="/espace/offres/{{ offre.idOffre }}/supprimer"
-                  method="POST" style="display:none;"></form>
-          </td>
-        </tr>
-        {% else %}
-        <tr>
-          <td colspan="6" class="text-muted">Aucune offre trouvée.</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+								<form id="form-supprimer-{{ offre.idOffre }}" action="/espace/offres/{{ offre.idOffre }}/supprimer" method="POST" style="display:none;"></form>
+							</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="6" class="text-muted">Aucune offre trouvée.</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
 
-    {% if pages > 1 %}
-    <div class="d-flex justify-content-center mt-4">
-      <nav>
-        <ul class="pagination pagination-sm">
-          <li class="page-item {% if page == 1 %}disabled{% endif %}">
-            <a class="page-link" href="?page={{ page - 1 }}&titre={{ searchTitre }}&campus={{ searchCampus }}">&laquo;</a>
-          </li>
-          {% for p in 1..pages %}
-          <li class="page-item {% if p == page %}active{% endif %}">
-            <a class="page-link" href="?page={{ p }}&titre={{ searchTitre }}&campus={{ searchCampus }}">{{ p }}</a>
-          </li>
-          {% endfor %}
-          <li class="page-item {% if page == pages %}disabled{% endif %}">
-            <a class="page-link" href="?page={{ page + 1 }}&titre={{ searchTitre }}&campus={{ searchCampus }}">&raquo;</a>
-          </li>
-        </ul>
-      </nav>
-    </div>
-    {% endif %}
+			{% if pages > 1 %}
+				<div class="d-flex justify-content-center mt-4">
+					<nav>
+						<ul class="pagination pagination-sm">
+							<li class="page-item {% if page == 1 %}disabled{% endif %}">
+								<a class="page-link" href="?page={{ page - 1 }}&titre={{ searchTitre }}&campus={{ searchCampus }}">&laquo;</a>
+							</li>
+							{% for p in 1..pages %}
+								<li class="page-item {% if p == page %}active{% endif %}">
+									<a class="page-link" href="?page={{ p }}&titre={{ searchTitre }}&campus={{ searchCampus }}">{{ p }}</a>
+								</li>
+							{% endfor %}
+							<li class="page-item {% if page == pages %}disabled{% endif %}">
+								<a class="page-link" href="?page={{ page + 1 }}&titre={{ searchTitre }}&campus={{ searchCampus }}">&raquo;</a>
+							</li>
+						</ul>
+					</nav>
+				</div>
+			{% endif %}
 
-  </div>
-</div>
+		</div>
+	</div>
 
-<script>
-function confirmerSuppression(id) {
-    if (confirm('Confirmer la suppression de cette offre ?')) {
-        document.getElementById('form-supprimer-' + id).submit();
-    }
-}
-</script>
+	 <script>
+	function confirmerSuppression(id) {
+	    if (confirm('Confirmer la suppression de cette offre ?')) {
+	        document.getElementById('form-supprimer-' + id).submit();
+	    }
+	}
+	</script>
 
 {% endblock %}

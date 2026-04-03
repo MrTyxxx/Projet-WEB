@@ -1,115 +1,98 @@
 {% extends "monespace.html.twig" %}
 {% block contenu_espace %}
 
-<div class="container-fluid px-2">
+	<div class="container-fluid px-2">
 
-  <div class="d-flex gap-2 mb-3 flex-wrap align-items-center">
-    <button class="btn btn-dark btn-sm">Toutes les Entreprises</button>
+		<div class="d-flex gap-2 mb-3 flex-wrap align-items-center">
+			<button class="btn btn-dark btn-sm">Toutes les Entreprises</button>
 
-    <form method="GET" action="" class="d-flex gap-2 flex-wrap align-items-center">
-      <input
-        type="text"
-        class="form-control form-control-sm w-auto"
-        placeholder="Recherche par nom"
-        name="nom"
-        value="{{ searchNom }}"
-      >
+			<form method="GET" action="" class="d-flex gap-2 flex-wrap align-items-center">
+				<input type="text" class="form-control form-control-sm w-auto" placeholder="Recherche par nom" name="nom" value="{{ searchNom }}">
 
-      <input
-        type="text"
-        class="form-control form-control-sm w-auto"
-        placeholder="Recherche par secteur"
-        name="secteur"
-        value="{{ searchSecteur }}"
-      >
+				<input type="text" class="form-control form-control-sm w-auto" placeholder="Recherche par secteur" name="secteur" value="{{ searchSecteur }}">
 
-      <button type="submit" class="btn btn-dark btn-sm">Rechercher</button>
-    </form>
+				<button type="submit" class="btn btn-dark btn-sm">Rechercher</button>
+			</form>
 
-    <div class="ms-auto">
-      <a href="/espace/entreprises/creer" class="btn btn-dark btn-sm">Ajouter une entreprise +</a>
-    </div>
-  </div>
+			<div class="ms-auto">
+				<a href="/espace/entreprises/creer" class="btn btn-dark btn-sm">Ajouter une entreprise +</a>
+			</div>
+		</div>
 
-  <div class="border rounded-3 p-3">
-    <table class="table table-bordered table-sm text-center align-middle">
-      <thead class="table-light">
-        <tr>
-          <th>N°</th>
-          <th>Nom</th>
-          <th>Secteur</th>
-          <th>Campus</th>
-          <th>E-mail</th>
-          <th>Nb Offres liées</th>
-          <th>Note</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for entreprise in entreprises %}
-        <tr>
-          <td>{{ (page - 1) * 10 + loop.index }}</td>
-          <td>{{ entreprise.nom }}</td>
-          <td>{{ entreprise.secteur }}</td>
-          <td>{{ entreprise.campus ? entreprise.campus.ville : 'Non défini' }}</td>
-          <td>{{ entreprise.email }}</td>
-          <td>{{ entreprise.nombreOffres }}</td>
-          <td>
-            {% if evaluationExistante[entreprise.idEntreprise] is not null %}
-              {{ evaluationExistante[entreprise.idEntreprise].note }}/5
-            {% else %}
-              <a href="/entreprise/{{ entreprise.idEntreprise }}" class="btn btn-primary" >Noter</a>
-            {% endif %}
-          </td>
-          <td>
-            <a href="/espace/entreprises/{{ entreprise.idEntreprise }}/modifier"
-               class="btn btn-sm btn-outline-secondary me-1">✏️</a>
+		<div class="border rounded-3 p-3">
+			<table class="table table-bordered table-sm text-center align-middle">
+				<thead class="table-light">
+					<tr>
+						<th>N°</th>
+						<th>Nom</th>
+						<th>Secteur</th>
+						<th>Campus</th>
+						<th>E-mail</th>
+						<th>Nb Offres liées</th>
+						<th>Note</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for entreprise in entreprises %}
+						<tr>
+							<td>{{ (page - 1) * 10 + loop.index }}</td>
+							<td>{{ entreprise.nom }}</td>
+							<td>{{ entreprise.secteur }}</td>
+							<td>{{ entreprise.campus ? entreprise.campus.ville : 'Non défini' }}</td>
+							<td>{{ entreprise.email }}</td>
+							<td>{{ entreprise.nombreOffres }}</td>
+							<td>
+								{% if evaluationExistante[entreprise.idEntreprise] is not null %}
+									{{ evaluationExistante[entreprise.idEntreprise].note }}/5
+								{% else %}
+									<a href="/entreprise/{{ entreprise.idEntreprise }}" class="btn btn-primary">Noter</a>
+								{% endif %}
+							</td>
+							<td>
+								<a href="/espace/entreprises/{{ entreprise.idEntreprise }}/modifier" class="btn btn-sm btn-outline-secondary me-1">✏️</a>
 
-            <button type="button"
-                    class="btn btn-sm btn-outline-danger"
-                    onclick="confirmerSuppression({{ entreprise.idEntreprise }})">✖</button>
+								<button type="button" class="btn btn-sm btn-outline-danger" onclick="confirmerSuppression({{ entreprise.idEntreprise }})">✖</button>
 
-            <form id="form-supprimer-{{ entreprise.idEntreprise }}"
-                  action="/espace/entreprises/{{ entreprise.idEntreprise }}/supprimer"
-                  method="POST" style="display:none;"></form>
-          </td>
-        </tr>
-        {% else %}
-        <tr>
-          <td colspan="7" class="text-muted">Aucune entreprise trouvée.</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+								<form id="form-supprimer-{{ entreprise.idEntreprise }}" action="/espace/entreprises/{{ entreprise.idEntreprise }}/supprimer" method="POST" style="display:none;"></form>
+							</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="7" class="text-muted">Aucune entreprise trouvée.</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
 
-    {% if pages > 1 %}
-    <div class="d-flex justify-content-center mt-4">
-      <nav>
-        <ul class="pagination pagination-sm">
-          <li class="page-item {% if page == 1 %}disabled{% endif %}">
-            <a class="page-link" href="?page={{ page - 1 }}&nom={{ searchNom }}&secteur={{ searchSecteur }}">&laquo;</a>
-          </li>
-          {% for p in 1..pages %}
-          <li class="page-item {% if p == page %}active{% endif %}">
-            <a class="page-link" href="?page={{ p }}&nom={{ searchNom }}&secteur={{ searchSecteur }}">{{ p }}</a>
-          </li>
-          {% endfor %}
-          <li class="page-item {% if page == pages %}disabled{% endif %}">
-            <a class="page-link" href="?page={{ page + 1 }}&nom={{ searchNom }}&secteur={{ searchSecteur }}">&raquo;</a>
-          </li>
-        </ul>
-      </nav>
-    </div>
-    {% endif %}
-  </div>
-</div>
+			{% if pages > 1 %}
+				<div class="d-flex justify-content-center mt-4">
+					<nav>
+						<ul class="pagination pagination-sm">
+							<li class="page-item {% if page == 1 %}disabled{% endif %}">
+								<a class="page-link" href="?page={{ page - 1 }}&nom={{ searchNom }}&secteur={{ searchSecteur }}">&laquo;</a>
+							</li>
+							{% for p in 1..pages %}
+								<li class="page-item {% if p == page %}active{% endif %}">
+									<a class="page-link" href="?page={{ p }}&nom={{ searchNom }}&secteur={{ searchSecteur }}">{{ p }}</a>
+								</li>
+							{% endfor %}
+							<li class="page-item {% if page == pages %}disabled{% endif %}">
+								<a class="page-link" href="?page={{ page + 1 }}&nom={{ searchNom }}&secteur={{ searchSecteur }}">&raquo;</a>
+							</li>
+						</ul>
+					</nav>
+				</div>
+			{% endif %}
+		</div>
+	</div>
 
-<script>
-function confirmerSuppression(id) {
-    if (confirm('Confirmer la suppression de cette entreprise ?')) {
-        document.getElementById('form-supprimer-' + id).submit();
-    }
-}
-</script>
+	 <script>
+	function confirmerSuppression(id) {
+	    if (confirm('Confirmer la suppression de cette entreprise ?')) {
+	        document.getElementById('form-supprimer-' + id).submit();
+	    }
+	}
+	</script>
 
 {% endblock %}
