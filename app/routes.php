@@ -75,8 +75,6 @@ return function (App $app) {
         $app->get('/wishlist/add/{id}',    [WishlistController::class, 'add']);
         $app->get('/wishlist/delete/{id}', [WishlistController::class, 'delete']);
 
-    $app->get('/offre/{id}/postuler',      [CandidatureController::class, 'formulaire']);
-
     $app->get('/routes-check', function (Request $request, Response $response) use ($app) {
     $routes = [];
     foreach ($app->getRouteCollector()->getRoutes() as $route) {

@@ -1,63 +1,79 @@
 {% extends "base.html.twig" %}
 {% block contenu %}
 
-<div class="container py-5" id="offre-{{ offre.idOffre }}">
-    
-    <h2 class="fw-bold">{{ offre.titre }}</h2>
-    <h4 class="text-muted">{{ offre.entreprise.nom }}</h4>
-    <p class="text-primary fw-bold">Rémunération : {{ offre.remuneration }} • Date : {{ offre.dateOffre|date("d/m/Y") }}</p>
+	<div class="container py-5" id="offre-{{ offre.idOffre }}">
 
-    <hr>
+		<h2 class="fw-bold">{{ offre.titre }}</h2>
+		<h4 class="text-muted">{{ offre.entreprise.nom }}</h4>
+		<p class="text-primary fw-bold">Rémunération :
+			{{ offre.remuneration }}
+			• Date :
+			{{ offre.dateOffre|date("d/m/Y") }}</p>
 
-    <p>Rejoignez une équipe spécialisée dans la cybersécurité et participez au développement d'outils logiciels destinés à renforcer la protection des systèmes informatiques.</p>
-    
-    <p><strong>À propos de l'entreprise :</strong> Ocean CyberSecurity est une entreprise dédiée à la protection des infrastructures numériques.</p>
+		<hr>
 
-    <hr>
+		<p>Rejoignez une équipe spécialisée dans la cybersécurité et participez au développement d'outils logiciels destinés à renforcer la protection des systèmes informatiques.</p>
 
-    <div class="mt-4">
-        {% if user and user.role == 'etudiant' %}
-        
-        <div class="d-flex gap-2">
-            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#formPostuler">
-                Je postule
-            </button>
-            
-            {% if offre.idOffre in mes_likes %}
-                <button class="btn btn-danger disabled">❤️ Déjà enregistré</button>
-            {% else %}
-                <a href="/wishlist/add/{{ offre.idOffre }}" class="btn btn-outline-danger">🤍 Enregistrer</a>
-            {% endif %}
-        </div>
+		<p>
+			<strong>À propos de l'entreprise :</strong>
+			Ocean CyberSecurity est une entreprise dédiée à la protection des infrastructures numériques.</p>
 
-    <!-- candidater cacher -->
-        <div class="collapse mt-4" id="formPostuler">
-            <div class="card">
-                <div class="card-body">
-                    <form action="/offre/{{ offre.idOffre }}/postuler" method="POST">
-                        
-                        <div class="mb-3">
-                            <label for="cv" class="form-label">Votre CV (PDF)</label>
-                            <input type="file" name="cv" id="cv" class="form-control" accept="application/pdf" required>
-                        </div>
+		<p><strong class="fw-bold">Compétences requises :</strong></p>
 
-                        <div class="mb-3">
-                            <label for="motivation" class="form-label">Motivation (optionnel)</label>
-                            <textarea name="motivation" id="motivation" class="form-control" rows="3" placeholder="Quelques mots sur votre motivation..."></textarea>
-                        </div>
+		<ul>
+			{% for competence in offre.competences %}
+				<li>{{ competence.nom }}</li>
+				{# adapte selon ta colonne #}
+			{% endfor %}
+		</ul>
 
-                        <button type="submit" class="btn btn-success">
-                            Envoyer ma candidature
-                        </button>
-                        
-                    </form>
-                </div>
-            </div>
-        </div>
 
-        {% endif %}
-    </div>
+		<hr>
 
-</div>
+
+		<div class="mt-4">
+			{% if user and user.role == 'etudiant' %}
+
+				<div class="d-flex gap-2">
+					<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#formPostuler">
+						Je postule
+					</button>
+
+					{% if offre.idOffre in mes_likes %}
+						<button class="btn btn-danger disabled">❤️ Déjà enregistré</button>
+					{% else %}
+						<a href="/wishlist/add/{{ offre.idOffre }}" class="btn btn-outline-danger">🤍 Enregistrer</a>
+					{% endif %}
+				</div>
+
+				<!-- candidater cacher -->
+				<div class="collapse mt-4" id="formPostuler">
+					<div class="card">
+						<div class="card-body">
+							<form action="/offre/{{ offre.idOffre }}/postuler" method="POST">
+
+								<div class="mb-3">
+									<label for="cv" class="form-label">Votre CV (PDF)</label>
+									<input type="file" name="cv" id="cv" class="form-control" accept="application/pdf" required>
+								</div>
+
+								<div class="mb-3">
+									<label for="motivation" class="form-label">Motivation (optionnel)</label>
+									<textarea name="motivation" id="motivation" class="form-control" rows="3" placeholder="Quelques mots sur votre motivation..."></textarea>
+								</div>
+
+								<button type="submit" class="btn btn-success">
+									Envoyer ma candidature
+								</button>
+
+							</form>
+						</div>
+					</div>
+				</div>
+
+			{% endif %}
+		</div>
+
+	</div>
 
 {% endblock %}
