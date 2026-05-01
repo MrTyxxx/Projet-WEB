@@ -25,7 +25,7 @@
         "php": "^8.2",
         "ext-json": "*",
         "doctrine/dbal": "^4.0",
-        "doctrine/orm": "^3.0",
+        "doctrine/orm": "^3.6",
         "monolog/monolog": "^2.8",
         "php-di/php-di": "^7.0",
         "slim/psr7": "^1.5",
